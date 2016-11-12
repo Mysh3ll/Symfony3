@@ -1,0 +1,9 @@
+app:
+    resource: "@AppBundle/Controller/DefaultController.php"
+    type:     annotation
+backOffice:
+    resource: "@AppBundle/Resources/config/routing/backOffice/routingBack.yml"
+frontOffice:
+    resource: "@AppBundle/Resources/config/routing/frontOffice/routingFront.yml"
+FOSUserPages:
+    resource: "@AppBundle/Resources/config/routing/routingFOSUserBundle.yml"

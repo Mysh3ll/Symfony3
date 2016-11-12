@@ -1,0 +1,55 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<br><br>
+<div class="container fos_user_user_show">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default  panel--styled">
+                <div class="panel-body">
+                    <div class="col-md-12 panelTop">
+                        <div class="col-md-4">
+                            <img class="img-responsive"
+                                    {% if user.pathImage != null %}
+                                        src="{{ asset('uploads/user/images/' ~ user.pathImage) }}"
+                                    {% else %}
+                                        src="{{ asset('images/user_default_avatar.jpg') }}"
+                                    {% endif %}
+                                 alt="photo de profil"/>
+                        </div>
+                        <div class="col-md-8">
+                            <h3>{{ 'profile.show.username'|trans }}:</h3>
+                            <p>{{ user.username }}</p>
+                            <hr>
+                            <h3>{{ 'profile.show.email'|trans }}:</h3>
+                            <p>{{ user.email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 panelBottom">
+                        <div class="col-md-4 text-center">
+                            <a href="{{ path('user_upload_image') }}">
+                                <button class="btn btn-lg btn-primary"><span
+                                            class="glyphicon glyphicon-upload"></span> Changer de photo
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="{{ path('fos_user_profile_edit') }}">
+                                <button class="btn btn-lg btn-success"><span
+                                            class="glyphicon glyphicon-user"></span> Modifier profil
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="{{ path('fos_user_change_password') }}">
+                                <button class="btn btn-lg btn-modify-profil"><span
+                                            class="glyphicon glyphicon-cog"></span> Changer mot de passe
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

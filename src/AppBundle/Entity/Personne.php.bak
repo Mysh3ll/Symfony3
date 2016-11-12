@@ -1,0 +1,128 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Personne
+ *
+ * @ORM\Table(name="personne")
+ * @ORM\Entity
+ */
+class Personne
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomPersonne", type="string", length=25, nullable=true)
+     */
+    private $nomPersonne;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenomPersonne", type="string", length=25, nullable=true)
+     */
+    private $prenomPersonne;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mailPersonne", type="string", length=25, nullable=true)
+     */
+    private $mailPersonne;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idPersonne", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idPersonne;
+
+
+
+    /**
+     * Set nomPersonne
+     *
+     * @param string $nomPersonne
+     *
+     * @return Personne
+     */
+    public function setNomPersonne($nomPersonne)
+    {
+        $this->nomPersonne = $nomPersonne;
+
+        return $this;
+    }
+
+    /**
+     * Get nomPersonne
+     *
+     * @return string
+     */
+    public function getNomPersonne()
+    {
+        return $this->nomPersonne;
+    }
+
+    /**
+     * Set prenomPersonne
+     *
+     * @param string $prenomPersonne
+     *
+     * @return Personne
+     */
+    public function setPrenomPersonne($prenomPersonne)
+    {
+        $this->prenomPersonne = $prenomPersonne;
+
+        return $this;
+    }
+
+    /**
+     * Get prenomPersonne
+     *
+     * @return string
+     */
+    public function getPrenomPersonne()
+    {
+        return $this->prenomPersonne;
+    }
+
+    /**
+     * Set mailPersonne
+     *
+     * @param string $mailPersonne
+     *
+     * @return Personne
+     */
+    public function setMailPersonne($mailPersonne)
+    {
+        $this->mailPersonne = $mailPersonne;
+
+        return $this;
+    }
+
+    /**
+     * Get mailPersonne
+     *
+     * @return string
+     */
+    public function getMailPersonne()
+    {
+        return $this->mailPersonne;
+    }
+
+    /**
+     * Get idPersonne
+     *
+     * @return integer
+     */
+    public function getIdPersonne()
+    {
+        return $this->idPersonne;
+    }
+}

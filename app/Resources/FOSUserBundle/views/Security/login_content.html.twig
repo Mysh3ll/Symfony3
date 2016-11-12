@@ -1,0 +1,53 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+
+<section id="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-wrap">
+
+                    <h1>Connectez vous avec votre e-mail</h1>
+                    <form role="form" action="{{ path("fos_user_security_check") }}" method="post" id="login-form"
+                          autocomplete="off">
+                        {% if csrf_token %}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="username" class="sr-only">{{ 'security.login.username'|trans }}</label>
+                            <input type="text" name="_username" id="username" class="form-control"
+                                   placeholder="Saisir votre nom" value="{{ last_username }}" required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="sr-only">{{ 'security.login.password'|trans }}</label>
+                            <input type="password" name="_password" id="password" class="form-control"
+                                   placeholder="Saisir votre mot de passe">
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="remember_me" name="_remember_me"
+                                       value="on">{{ 'security.login.remember_me'|trans }}
+                            </label>
+                        </div>
+
+                        <div class="help-block forget">
+                            <p>Mot de passe oublié ? <a href="{{ path('fos_user_resetting_request') }}">cliquer ici</a></p>
+                        </div>
+
+                        <input type="submit" id="_submit" name="_submit" class="btn btn-custom btn-lg btn-block"
+                               value="{{ 'security.login.submit'|trans }}">
+                    </form>
+                    <hr>
+                </div>
+            </div> <!-- /.col-xs-12 -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container -->
+</section>

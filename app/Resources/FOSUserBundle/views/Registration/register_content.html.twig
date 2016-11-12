@@ -1,0 +1,127 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<section id="login">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-wrap">
+                    <h1>Inscription</h1>
+                    {# FORM START#}
+                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+                    {#{{ form_widget(form) }}#}
+
+                    {# INPUT USERNAME#}
+                    {% set class = '' %}
+                    {% if not form.username.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.username, 'Votre nom d\'utilisateur', {'label_attr': {'class':
+                            'control-label'}}) }}
+                        {{ form_widget(form.username, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.username) }}#}
+                        {% if not form.username.vars.valid %}
+                            {% for error in form.username.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT EMAIL#}
+                    {% set class = '' %}
+                    {% if not form.email.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.email, 'Votre adresse e-mail', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.email, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.email) }}#}
+                        {% if not form.email.vars.valid %}
+                            {% for error in form.email.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT NOM#}
+                    {% set class = '' %}
+                    {% if not form.nom.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.nom, 'Votre nom', {'label_attr': {'class':
+                            'control-label'}}) }}
+                        {{ form_widget(form.nom, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.nom) }}#}
+                        {% if not form.nom.vars.valid %}
+                            {% for error in form.nom.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT PRENOM#}
+                    {% set class = '' %}
+                    {% if not form.prenom.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.prenom, 'Votre prénom', {'label_attr': {'class':
+                            'control-label'}}) }}
+                        {{ form_widget(form.prenom, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.prenom) }}#}
+                        {% if not form.prenom.vars.valid %}
+                            {% for error in form.prenom.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT PASSWORD#}
+                    {% set class = '' %}
+                    {% if not form.plainPassword.first.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.plainPassword.first, 'Votre mot de passe', {'label_attr': {'class':
+                            'control-label'}}) }}
+                        {{ form_widget(form.plainPassword.first, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.plainPassword.first) }}#}
+                        {% if not form.plainPassword.first.vars.valid %}
+                            {% for error in form.plainPassword.first.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT PASSWORD_CONFIRMATION#}
+                    {% set class = '' %}
+                    {% if not form.plainPassword.second.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.plainPassword.second, 'Confirmation de votre mot de passe', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.plainPassword.second, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.plainPassword.second) }}#}
+                        {% if not form.plainPassword.second.vars.valid %}
+                            {% for error in form.plainPassword.second.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT TOKEN CSRF#}
+                    <div class="form-group">
+                        {{ form_row(form._token) }}
+                    </div>
+
+                    {# INPUT SUBMIT#}
+                    <div>
+                        <input type="submit" class="btn btn-custom btn-lg btn-block" value="{{ 'registration.submit'|trans }}"/>
+                    </div>
+                    {# FORM END#}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

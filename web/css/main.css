@@ -1,0 +1,190 @@
+/*    --------------------------------------------------
+	:: Top Nav Bar
+	-------------------------------------------------- */
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.navbar-avatar {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+/*    --------------------------------------------------
+	:: Login Section
+	-------------------------------------------------- */
+#login {
+    padding-top: 50px
+}
+
+#login .form-wrap {
+    width: 30%;
+    margin: 0 auto;
+}
+
+#login h1 {
+    color: #1fa67b;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+#login .form-group {
+    margin-bottom: 25px;
+}
+
+#login .checkbox {
+    margin-bottom: 20px;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#login .checkbox.show:before {
+    content: '\e013';
+    color: #1fa67b;
+    font-size: 17px;
+    margin: 1px 0 0 3px;
+    position: absolute;
+    pointer-events: none;
+    font-family: 'Glyphicons Halflings';
+}
+
+#login .checkbox .character-checkbox {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#login .checkbox .label {
+    color: #6d6d6d;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+#login .btn.btn-custom {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#login .forget {
+    font-size: 13px;
+    text-align: center;
+    display: block;
+}
+
+#login .forget a {
+    color: #1fa67b;
+}
+
+#login .forget a:hover {
+    color: #15634a;
+    text-decoration: none;
+}
+
+/*    --------------------------------------------------
+	:: Inputs & Buttons
+	-------------------------------------------------- */
+.form-control {
+    color: #212121;
+}
+
+.btn-custom {
+    color: #fff;
+    background-color: #1fa67b;
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+    color: #fff;
+}
+
+.
+
+/*    --------------------------------------------------
+	:: Profil Section
+	-------------------------------------------------- */
+
+.panel.panel--styled {
+    background: #F4F2F3;
+}
+
+.panelTop {
+    padding: 30px;
+}
+
+.panelBottom {
+    border-top: 1px solid #e7e7e7;
+    padding-top: 20px;
+}
+
+.btn-modify-profil {
+    background: #FD5A5B;
+    color: #fff;
+}
+
+.btn.btn-modify-profil.focus, .btn.btn-modify-profil:focus, .btn.btn-modify-profil:hover {
+    color: #fff;
+    background: #FD7172;
+    outline: none;
+}
+
+.btn-modify-profil:active {
+    background: #F9494B;
+    outline: none;
+}
+
+span.itemPrice {
+    font-size: 24px;
+    color: #FA5B58;
+}
+
+/*    --------------------------------------------------
+	:: Upload User Image
+	-------------------------------------------------- */
+
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.image-preview-input input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    border-left-color: #1fa67b;
+}
