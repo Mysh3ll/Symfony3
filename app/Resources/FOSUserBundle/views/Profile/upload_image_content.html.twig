@@ -6,17 +6,18 @@
                 <div class="form-wrap">
                     <h1>Modifier votre photo de profil</h1>
 
-                    {# FORM START #}
-                    {{ form_start(form) }}
+                    {{ form(form) }}
+                     {#FORM START#}
+                    {#{{ form_start(form) }}
 
-                    {# INPUT UPLOAD#}
+                     #}{#INPUT UPLOAD#}{#
                     {% set class = '' %}
-                    {% if not form.pathImage.vars.valid %}
+                    {% if not form.imageFile.vars.valid %}
                         {% set class = 'has-error' %}
                     {% endif %}
                     <div class="form-group {{ class }}">
 
-                        {{ form_label(form.pathImage, 'Photo de votre profil' , {'label_attr': {'class':
+                        {{ form_label(form.imageFile, 'Photo de votre profil' , {'label_attr': {'class':
                             'control-label'}}) }}
 
                         <div class="input-group image-preview">
@@ -31,34 +32,33 @@
                             <div class="btn btn-default image-preview-input">
                                 <span class="glyphicon glyphicon-folder-open"></span>
                                 <span class="image-preview-input-title">Parcourir</span>
-                                {{ form_widget(form.pathImage, {'attr':{'class':'form-control'}}) }}
-                                {#<input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>#}
+                                {{ form_widget(form.imageFile, {'attr':{'class':'form-control'}}) }}
+                                <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>
                                 <!-- rename it -->
                             </div>
                         </span>
                         </div><!-- /input-group image-preview [TO HERE]-->
 
-                        {#{{ form_errors(form.pathImage) }}#}
-                        {% if not form.pathImage.vars.valid %}
-                            {% for error in form.pathImage.vars.errors %}
+                        {{ form_errors(form.imageFile) }}
+                        {% if not form.imageFile.vars.valid %}
+                            {% for error in form.imageFile.vars.errors %}
                                 <span class="help-block">{{ error.message }}</span>
                             {% endfor %}
                         {% endif %}
                     </div>
 
-                    {#{{ form_row(form.pathImage) }}#}
+                    {{ form_row(form.imageFile) }}
 
                     <div class="bs-callout">
                         <h4>Information</h4>
                         <p>Veuillez choisir un fichier de type image d'une dimension minimum de 350x350.</p>
                     </div>
 
-                    {# INPUT SUBMIT#}
-                    <input type="submit" id="upload_image_user" class="btn btn-custom btn-lg btn-block"
-                           value="{{ 'profile.edit.submit'|trans }}">
-
-                    {# FORM END #}
-                    {{ form_end(form) }}
+                     #}{#INPUT SUBMIT#}{#
+                    #}{#<input type="submit" id="upload_image_user" class="btn btn-custom btn-lg btn-block"
+                           value="{{ 'profile.edit.submit'|trans }}">#}{#
+                    #}{#FORM END#}{#
+                    {{ form_end(form) }}#}
                 </div>
             </div>
         </div>
