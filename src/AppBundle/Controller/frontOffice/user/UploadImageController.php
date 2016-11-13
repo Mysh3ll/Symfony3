@@ -23,7 +23,7 @@ class UploadImageController extends Controller
         }
 
         // Get the actual pathImage of user
-        $old_file = $user->getPathImage();
+        //$old_file = $user->getPathImage();
 
         $form = $this->createForm(UploadFileUserType::class, $user);
         $form->handleRequest($request);
@@ -31,19 +31,19 @@ class UploadImageController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // $file stores the uploaded Image file
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $user->getPathImage();
+            //$file = $user->getPathImage();
 
             // Generate a unique name for the file before saving it
 //            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 //            $fileName = $this->get('app.image_uploader')->upload($file); // appel du service 'app.image_uploader'
 
             // Delete the older Image stored for the user avatar
-            if ($old_file != null) {
+          /*  if ($old_file != null) {
                 $webPath = $this->getParameter('kernel.root_dir') . '/../web/uploads/user/images/' . $old_file;
                 if (file_exists($webPath)) {
                     unlink($webPath);
                 }
-            }
+            }*/
 
             // Update the 'path' property to store the image file name
             // instead of its contents
