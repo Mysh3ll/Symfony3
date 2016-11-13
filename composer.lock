@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "27eeb9233840bf87ad0d321d9ce99d85",
-    "content-hash": "26b9dd4bfa24c80c18be34c9fedc1b1b",
+    "hash": "fd6a109dd86a4f75c0e6660ad62e7116",
+    "content-hash": "2150b005bef29488d245174134ea7882",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1082,6 +1082,52 @@
                 "psr-3"
             ],
             "time": "2016-07-29 03:23:52"
+        },
+        {
+            "name": "mwsimple/datetimepicker-bundle",
+            "version": "2.0.0",
+            "target-dir": "SC/DatetimepickerBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MWSimple/DatetimepickerBundle.git",
+                "reference": "41be0dd695e578fe528a5b0ff11f10b23bc841b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MWSimple/DatetimepickerBundle/zipball/41be0dd695e578fe528a5b0ff11f10b23bc841b4",
+                "reference": "41be0dd695e578fe528a5b0ff11f10b23bc841b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/framework-bundle": "~2.8 || ~3.0",
+                "symfony/symfony": "~2.8 || ~3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "SC\\DatetimepickerBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephane Collot"
+                }
+            ],
+            "description": "Symfony bundle for Bootstrap DateTime picker",
+            "keywords": [
+                "bootstrap",
+                "bundle",
+                "datepicker",
+                "picker",
+                "symfony",
+                "timepicker"
+            ],
+            "time": "2016-07-04 14:26:30"
         },
         {
             "name": "ocramius/proxy-manager",

@@ -8,14 +8,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Mon Site</a>
+            <a class="navbar-brand" href="{{ path('homepage') }}">Accueil</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav nav-left">
+                {# LINK TO ADMIN PAGE #}
+                <li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin_homepage') }}">Admin</a>
+                    {% endif %}
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     {# USERNAME #}
                     {#<p class="navbar-text">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username},#}
-                        {#'FOSUserBundle') }}#}
+                    {#'FOSUserBundle') }}#}
                     {#</p>#}
                     {# IMAGE USER #}
                     <li>
