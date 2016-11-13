@@ -13,12 +13,7 @@ class UploadFileUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('imageFile', VichImageType::class, array('required'   => false,
-        ))
-                ->add('save', SubmitType::class, array(
-                                                'attr' => array('class' => 'btn btn-custom btn-lg btn-block',
-                                                                'id'=> 'upload_image_user')
-                ));
+        $builder->add('imageFile', VichImageType::class, array('required' => false,));
     }
 
     public function configureOptions(OptionsResolver $resolver)
