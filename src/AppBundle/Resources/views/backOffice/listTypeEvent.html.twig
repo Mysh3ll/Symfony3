@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Liste des catégories</h3>
+                </div>
+                <div class="panel-body">
+
+                    {% for flashMessage in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success">{{ flashMessage }}</div>
+                    {% endfor %}
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for typeEvent in typeEvents %}
+                            <tr>
+                                <td>{{ typeEvent.libelleType }}</td>
+                                <td>
+                                    <a href="/category/edit/{{ typeEvent.idType }}" class="btn btn-default">Modifier</a>
+                                    <a href="/category/delete/{{ typeEvent.idType }}" class="btn btn-danger">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}

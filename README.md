@@ -1,4 +1,4 @@
-testSymfony3FOSBundleUser
+Personal project study
 =========================
 
-A Symfony project created on October 28, 2016, 11:05 pm.
+A Symfony project for testing the framework Symfony 3
