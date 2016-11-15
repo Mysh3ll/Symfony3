@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Salle
@@ -16,6 +17,8 @@ class Salle
      * @var integer
      *
      * @ORM\Column(name="nbPlaces", type="integer", nullable=false)
+     * @Assert\Regex(pattern="/\d+/")
+     * @Assert\NotBlank()
      */
     private $nbPlaces;
 
@@ -23,6 +26,13 @@ class Salle
      * @var string
      *
      * @ORM\Column(name="nomSalle", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Le nom de la salle doit faire au minimum  caractères",
+     *      maxMessage = "Le nom de la salle doit faire au maximum  caractères"
+     * )
      */
     private $nomSalle;
 
