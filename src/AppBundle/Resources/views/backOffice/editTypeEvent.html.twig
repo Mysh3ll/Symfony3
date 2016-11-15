@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Modification de la catégorie</h3>
+                </div>
+                <div class="panel-body">
+                    {# FORM START#}
+                    {{ form_start(form) }}
+
+                    {# INPUT USERNAME #}
+                    {% set class = '' %}
+                    {% if not form.libelleType.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.libelleType, 'Nouveau nom pour la catégorie : ' ~ form.libelleType.vars.value|upper , {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.libelleType, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.libelleType) }}#}
+                        {% if not form.libelleType.vars.valid %}
+                            {% for error in form.libelleType.vars.errors %}
+                                <span class="help-block">{{ error.libelleType }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT TOKEN CSRF#}
+                    <div class="form-group">
+                        {{ form_row(form._token) }}
+                    </div>
+
+                    {# INPUT SUBMIT#}
+                    <input type="submit" class="btn btn-primary" value="Modifier">
+
+                    {# FORM END#}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}

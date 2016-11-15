@@ -31,8 +31,9 @@
                             <tr>
                                 <td>{{ typeEvent.libelleType }}</td>
                                 <td>
-                                    <a href="/category/edit/{{ typeEvent.idType }}" class="btn btn-default">Modifier</a>
-                                    <a href="/category/delete/{{ typeEvent.idType }}" class="btn btn-danger">Supprimer</a>
+                                    <a href="{{ path('admin_category_edit', {'id':typeEvent.idType}) }}" class="btn
+                                    btn-default">Modifier</a>
+                                    <a href="{{ path('admin_category_delete', {'id':typeEvent.idType}) }}" class="btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                         {% endfor %}
