@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class EventType extends AbstractType
 {
@@ -16,11 +17,15 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titreEvent')
-            ->add('dateEvent')
-//                ->add('path')
-//                ->add('idType')
-//                ->add('idSalle')
+            ->add('dateEvent', DateType::class, [
+                'widget'         => 'single_text',
+                'html5'          => false,
+                'format'         => 'dd-MM-yyyy',
+                'model_timezone' => 'Europe/Paris',
+            ])
+//            ->add('path')
             ->add('idType', EntityType::class, array(
+                'placeholder'   => 'Choisir une catégorie',
                 'class'         => 'AppBundle:Typeevent',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
@@ -29,6 +34,7 @@ class EventType extends AbstractType
                 'choice_label'  => 'libelleType',
             ))
             ->add('idSalle', EntityType::class, array(
+                'placeholder'   => 'Choisir une salle',
                 'class'         => 'AppBundle:Salle',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')

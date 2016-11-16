@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.css') }}">
+{% endblock %}
 {% block content %}
     <!-- Page Content -->
     <div class="container">
@@ -72,7 +74,7 @@
                     {% endif %}
                     <div class="form-group {{ class }}">
                         {{ form_label(form.dateEvent, 'Selection de la date', {'label_attr': {'class': 'control-label'}}) }}
-                        {{ form_widget(form.dateEvent, {'attr':{'class':'form-control'}}) }}
+                        {{ form_widget(form.dateEvent, {'attr':{'class':'form-control js-datepicker'}}) }}
                         {{ form_errors(form.dateEvent) }}
                         {% if not form.dateEvent.vars.valid %}
                             {% for error in form.dateEvent.vars.errors %}
@@ -96,4 +98,9 @@
         </div>
     </div>
     <!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.fr.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 {% endblock %}
