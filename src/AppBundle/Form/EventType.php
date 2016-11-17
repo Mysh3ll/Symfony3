@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventType extends AbstractType
 {
@@ -18,12 +20,13 @@ class EventType extends AbstractType
     {
         $builder->add('titreEvent')
             ->add('dateEvent', DateType::class, [
-                'widget'         => 'single_text',
-                'html5'          => false,
+                'widget' => 'single_text',
+                'html5'  => false,
 //                'format'         => 'dd-MM-yyyy',
 //                'model_timezone' => 'Europe/Paris',
             ])
 //            ->add('path')
+            ->add('imageFile', VichImageType::class, array('required' => false,))
             ->add('idType', EntityType::class, array(
                 'placeholder'   => 'Choisir une catégorie',
                 'class'         => 'AppBundle:Typeevent',

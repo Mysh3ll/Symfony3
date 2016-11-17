@@ -293,3 +293,16 @@ span.itemPrice {
 .eventBooked a:hover {
     cursor: default;
 }
+
+/*    --------------------------------------------------
+	:: Show Event Affiche
+	-------------------------------------------------- */
+
+.table-responsive
+{
+    overflow-x: auto;
+}
+
+.affiche {
+    width: 95px;
+}
