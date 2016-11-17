@@ -20,8 +20,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             // VichBundle -> gestion de l'upload de fichier
             new Vich\UploaderBundle\VichUploaderBundle(),
-            // DateTimePickerBundle -> gestion d'un calendrier pour les dates
-            new SC\DatetimepickerBundle\SCDatetimepickerBundle(),
+            // FOSJsRoutingBundle -> gestion des routes en Jquery/Ajax
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

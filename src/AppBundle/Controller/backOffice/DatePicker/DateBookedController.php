@@ -6,25 +6,64 @@ use AppBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DateBookedController extends Controller
 {
     /**
      * @Route("/admin/event/date_booked", name="admin_event_date_booked")
+     * @Method({"POST"})
      * @return Response
      */
-    public function indexAction()
+    public function getCurrentYearAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT e FROM AppBundle:Event e'
-        );
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:Event');
+
+        // createQueryBuilder() automatically selects FROM AppBundle:Event
+        // and aliases it to "e"
+        $query = $repository->createQueryBuilder('e')
+            ->leftJoin('e.idType', 't')
+            ->leftJoin('e.idSalle', 's')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->where('e.dateEvent LIKE :year')
+            ->setParameter('year', '%' . '2016' . '%')
+            ->orderBy('e.dateEvent', 'ASC')
+            ->getQuery();
+
         $events = $query->getArrayResult();
 
-        $response = new Response(json_encode($events));
-        $response->headers->set('Content-Type', 'application/json');
+        return new JsonResponse($events);
 
-        return $response;
+    }
+
+    /**
+     * @Route("/admin/event/date_booked/{year}", name="admin_event_date_booked_year", requirements={"year" = "\d+"})
+     * @Method({"POST"})
+     * @param $year
+     * @return Response
+     */
+    public function getNewYearAction($year)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AppBundle:Event');
+
+        // createQueryBuilder() automatically selects FROM AppBundle:Event
+        // and aliases it to "e"
+        $query = $repository->createQueryBuilder('e')
+            ->leftJoin('e.idType', 't')
+            ->leftJoin('e.idSalle', 's')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->where('e.dateEvent LIKE :year')
+            ->setParameter('year', '%' . $year . '%')
+            ->orderBy('e.dateEvent', 'ASC')
+            ->getQuery();
+
+        $events = $query->getArrayResult();
+
+        return new JsonResponse($events);
     }
 }

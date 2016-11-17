@@ -7,3 +7,5 @@ frontOffice:
     resource: "@AppBundle/Resources/config/routing/frontOffice/routingFront.yml"
 FOSUserPages:
     resource: "@AppBundle/Resources/config/routing/routingFOSUserBundle.yml"
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

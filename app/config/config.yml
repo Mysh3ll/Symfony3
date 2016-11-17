@@ -104,6 +104,6 @@ vich_uploader:
                 upload_destination: '%kernel.root_dir%/../web/uploads/user/images'
                 namer:              vich_uploader.namer_uniqid
 
-# DateTimePicker Configuration
-sc_datetimepicker:
-    picker: ~
+# FOSJsRoutingBundle Configuration
+fos_js_routing:
+    routes_to_expose: [ admin_event_date_booked, admin_event_date_booked_year ]

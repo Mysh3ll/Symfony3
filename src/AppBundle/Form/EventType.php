@@ -20,8 +20,8 @@ class EventType extends AbstractType
             ->add('dateEvent', DateType::class, [
                 'widget'         => 'single_text',
                 'html5'          => false,
-                'format'         => 'dd-MM-yyyy',
-                'model_timezone' => 'Europe/Paris',
+//                'format'         => 'dd-MM-yyyy',
+//                'model_timezone' => 'Europe/Paris',
             ])
 //            ->add('path')
             ->add('idType', EntityType::class, array(

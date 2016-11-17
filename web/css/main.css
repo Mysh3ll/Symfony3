@@ -279,3 +279,17 @@ span.itemPrice {
     border-radius: 3px;
     border-left-color: #1fa67b;
 }
+
+/*    --------------------------------------------------
+	:: DatePicker BackOffice
+	-------------------------------------------------- */
+
+.eventBooked a {
+    background-color: #ff0000 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+}
+
+.eventBooked a:hover {
+    cursor: default;
+}

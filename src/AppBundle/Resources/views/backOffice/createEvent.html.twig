@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.css') }}">
+    <!-- DatePicker CSS -->
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
 {% endblock %}
 {% block content %}
     <!-- Page Content -->
@@ -73,15 +74,17 @@
                         {% set class = 'has-error' %}
                     {% endif %}
                     <div class="form-group {{ class }}">
-                        {{ form_label(form.dateEvent, 'Selection de la date', {'label_attr': {'class': 'control-label'}}) }}
-                        {{ form_widget(form.dateEvent, {'attr':{'class':'form-control js-datepicker'}}) }}
-                        {{ form_errors(form.dateEvent) }}
-                        {% if not form.dateEvent.vars.valid %}
-                            {% for error in form.dateEvent.vars.errors %}
-                                <span class="help-block">{{ error.dateEvent }}</span>
-                            {% endfor %}
-                        {% endif %}
+                        {{ form_label(form.dateEvent, 'Selection de la date', {'label_attr': {'class': 'control-label hidden'}}) }}
+                        {{ form_widget(form.dateEvent, {'attr':{'class':'form-control hidden' }}) }}
+                        {{ form_errors(form.dateEvent, {'attr':{'class':'hidden'}}) }}
+                        {#{% if not form.dateEvent.vars.valid %}#}
+                            {#{% for error in form.dateEvent.vars.errors %}#}
+                                {#<span class="help-block">{{ error.dateEvent }}</span>#}
+                            {#{% endfor %}#}
+                        {#{% endif %}#}
                     </div>
+                    {# DATEPICKER #}
+                    <div class="js-datepicker"></div>
 
                     {# INPUT TOKEN CSRF#}
                     <div class="form-group">
@@ -89,7 +92,7 @@
                     </div>
 
                     {# INPUT SUBMIT#}
-                    <input type="submit" class="btn btn-primary" value="Ajouter">
+                    <input type="submit" id="event_create_submit" class="btn btn-primary" value="Ajouter">
 
                     {# FORM END#}
                     {{ form_end(form) }}
@@ -100,7 +103,10 @@
     <!-- /.row -->
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-datepicker.fr.min.js') }}"></script>
+    <!-- DatePicker JS -->
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <!-- FOSJsRoutingBunble -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 {% endblock %}
