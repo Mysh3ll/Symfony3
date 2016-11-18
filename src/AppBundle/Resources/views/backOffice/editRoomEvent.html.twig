@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Modification de la salle</h3>
+                </div>
+                <div class="panel-body">
+                    {# FORM START#}
+                    {{ form_start(form) }}
+
+                    {# INPUT ROOM NAME #}
+                    {% set class = '' %}
+                    {% if not form.nomSalle.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.nomSalle, 'Nouveau de la nouvelle salle : ' ~ form.nomSalle.vars.value|upper, {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.nomSalle, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.nomSalle) }}#}
+                        {% if not form.nomSalle.vars.valid %}
+                            {% for error in form.nomSalle.vars.errors %}
+                                <span class="help-block">{{ error.nomSalle }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT ROOM NUMBER OF SEATS #}
+                    {% set class = '' %}
+                    {% if not form.nbPlaces.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.nbPlaces, 'Ancien nombres de places disponibles : ' ~ form.nbPlaces.vars.value|upper, {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.nbPlaces, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.nbPlaces) }}#}
+                        {% if not form.nbPlaces.vars.valid %}
+                            {% for error in form.nbPlaces.vars.errors %}
+                                <span class="help-block">{{ error.nbPlaces }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT TOKEN CSRF#}
+                    <div class="form-group">
+                        {{ form_row(form._token) }}
+                    </div>
+
+                    {# INPUT SUBMIT#}
+                    <input type="submit" class="btn btn-primary" value="Ajouter">
+
+                    {# INPUT CANCEL #}
+                    <a href="{{ path('admin_room_list') }}"><button type="button" class="btn btn-danger">Annuler</button></a>
+
+                    {# FORM END#}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}

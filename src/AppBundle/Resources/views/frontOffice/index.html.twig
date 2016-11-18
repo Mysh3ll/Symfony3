@@ -4,4 +4,25 @@
 
     <h1>Page Resa</h1>
 
+    {% block stylesheets %}
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+
+        {{ form_stylesheet(form) }}
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+        {{ form_javascript(form) }}
+    {% endblock %}
+
+    {% block body %}
+        <form action="#" type="post">
+            {{ form_widget(form) }}
+
+            <input type="submit"/>
+        </form>
+    {% endblock %}
+
 {% endblock %}

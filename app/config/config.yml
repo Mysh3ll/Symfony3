@@ -94,11 +94,20 @@ fos_user:
                 address:        noreply@tickenet.fr
                 sender_name:    WebMaster
 
+# VICH Configuration
 vich_uploader:
     db_driver: orm
 
     mappings:
             user_image:
-                uri_prefix:         /uploads/user/images
+                uri_prefix:         http://dev.mysh3ll.fr/TPResa_Symfony3-Git/web/uploads/user/images
                 upload_destination: '%kernel.root_dir%/../web/uploads/user/images'
                 namer:              vich_uploader.namer_uniqid
+            event_image:
+                uri_prefix:         http://dev.mysh3ll.fr/TPResa_Symfony3-Git/web/uploads/event/images
+                upload_destination: '%kernel.root_dir%/../web/uploads/event/images'
+                namer:              vich_uploader.namer_uniqid
+
+# FOSJsRoutingBundle Configuration
+fos_js_routing:
+    routes_to_expose: [ admin_event_date_booked, admin_event_date_booked_year ]

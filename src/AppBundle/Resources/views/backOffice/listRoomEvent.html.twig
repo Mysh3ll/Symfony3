@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Liste des salles</h3>
+                </div>
+                <div class="panel-body">
+
+                    {% for flashMessage in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success">{{ flashMessage }}</div>
+                    {% endfor %}
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Places</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for roomEvent in roomEvents %}
+                            <tr>
+                                <td>{{ roomEvent.nomSalle }}</td>
+                                <td>{{ roomEvent.nbPlaces }}</td>
+                                <td>
+                                    <a href="{{ path('admin_room_edit', {'id':roomEvent.idSalle}) }}" class="btn
+                                    btn-default">Modifier</a>
+                                    <a href="{{ path('admin_room_delete', {'id':roomEvent.idSalle}) }}" class="btn btn-danger">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}

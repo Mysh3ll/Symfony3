@@ -10,7 +10,8 @@
                         <div class="col-md-4">
                             <img class="img-responsive"
                                     {% if user.pathImage != null %}
-                                        src="{{ asset('uploads/user/images/' ~ user.pathImage) }}"
+                                        {#src="{{ asset('uploads/user/images/' ~ user.pathImage) }}"#}
+                                        src="{{ vich_uploader_asset(user, 'imageFile') }}"
                                     {% else %}
                                         src="{{ asset('images/user_default_avatar.jpg') }}"
                                     {% endif %}

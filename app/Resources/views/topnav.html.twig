@@ -8,14 +8,51 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Mon Site</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                {# LINK TO ADMIN PAGE #}
+                <a class="navbar-brand" href="{{ path('admin_homepage') }}">Accueil</a>
+            {% else %}
+                {# LINK TO HOME PAGE #}
+                <a class="navbar-brand" href="{{ path('homepage') }}">Accueil</a>
+            {% endif %}
         </div>
         <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav nav-left">
+                {% if is_granted('ROLE_ADMIN') %}
+
+                    {# LINK TO TYPE EVENT #}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle " data-toggle="dropdown">Événements<span class="caret"></span></a>
+                        <ul class="dropdown-menu inverse-dropdown">
+                            <li><a href="{{ path('admin_event_list') }}">Liste</a></li>
+                            <li><a href="{{ path('admin_event_create') }}">Ajouter</a></li>
+                        </ul>
+                    </li>
+
+                    {# LINK TO TYPE EVENT #}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle " data-toggle="dropdown">Catégories<span class="caret"></span></a>
+                        <ul class="dropdown-menu inverse-dropdown">
+                            <li><a href="{{ path('admin_category_list') }}">Liste</a></li>
+                            <li><a href="{{ path('admin_category_create') }}">Ajouter</a></li>
+                        </ul>
+                    </li>
+
+                    {# LINK TO ROOM #}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle " data-toggle="dropdown">Salles<span class="caret"></span></a>
+                        <ul class="dropdown-menu inverse-dropdown">
+                            <li><a href="{{ path('admin_room_list') }}">Liste</a></li>
+                            <li><a href="{{ path('admin_room_create') }}">Ajouter</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     {# USERNAME #}
                     {#<p class="navbar-text">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username},#}
-                        {#'FOSUserBundle') }}#}
+                    {#'FOSUserBundle') }}#}
                     {#</p>#}
                     {# IMAGE USER #}
                     <li>
@@ -37,17 +74,24 @@
                     {# LOGOUT #}
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">
+                            <span class="glyphicon glyphicon-log-out"></span>
                             {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
                         </a>
                     </li>
                 {% else %}
                     {# REGISTER #}
                     <li>
-                        <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+                        <a href="{{ path('fos_user_registration_register') }}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            {{ 'layout.register'|trans({}, 'FOSUserBundle') }}
+                        </a>
                     </li>
                     {# LOGIN #}
                     <li>
-                        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                        <a href="{{ path('fos_user_security_login') }}">
+                            <span class="glyphicon glyphicon-log-in"></span>
+                            {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                        </a>
                     </li>
                 {% endif %}
             </ul>

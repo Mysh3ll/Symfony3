@@ -16,8 +16,12 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
+            // FOSUserBundle -> gestion des utilisateurs
             new FOS\UserBundle\FOSUserBundle(),
+            // VichBundle -> gestion de l'upload de fichier
             new Vich\UploaderBundle\VichUploaderBundle(),
+            // FOSJsRoutingBundle -> gestion des routes en Jquery/Ajax
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

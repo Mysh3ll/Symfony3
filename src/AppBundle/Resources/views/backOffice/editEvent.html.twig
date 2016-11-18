@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- DatePicker CSS -->
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+{% endblock %}
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Modification de l'événement</h3>
+                </div>
+                <div class="panel-body">
+                    {# FORM START#}
+                    {{ form_start(form) }}
+
+                    {# INPUT EVENT NAME #}
+                    {% set class = '' %}
+                    {% if not form.titreEvent.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.titreEvent, 'Nom du nouvel événement', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.titreEvent, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.titreEvent) }}#}
+                        {% if not form.titreEvent.vars.valid %}
+                            {% for error in form.titreEvent.vars.errors %}
+                                <span class="help-block">{{ error.titreEvent }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {#INPUT UPLOAD#}
+                    {% set class = '' %}
+                    {% if not form.imageFile.file.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+
+                        {{ form_label(form.imageFile.file, 'Affiche de l\'événement' , {'label_attr': {'class':
+                            'control-label'}}) }}
+
+                        <div class="input-group image-preview">
+                            <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                            <!-- don't give a name === doesn't send on POST/GET -->
+                            <span class="input-group-btn">
+                            <!-- image-preview-clear button -->
+                            <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                <span class="glyphicon glyphicon-remove"></span> Effacer
+                            </button>
+                                <!-- image-preview-input -->
+                            <div class="btn btn-default image-preview-input">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                                <span class="image-preview-input-title">Parcourir</span>
+                                {{ form_widget(form.imageFile.file, {'attr':{'class':'form-control'}}) }}
+                                <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/>
+                                <!-- rename it -->
+                            </div>
+                        </span>
+                        </div><!-- /input-group image-preview [TO HERE]-->
+
+                        {{ form_errors(form.imageFile.file) }}
+                        {% if not form.imageFile.file.vars.valid %}
+                            {% for error in form.imageFile.file.vars.errors %}
+                                <span class="help-block">{{ error.message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT DELETE VICH#}
+                    {% if form.imageFile.delete is defined %}
+                        {{ form_row(form.imageFile.delete, {'label' : ' ', 'attr' : { 'class' : 'hide' }}) }}
+                    {% endif %}
+
+                    <div class="list_affiche"><img class="img-responsive" src="{{ asset('uploads/event/images/' ~ form.vars.value.pathImage) }}"/></div>
+
+                    {# INPUT EVENT TYPE #}
+                    {% set class = '' %}
+                    {% if not form.idType.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.idType, 'Selection de la catégorie', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.idType, {'attr':{'class':'form-control'}}) }}
+                        {#{{ form_errors(form.idType) }}#}
+                        {% if not form.idType.vars.valid %}
+                            {% for error in form.idType.vars.errors %}
+                                <span class="help-block">{{ error.idType }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# INPUT EVENT ROOM #}
+                    {% set class = '' %}
+                    {% if not form.idSalle.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.idSalle, 'Selection de la salle', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.idSalle, {'attr':{'class':'form-control'}}) }}
+                        {{ form_errors(form.idSalle) }}
+                        {% if not form.idSalle.vars.valid %}
+                            {% for error in form.idSalle.vars.errors %}
+                                <span class="help-block">{{ error.idSalle }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group ">
+                        <label class="control-label" for="currentDate">Date actuelle de l'événement</label>
+                        <input name="currentDate" class="form-control" value="{{ form.dateEvent.vars.value|date("d/m/Y", "Europe/Paris") }}" type="text" disabled>
+                    </div>
+
+                    {# INPUT EVENT DATE #}
+                    {% set class = '' %}
+                    {% if not form.dateEvent.vars.valid %}
+                        {% set class = 'has-error' %}
+                    {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(form.dateEvent, 'Selection de la date', {'label_attr': {'class': 'control-label hidden'}}) }}
+                        {{ form_widget(form.dateEvent, {'attr':{'class':'form-control hidden' }}) }}
+                        {{ form_errors(form.dateEvent, {'attr':{'class':'hidden'}}) }}
+                        {#{% if not form.dateEvent.vars.valid %}#}
+                            {#{% for error in form.dateEvent.vars.errors %}#}
+                                {#<span class="help-block">{{ error.dateEvent }}</span>#}
+                            {#{% endfor %}#}
+                        {#{% endif %}#}
+                    </div>
+                    {# DATEPICKER #}
+                    <div class="js-datepicker"></div>
+
+                    {# INPUT TOKEN CSRF #}
+                    <div class="form-group">
+                        {{ form_row(form._token) }}
+                    </div>
+
+                    {# INPUT SUBMIT #}
+                    <input type="submit" id="event_edit_submit" class="btn btn-primary" value="Modifier">
+
+                    {# INPUT CANCEL #}
+                    <a href="{{ path('admin_event_list') }}"><button type="button" class="btn btn-danger">Annuler</button></a>
+
+                    {# FORM END#}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+    <!-- DatePicker JS -->
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <!-- FOSJsRoutingBunble -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <!-- Upload Image JS -->
+    <script src="{{ asset('js/uploadUserImage.js') }}"></script>
+{% endblock %}

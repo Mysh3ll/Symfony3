@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Typeevent
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="libelleType", type="string", length=25, nullable=true)
-     */
-    private $libelleType;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="idType", type="integer")
@@ -28,7 +21,22 @@ class Typeevent
      */
     private $idType;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="libelleType", type="string", length=25, nullable=true)
+     */
+    private $libelleType;
 
+    /**
+     * Get idType
+     *
+     * @return integer
+     */
+    public function getIdType()
+    {
+        return $this->idType;
+    }
 
     /**
      * Set libelleType
@@ -52,15 +60,5 @@ class Typeevent
     public function getLibelleType()
     {
         return $this->libelleType;
-    }
-
-    /**
-     * Get idType
-     *
-     * @return integer
-     */
-    public function getIdType()
-    {
-        return $this->idType;
     }
 }

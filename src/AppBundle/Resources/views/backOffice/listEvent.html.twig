@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Liste des événements</h3>
+                </div>
+                <div class="panel-body">
+
+                    {% for flashMessage in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success">{{ flashMessage }}</div>
+                    {% endfor %}
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Date</th>
+                                <th>Catégorie</th>
+                                <th>Salle</th>
+                                <th>Nombres de places disponibles</th>
+                                <th>Affiche</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for Event in Events %}
+                                <tr>
+                                    <td>{{ Event.titreEvent }}</td>
+                                    <td>{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</td>
+                                    <td>{{ Event.idType.libelleType }}</td>
+                                    <td>{{ Event.idSalle.nomSalle }}</td>
+                                    <td>{{ Event.idSalle.nbPlaces }}</td>
+                                    {#<td><img src="{{ asset('uploads/event/images/' ~ Event.pathImage) }}" alt=""></td>#}
+                                    <td>
+                                        <img class="img-responsive affiche" src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="aucune affiche"/>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_event_edit', {'id':Event.idEvent}) }}" class="btn
+                                                        btn-default">Modifier</a>
+                                        <a href="{{ path('admin_event_delete', {'id':Event.idEvent}) }}" class="btn btn-danger">Supprimer</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}
