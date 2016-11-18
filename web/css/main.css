@@ -298,11 +298,15 @@ span.itemPrice {
 	:: Show Event Affiche
 	-------------------------------------------------- */
 
-.table-responsive
-{
+.table-responsive {
     overflow-x: auto;
 }
 
 .affiche {
     width: 95px;
+}
+
+.list_affiche {
+    margin-bottom: 10px;
+    margin-top: -20px;
 }

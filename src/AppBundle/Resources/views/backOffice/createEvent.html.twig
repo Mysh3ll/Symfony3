@@ -136,6 +136,9 @@
                     {# INPUT SUBMIT#}
                     <input type="submit" id="event_create_submit" class="btn btn-primary" value="Ajouter">
 
+                    {# INPUT CANCEL #}
+                    <a href="{{ path('admin_event_list') }}"><button type="button" class="btn btn-danger">Annuler</button></a>
+
                     {# FORM END#}
                     {{ form_end(form) }}
                 </div>
