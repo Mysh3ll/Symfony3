@@ -18,12 +18,34 @@ class EventController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $Events = $this->getDoctrine()
-            ->getRepository(Event::class)
-//            ->findAll();
-            ->findBy(array(), array('dateEvent' => 'asc')); // Order by ASC
+//        $Events = $this->getDoctrine()
+//            ->getRepository(Event::class)
+////            ->findAll();
+//            ->findBy(array(), array('dateEvent' => 'asc')); // Order by ASC
+        $em = $this->getDoctrine()->getManager();
 
-        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $Events]);
+        $dql = "SELECT e
+                FROM AppBundle:Event e
+                JOIN AppBundle:Typeevent t
+                  WITH t.idType = e.idType
+                JOIN AppBundle:Salle s
+                  WITH s.idSalle = e.idSalle
+                ORDER BY e.dateEvent";
+        $query = $em->createQuery($dql);
+
+        /**
+         * @var $paginator \Knp\Component\Pager\Paginator
+         */
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+                                $query,
+                                $request->query->getInt('page', 1),
+                                $request->query->getInt('limit', 5)
+                                );
+                dump($result);
+
+
+        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result]);
     }
 
     /**

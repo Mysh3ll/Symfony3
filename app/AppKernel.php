@@ -22,6 +22,8 @@ class AppKernel extends Kernel
             new Vich\UploaderBundle\VichUploaderBundle(),
             // FOSJsRoutingBundle -> gestion des routes en Jquery/Ajax
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            // KnpPaginatorBundle -> gestion de la pagination des pages
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
