@@ -8,17 +8,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            {% if is_granted('ROLE_ADMIN') %}
-                {# LINK TO ADMIN PAGE #}
-                <a class="navbar-brand" href="{{ path('admin_homepage') }}">Accueil</a>
-            {% else %}
-                {# LINK TO HOME PAGE #}
-                <a class="navbar-brand" href="{{ path('homepage') }}">Accueil</a>
-            {% endif %}
+            {# LINK TO HOME PAGE #}
+            <a class="navbar-brand" href="{{ path('homepage') }}">Accueil</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav nav-left">
                 {% if is_granted('ROLE_ADMIN') %}
+                    {# LINK TO ADMIN PAGE #}
+                    <li>
+                        <a href="{{ path('admin_homepage') }}">Administration</a>
+                    </li>
 
                     {# LINK TO TYPE EVENT #}
                     <li class="dropdown">

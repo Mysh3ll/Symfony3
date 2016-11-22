@@ -4,10 +4,13 @@ namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Event;
 use AppBundle\Form\EventType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
+//use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
 {
@@ -22,16 +25,28 @@ class EventController extends Controller
 //            ->getRepository(Event::class)
 ////            ->findAll();
 //            ->findBy(array(), array('dateEvent' => 'asc')); // Order by ASC
-        $em = $this->getDoctrine()->getManager();
 
-        $dql = "SELECT e
-                FROM AppBundle:Event e
-                JOIN AppBundle:Typeevent t
-                  WITH t.idType = e.idType
-                JOIN AppBundle:Salle s
-                  WITH s.idSalle = e.idSalle
-                ORDER BY e.dateEvent";
-        $query = $em->createQuery($dql);
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $dql = "SELECT e
+//                FROM AppBundle:Event e
+//                JOIN AppBundle:Typeevent t
+//                  WITH t.idType = e.idType
+//                JOIN AppBundle:Salle s
+//                  WITH s.idSalle = e.idSalle
+//                ORDER BY e.dateEvent";
+//        $query = $em->createQuery($dql);
+
+        // Requête avec createQueryBuilder
+        $em = $this->getDoctrine();
+        $query = $em->getRepository(Event::class)
+            ->createQueryBuilder('e')
+            ->leftjoin('e.idType', 't')
+            ->leftjoin('e.idSalle', 's')
+            ->where('t.idType = e.idType')
+            ->andWhere('s.idSalle = e.idSalle')
+            ->orderBy('e.dateEvent')
+            ->getQuery();
 
         /**
          * @var $paginator \Knp\Component\Pager\Paginator
@@ -43,9 +58,10 @@ class EventController extends Controller
             $request->query->getInt('limit', 5)
         );
 
-        $deleteFormAjax = $this->createCustomForm(':EVENT_ID', 'DELETE', 'admin_event_delete');
+//        $deleteFormAjax = $this->createCustomForm(':EVENT_ID', 'DELETE', 'admin_event_delete');
 
-        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result, 'delete_form_ajax' => $deleteFormAjax->createView()]);
+//        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result, 'delete_form_ajax' => $deleteFormAjax->createView()]);
+        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result]);
     }
 
     /**
@@ -91,6 +107,7 @@ class EventController extends Controller
      * @Route("/admin/event/edit/{id}", name="admin_event_edit", requirements={"id" = "\d+"})
      * @param $Event
      * @return Response
+     * @Method({"GET","PUT"})
      */
     public function editAction(Request $request, Event $Event)
     {
@@ -133,14 +150,16 @@ class EventController extends Controller
 //        return new Response('id: ' . $Event->getIdEvent() . ' titre: ' . $Event->getTitreEvent());
 //        $deleteForm = $this->createDeleteForm($Event);
         $deleteForm = $this->createCustomForm($Event->getIdEvent(), 'DELETE', 'admin_event_delete');
+
         // On rend la vue
         return $this->render('@App/backOffice/viewEvent.html.twig', ['Event' => $Event, 'delete_form' => $deleteForm->createView()]);
     }
 
     /**
-     * @Route("/admin/event/delete/{id}", name="admin_event_delete")
+     * @Route("/admin/event/delete/{id}", name="admin_event_delete", requirements={"id" = "\d+"})
      * @param $Event
      * @return Response
+     * @Method({"POST","DELETE"})
      */
     public function deleteAction(Request $request, Event $Event)
     {
@@ -165,22 +184,13 @@ class EventController extends Controller
         $allEvents = $em->getRepository('AppBundle:Event')->findAll();
         // Compte le nombre d'événements
         $countEvents = count($allEvents);
+        // Création du formulaire personnalisé
         $form = $this->createCustomForm($Event->getIdEvent(), 'DELETE', 'admin_event_delete');
+        // Récupère la request du formulaire
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Si c'est une requête Ajax (vue admin_event_list)
-            if ($request->isXmlHttpRequest()) {
-                // On supprime l'événement dans la bdd
-                $em->remove($Event);
-                $em->flush();
-                // Return d'une réponse Ajax
-                return new Response(
-                    json_encode(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.')),
-                    200,
-                    array('Content-Type' => 'application/json')
-                );
-            }
+
             // On supprime l'événement dans la bdd
             $em->remove($Event);
             $em->flush();
@@ -190,14 +200,16 @@ class EventController extends Controller
 
             return $this->redirectToRoute('admin_event_list');
         }
-    }
 
-    private function createDeleteForm(Event $Event)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_event_delete', array('id' => $Event->getIdEvent())))
-            ->setMethod('DELETE')
-            ->getForm();
+        // Si c'est une requête Ajax (vue admin_event_list)
+        if ($request->isXmlHttpRequest()) {
+            // On supprime l'événement dans la bdd
+            $em->remove($Event);
+            $em->flush();
+
+            // Return d'une réponse Ajax
+            return new JsonResponse(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.'));
+        }
     }
 
     private function createCustomForm($id, $method, $route)

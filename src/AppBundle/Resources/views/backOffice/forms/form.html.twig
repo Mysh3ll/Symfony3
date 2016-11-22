@@ -2,9 +2,13 @@
 
 {{ form_widget(form) }}
 
-    {% if with_submit is not defined or with_submit == true %}
-        <input type="button" value="Supprimer" class="btn btn-lg btn-block btn-warning" onclick="confirmDelete()">
-    {% endif %}
+    {#{% if with_submit is not defined or with_submit == true %}#}
+        {#<input type="button" value="Supprimer" class="btn btn-lg btn-block btn-warning" onclick="confirmDelete()">#}
+        <button type="button" value="Supprimer" class="btn btn-lg btn-block btn-warning" onclick="confirmDelete()">
+            <span class="glyphicon glyphicon-trash"></span>
+            Supprimer
+        </button>
+    {#{% endif %}#}
 
 {{ form_end(form) }}
 

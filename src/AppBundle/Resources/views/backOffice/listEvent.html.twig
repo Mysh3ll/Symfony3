@@ -18,6 +18,9 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    {# INPUT CREATE #}
+                    <a href="{{ path('admin_event_create') }}"><button type="button" class="btn btn-success pull-right">Ajouter</button></a>
+
                     <h3>Liste des événements</h3>
                     Nombre total d'événements : <span id="total">{{ Events.getTotalItemCount }}</span>
                 </div>
@@ -60,9 +63,9 @@
                                         <img class="img-responsive affiche" src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="aucune affiche"/>
                                     </td>
                                     <td>
-                                        <a href="{{ path('admin_event_view', {'id':Event.idEvent}) }}" class="btn btn-info">Voir</a>
-                                        <a href="{{ path('admin_event_edit', {'id':Event.idEvent}) }}" class="btn btn-primary">Modifier</a>
-                                        <a href="{{ path('admin_event_delete', {'id':Event.idEvent}) }}" class="btn btn-danger btn-delete">Supprimer</a>
+                                        <a href="{{ path('admin_event_view', {'id':Event.idEvent}) }}" class="btn btn-info glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Voir"></a>
+                                        <a href="{{ path('admin_event_edit', {'id':Event.idEvent}) }}" class="btn btn-primary glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Modifier"></a>
+                                        <a href="{{ path('admin_event_delete', {'id':Event.idEvent}) }}" class="btn btn-danger btn-delete glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Supprimer"></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -79,10 +82,14 @@
     </div>
     <!-- /.row -->
     {# FORM DELETE #}
-    {{ include('@App/backOffice/forms/form.html.twig', { form: delete_form_ajax, message: 'Cette opération est irréversible, veuillez confirmer votre choix.', id: 'form-delete', with_submit: false}) }}
+    {#{{ include('@App/backOffice/forms/form.html.twig', { form: delete_form_ajax, message: 'Cette opération est irréversible, veuillez confirmer votre choix.', id: 'form-delete', with_submit: false}) }}#}
     
 {% endblock %}
 {% block javascripts %}
+<!-- FOSJsRoutingBunble -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 <script src="{{ asset('js/bootbox.min.js') }}"></script>
+{# SCRIPT PERSO#}
 <script src="{{ asset('js/backOffice/deleteEvent.js') }}"></script>
 {% endblock %}
