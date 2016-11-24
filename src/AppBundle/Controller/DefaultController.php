@@ -4,16 +4,28 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Event;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', []);
+        $em = $this->getDoctrine()->getManager();
+
+        $idType = $em->getRepository('AppBundle:Event')
+            ->findByIdType();
+
+        $Events = [];
+
+        foreach ($idType as $key => $value) {
+            $Events[] = $em->getRepository('AppBundle:Event')->findByIdTypeOderByDate($value["idType"]);
+
+        }
+
+        return $this->render('default/index.html.twig', ['Events' => $Events]);
     }
+
 }

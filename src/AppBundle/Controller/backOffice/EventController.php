@@ -107,7 +107,7 @@ class EventController extends Controller
      * @Route("/admin/event/edit/{id}", name="admin_event_edit", requirements={"id" = "\d+"})
      * @param $Event
      * @return Response
-     * @Method({"GET","PUT"})
+     * @Method({"GET","POST","PUT"})
      */
     public function editAction(Request $request, Event $Event)
     {

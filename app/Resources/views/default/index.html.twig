@@ -2,6 +2,44 @@
 
 {% block content %}
 
-    <h1>Page accueil</h1>
+<!-- Page Content -->
+<div class="container">
+
+    <hr>
+    <hr>
+
+    {% for key in Events|keys %}
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Catégorie -->
+                <h3>{{ Events[key][0].idType.libelleType }}</h3>
+
+                {% for event in Events[key] %}
+
+                    <!-- Card Projects -->
+                    <div class="col-md-2">
+                        <div class="card">
+                            <div class="card-image">
+                                <img class="img-responsive"
+                                     src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.titreEvent }}">
+                                {#<span class="card-title">{{ Event.titreEvent }}</span>#}
+                            </div>
+
+                            <div class="card-content">
+                                <p>{{ event.titreEvent|slice(0,13) }}</p>
+                            </div>
+
+                            <div class="card-action">
+                                <a href="#" target="new_blank">Link</a>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+    <!-- /.row -->
 
 {% endblock %}

@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * Event
  *
  * @ORM\Table(name="event", indexes={@ORM\Index(name="FK_Event_idType", columns={"idType"}), @ORM\Index(name="FK_Event_idSalle", columns={"idSalle"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
  * @Vich\Uploadable
  */
 class Event
