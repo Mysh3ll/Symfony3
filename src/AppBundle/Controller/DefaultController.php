@@ -9,7 +9,8 @@ use AppBundle\Entity\Event;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="front_homepage")
+     * @return Response
      */
     public function indexAction()
     {
@@ -25,7 +26,28 @@ class DefaultController extends Controller
 
         }
 
-        return $this->render('default/index.html.twig', ['Events' => $Events]);
+        return $this->render('@App/frontOffice/index.html.twig', ['Events' => $Events]);
+    }
+
+    /**
+     * @Route("/view/{id}", name="front_view_event", requirements={"id" = "\d+"})
+     * @param $Event
+     * @return Response
+     */
+    public function viewAction(Event $Event)
+    {
+        // On rend la vue
+        return $this->render('@App/frontOffice/viewEvent.html.twig', ['Event' => $Event]);
+    }
+
+    /**
+     * @Route("/seat", name="front_seat_event")
+     * @return Response
+     */
+    public function seatAction()
+    {
+        // On rend la vue
+        return $this->render('@App/frontOffice/seatEvent.html.twig', []);
     }
 
 }

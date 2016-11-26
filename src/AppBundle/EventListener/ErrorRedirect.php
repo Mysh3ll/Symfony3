@@ -33,7 +33,7 @@ class ErrorRedirect
         if ($exception instanceof NotFoundHttpException || $exception instanceof MethodNotAllowedHttpException) {
 
             /** Choose your router here */
-            $route = 'homepage';
+            $route = 'front_homepage';
 
             if ($route === $event->getRequest()->get('_route')) {
                 return;

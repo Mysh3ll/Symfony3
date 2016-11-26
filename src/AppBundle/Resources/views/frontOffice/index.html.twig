@@ -2,27 +2,44 @@
 
 {% block content %}
 
-    <h1>Page Resa</h1>
+<!-- Page Content -->
+<div class="container">
 
-    {% block stylesheets %}
-        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <hr>
+    <hr>
 
-        {{ form_stylesheet(form) }}
-    {% endblock %}
+    {% for key in Events|keys %}
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Catégorie -->
+                <h3>{{ Events[key][0].idType.libelleType }}</h3>
 
-    {% block javascripts %}
-        <script src="{{ asset('js/jquery.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+                {% for event in Events[key] %}
 
-        {{ form_javascript(form) }}
-    {% endblock %}
+                    <!-- Card Projects -->
+                    <div class="col-md-2">
+                        <div class="card">
+                            <div class="card-image">
+                                <img class="img-responsive"
+                                     src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.titreEvent }}">
+                                {#<span class="card-title">{{ Event.titreEvent }}</span>#}
+                            </div>
 
-    {% block body %}
-        <form action="#" type="post">
-            {{ form_widget(form) }}
+                            <div class="card-content">
+                                <p>{{ event.titreEvent|slice(0,13) }}</p>
+                            </div>
 
-            <input type="submit"/>
-        </form>
-    {% endblock %}
+                            <div class="card-action">
+                                <a href="{{ path('front_view_event', {'id':event.idEvent}) }}">Détails</a>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+    <!-- /.row -->
 
 {% endblock %}

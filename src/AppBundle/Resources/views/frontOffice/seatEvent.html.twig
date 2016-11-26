@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {# CSS SEAT CHART #}
+    <link rel="stylesheet" href="{{ asset('css/jquery.seat-charts.css') }}">
+{% endblock %}
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="container well">
+                <div class="col-sm-12">
+
+                    {# placeholder elements for the seat map #}
+                    <div id="seat-map">
+                        <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                    </div>
+
+                    {# placeholder elements for the booking details #}
+                    <div class="col-sm-12 booking-details">
+                        <div class="col-sm-5">
+                            <h2>Détails de la réservation</h2>
+                            <h3> Places sélectionnées (<span id="counter">0</span>):</h3>
+                            <ul id="selected-seats">
+                            </ul>
+                            Total: <b><span id="total">0</span> €</b>
+                            <button class="checkout-button">Panier &raquo;</button>
+                        </div>
+                        <div class="col-sm-3" id="legend"></div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    {% endblock %}
+    {% block javascripts %}
+        {# JS SEAT CHART #}
+        <script src="{{ asset('js/jquery.seat-charts.min.js') }}"></script>
+        <script src="{{ asset('js/frontOffice/seatEvent.js') }}"></script>
+    {% endblock %}
