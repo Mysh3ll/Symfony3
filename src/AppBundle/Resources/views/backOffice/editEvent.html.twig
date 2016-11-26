@@ -2,6 +2,8 @@
 {% block stylesheets %}
     <!-- DatePicker CSS -->
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+    <!-- CSS SEAT CHART -->
+    <link rel="stylesheet" href="{{ asset('css/back.seat-charts.css') }}">
 {% endblock %}
 {% block content %}
     <!-- Page Content -->
@@ -153,14 +155,30 @@
         </div>
     </div>
     <!-- /.row -->
+
+    {# placeholder elements for the seat map #}
+    {# Salle Principal #}
+    <div id="seat-map-principal">
+        <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+    </div>
+    {# Salle Secondaire #}
+    <div id="seat-map-secondaire">
+        <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+    </div>
+
 {% endblock %}
 {% block javascripts %}
+    <!-- Main JS -->
+    <script src="{{ asset('js/backOffice/main.js') }}"></script>
     <!-- DatePicker JS -->
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
     <!-- FOSJsRoutingBunble -->
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <!-- Upload Image JS -->
     <script src="{{ asset('js/uploadUserImage.js') }}"></script>
+    <!-- JS SEAT CHART -->
+    <script src="{{ asset('js/backOffice/jquery.seat-charts.min.js') }}"></script>
+    <script src="{{ asset('js/backOffice/seatRoomPrincipal.js') }}"></script>
+    <script src="{{ asset('js/backOffice/seatRoomSecondaire.js') }}"></script>
 {% endblock %}

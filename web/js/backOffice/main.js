@@ -215,4 +215,30 @@ $(document).ready(function () {
         }
     });
 
+    // Hide seats maps before choosing the room
+    $('#seat-map-principal').hide();
+    $('#seat-map-secondaire').hide();
+
+    // Show seats map on change "Selection de la salle"
+    $('#appbundle_event_idSalle').on('change', function () {
+        // Get the selected Text and not the Value
+        var value = $(this).find("option:selected").text();
+
+        // Show map for the selected choice
+        switch (value) {
+            case "Principale":
+                $('#seat-map-principal').show();
+                $('#seat-map-secondaire').hide();
+                break;
+            case "Secondaire":
+                $('#seat-map-principal').hide();
+                $('#seat-map-secondaire').show();
+                break;
+            case "Choisir une salle":
+                $('#seat-map-principal').hide();
+                $('#seat-map-secondaire').hide();
+                break;
+        }
+    });
+
 });
