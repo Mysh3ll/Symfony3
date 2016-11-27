@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% set totalHT = 0 %}
+{% set totalTVA = 0 %}
+{% set totalTTC = 0 %}
+{% set tva = 19.6 %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+    <hr>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-hover">
+                {% for flashMessage in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success">{{ flashMessage }}</div>
+                {% endfor %}
+                <thead>
+                <tr>
+                    <th>Evenement</th>
+                    <th>Place</th>
+                    <th class="text-center">Prix</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                {# EMPTY PANIER #}
+                {% if panier|length == 0 %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">Aucun articles dans votre panier.</td>
+                    </tr>
+                {% endif %}
+                {# CONTENT PANIER #}
+                {% for resa in panier|keys %}
+                    <tr>
+                        {% for Event in Events %}
+                        {% if Event.idEvent == panier[resa].idEvent %}
+                        <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#">
+                                    <img class="img-responsive" src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="aucune affiche"/>
+                                </a>
+                                <div class="media-body">
+
+                                    <h4 class="media-heading"><a href="{{ path('front_view_event', {'id': Event.idEvent}) }}">
+
+                                            {{ Event.titreEvent }}
+                                            {% endif %}
+                                            {% endfor %}
+                                        </a></h4>
+                                    <h5 class="media-heading"> le
+                                        {% for Event in Events %}
+                                            {% if Event.idEvent == panier[resa].idEvent %}
+                                                {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </h5>
+                                    {#<span>Status: </span><span class="text-success"><strong>In Stock</strong></span>#}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                            <h5>N° {{ panier[resa].seat }}</h5>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>{{ panier[resa].price }} €</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                            <a href="{{ path('front_resa_panier_delete', {'id': panier[resa].idEvent, 'seat': panier[resa].seat}) }}">
+                                <button type="button" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-trash"></span> Supprimer
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td><h5>Total HT</h5></td>
+                    {% for resa in panier|keys %}
+                        {% set totalHT = totalHT + panier[resa].price|montantHT(tva) %}
+                    {% endfor %}
+                    <td class="text-right"><h5><strong>{{ totalHT }} €</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td><h5>Total TVA</h5></td>
+                    {% for resa in panier|keys %}
+                        {% set totalTTC = totalTTC + panier[resa].price %}
+                        {% set totalTVA = totalTTC - totalHT %}
+                    {% endfor %}
+                    <td class="text-right"><h5><strong>{{ totalTVA }} €</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td><h3>Total TTC</h3></td>
+                    <td class="text-right"><h3><strong>{{ totalTTC }} €</strong></h3></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td>  </td>
+                    <td>
+                        <a href="{{ path('front_homepage') }}">
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Continuer à acheter
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success">
+                            Payer <span class="glyphicon glyphicon-play"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}

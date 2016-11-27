@@ -53,6 +53,24 @@
                     {#<p class="navbar-text">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username},#}
                     {#'FOSUserBundle') }}#}
                     {#</p>#}
+                    {# PANIER #}
+                    <li class="navbar-cart">
+                        <a href="{{ path('front_resa_panier') }}">
+                            {% if articles == 0 %}
+                                {#Aucun article dans votre panier.#}
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span class="badge">0</span>
+                            {% elseif articles == 1 %}
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span class="badge">1</span>
+                                {#1 article dans votre panier#}
+                            {% else %}
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                <span class="badge">{{ articles }}</span>
+                                {#{{ articles }} articles dans votre panier#}
+                            {% endif %}
+                        </a>
+                    </li>
                     {# IMAGE USER #}
                     <li>
                         <img class="img-responsive navbar-avatar"

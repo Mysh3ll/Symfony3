@@ -30,7 +30,8 @@
 <body>
 
 {# TOP NAVBAR #}
-{% include 'topnav.html.twig' %}
+{{ render(controller('AppBundle:frontOffice/Front:menu')) }}
+{#{% include 'topnav.html.twig' %}#}
 
 {# HEADER #}
 {% include 'header.html.twig' %}

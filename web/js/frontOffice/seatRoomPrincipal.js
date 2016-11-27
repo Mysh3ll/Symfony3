@@ -1,10 +1,13 @@
 $(document).ready(function () {
+    var panier = {
+        "data": []
+    };
     var firstSeatLabel = 1;
 
     var $cart = $('#selected-seats'),
         $counter = $('#counter'),
         $total = $('#total'),
-        sc = $('#seat-map').seatCharts({
+        sc = $('#seat-map-principal').seatCharts({
             map: [
                 'aaaaaaaa__aaaaaaaa__aaaaaaaa',
                 'aaaaaaaa__aaaaaaaa__aaaaaaaa',
@@ -49,7 +52,7 @@ $(document).ready(function () {
                     ['a', 'available', 'Classe Or: 100€'],
                     ['b', 'available', 'Classe Argent: 40€'],
                     ['c', 'available', 'Classe Bronze: 20€'],
-                    ['a', 'unavailable', 'Réservée']
+                    ['a', 'unavailable', 'Réservé']
                 ]
             },
             click: function () {
@@ -59,6 +62,13 @@ $(document).ready(function () {
                         .attr('id', 'cart-item-' + this.settings.id)
                         .data('seatId', this.settings.id)
                         .appendTo($cart);
+
+                    //get the idEvent + n° of seat + price
+                    var id = $('#idEvent').val();
+                    var seat = this.settings.label;
+                    var price = this.data().price;
+                    //push the "item" to the panier.data
+                    panier.data.push({"idEvent": id, "seat": seat, "price": price});
 
                     /*
                      * Lets up<a href="http://www.jqueryscript.net/time-clock/">date</a> the counter and total
@@ -78,6 +88,10 @@ $(document).ready(function () {
 
                     //remove the item from our cart
                     $('#cart-item-' + this.settings.id).remove();
+
+                    //Checks panier.data for an object with a property of 'seat' whose value is 'this.settings.label'
+                    //Then removes it
+                    findAndRemove(panier.data, 'seat', this.settings.label);
 
                     //seat has been vacated
                     return 'available';
@@ -99,6 +113,12 @@ $(document).ready(function () {
     //let's pretend some seats have already been booked
     sc.get(['1_2', '4_1', '7_1', '7_2']).status('unavailable');
 
+    //Add to the panier
+    $('.btn-addPanier').click(function () {
+        var data = JSON.stringify(panier);
+        $('#panier').val(data);
+    });
+
 });
 
 function recalculateTotal(sc) {
@@ -110,4 +130,13 @@ function recalculateTotal(sc) {
     });
 
     return total;
+}
+
+function findAndRemove(array, property, value) {
+    array.forEach(function (result, index) {
+        if (result[property] === value) {
+            //Remove from array
+            array.splice(index, 1);
+        }
+    });
 }

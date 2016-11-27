@@ -204,10 +204,13 @@ footer {
     color: #fff;
 }
 
-.
-    /*    --------------------------------------------------
-        :: Profil Section
-        -------------------------------------------------- */
+.text-decoration-none:hover {
+    text-decoration: none;
+}
+
+/*    --------------------------------------------------
+    :: Profil Section
+    -------------------------------------------------- */
 .panel.panel--styled {
     background: #F4F2F3;
 }
@@ -384,4 +387,21 @@ span.itemPrice {
 .card .card-action a:hover {
     color: #ffd8a6;
     text-decoration: none;
+}
+
+/*    --------------------------------------------------
+	:: Panier Settings
+	-------------------------------------------------- */
+
+.navbar-cart {
+
+    background-color: #4c4c4c;
+}
+
+.navbar-nav > li > a > .glyphicon-shopping-cart {
+    font-size: 1.5em;
+}
+
+.navbar-nav > li > a > .badge {
+    vertical-align: top;
 }

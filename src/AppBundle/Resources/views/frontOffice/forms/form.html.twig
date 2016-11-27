@@ -1,0 +1,39 @@
+{{ form_start(form, {'attr': {'id': id|default('form')}}) }}
+
+{{ form_widget(form) }}
+
+    {# INPUT HIDDEN PANIER #}
+    <input type="hidden" name="panier" id="panier" value="">
+
+    <button type="button" value="Ajouter" class="btn btn-lg btn-block btn-custom btn-addPanier" onclick="confirmAdd()">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        Ajouter
+    </button>
+
+{{ form_end(form) }}
+
+<script>
+    var message = '{{ message }}';
+
+    function confirmAdd() {
+        bootbox.confirm({
+            title: '<h2>Confirmation !</h2>',
+            message: '<p>' + message + '</p>',
+            buttons: {
+                confirm: {
+                    label: 'Confirmer',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Annuler',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result == true) {
+                    document.form.submit();
+                }
+            }
+        });
+    }
+</script>

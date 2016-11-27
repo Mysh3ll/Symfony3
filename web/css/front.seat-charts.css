@@ -152,7 +152,7 @@ div.seatCharts-seat.focused {
 }
 
 div.seatCharts-seat.selected {
-    background-color: #E6CAC4;
+    background-color: #22e605;
 }
 
 div.seatCharts-seat.unavailable {
@@ -182,7 +182,7 @@ span.seatCharts-legendDescription {
     line-height: 30px;
 }
 
-.checkout-button {
+.btn.btn-custom.checkout-button {
     display: block;
     margin: 10px 0;
     /*font-size: 14px;*/

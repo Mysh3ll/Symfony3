@@ -35,4 +35,14 @@ class EventRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findArray($array)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->select('e')
+            ->where('e.idEvent IN (:array)')
+            ->setParameter('array', $array);
+
+        return $qb->getQuery()->getResult();
+    }
 }

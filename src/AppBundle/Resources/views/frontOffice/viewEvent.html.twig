@@ -55,14 +55,14 @@
                     <h3>Actions :</h3>
                     <p>
                         {# INPUT BOOKING #}
-                        <a href="#" class="btn btn-primary btn-lg btn-block">
+                        <a href="{{ path('front_resa_event', {'id':Event.idEvent}) }}" class="btn btn-primary btn-lg btn-block">
                             <span class="glyphicon glyphicon-euro"></span>
                             Réserver
                         </a>
                     </p>
                     <p>
                         {# INPUT CANCEL #}
-                        <a href="{{ path('front_homepage') }}">
+                        <a href="{{ path('front_homepage') }}" class="text-decoration-none">
                             <button type="button" class="btn btn-danger btn-lg btn-block">
                                 <span class="glyphicon glyphicon-ban-circle"></span>
                                 Annuler

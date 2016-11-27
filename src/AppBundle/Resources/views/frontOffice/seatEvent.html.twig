@@ -8,6 +8,7 @@
 <div class="container">
 
     <hr>
+    <h2>Réservation pour {{ Event.titreEvent }} prévu le {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</h2>
     <hr>
 
     <div class="row">
@@ -16,9 +17,19 @@
                 <div class="col-sm-12">
 
                     {# placeholder elements for the seat map #}
-                    <div id="seat-map">
-                        <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
-                    </div>
+                    {% if Event.idSalle.nomSalle == "Principale" %}
+                        {# Salle Principal #}
+                        <div id="seat-map-principal">
+                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                        </div>
+
+                    {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+                        {# Salle Secondaire #}
+                        <div id="seat-map-secondaire">
+                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                        </div>
+
+                    {% endif %}
 
                     {# placeholder elements for the booking details #}
                     <div class="col-sm-12 booking-details">
@@ -28,7 +39,17 @@
                             <ul id="selected-seats">
                             </ul>
                             Total: <b><span id="total">0</span> €</b>
-                            <button class="checkout-button">Panier &raquo;</button>
+                            {#<button class="checkout-button">Panier &raquo;</button>#}
+
+                            {# INPUT CART #}
+                            {#<a href="#" class="text-decoration-none"><button type="button" class="btn btn-custom checkout-button btn-addPanier">Panier &raquo;</button></a>#}
+                            {# INPUT HIDDEN ID EVENT #}
+                            <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
+
+                            {# FORM ADD PANIER #}
+                            <p>
+                                {{ include('@App/frontOffice/forms/form.html.twig', { form: add_form, message: 'Vous êtes sur le point d\'ajouter des places dans votre panier, veuillez confirmer votre choix.'}) }}
+                            </p>
                         </div>
                         <div class="col-sm-3" id="legend"></div>
                     </div>
@@ -41,7 +62,13 @@
     <!-- /.row -->
     {% endblock %}
     {% block javascripts %}
+        <!-- JS BOOTBOX -->
+        <script src="{{ asset('js/bootbox.min.js') }}"></script>
         <!-- JS SEAT CHART -->
-        <script src="{{ asset('js/jquery.seat-charts.min.js') }}"></script>
-        <script src="{{ asset('js/frontOffice/seatEvent.js') }}"></script>
+        <script src="{{ asset('js/frontOffice/jquery.seat-charts.min.js') }}"></script>
+        {% if Event.idSalle.nomSalle == "Principale" %}
+            <script src="{{ asset('js/frontOffice/seatRoomPrincipal.js') }}"></script>
+        {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+            <script src="{{ asset('js/frontOffice/seatRoomSecondaire.js') }}"></script>
+        {% endif %}
     {% endblock %}
