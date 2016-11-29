@@ -22,7 +22,7 @@ class Participer
     private $numPlace;
 
     /**
-     * @var \AppBundle\Entity\Personne
+     * @var \AppBundle\Entity\User
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -74,11 +74,11 @@ class Participer
     /**
      * Set idPersonne
      *
-     * @param \AppBundle\Entity\Personne $idPersonne
+     * @param \AppBundle\Entity\User $idPersonne
      *
      * @return Participer
      */
-    public function setIdPersonne(\AppBundle\Entity\Personne $idPersonne)
+    public function setIdPersonne(\AppBundle\Entity\User $idPersonne)
     {
         $this->idPersonne = $idPersonne;
 

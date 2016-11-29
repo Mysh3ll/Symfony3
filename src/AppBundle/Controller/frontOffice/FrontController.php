@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Event;
+use AppBundle\Entity\Participer;
+use FOS\UserBundle\Model\UserInterface;
 
 class FrontController extends Controller
 {
@@ -23,7 +25,7 @@ class FrontController extends Controller
     }
 
     /**
-     * @Route("/resa/panier/add/{id}", name="front_resa_panier_add")
+     * @Route("/resa/panier/add/{id}", name="front_resa_panier_add", requirements={"id" = "\d+"})
      */
     public function ajouterPanierAction(Request $request, Event $Event)
     {
@@ -78,7 +80,7 @@ class FrontController extends Controller
     }
 
     /**
-     * @Route("/resa/panier/delete/{id}/{seat}", name="front_resa_panier_delete")
+     * @Route("/resa/panier/delete/{id}/{seat}", name="front_resa_panier_delete", requirements={"id" = "\d+", "seat" = "\d+"})
      * @param Request $request
      * @param Event $Event
      * @param $seat
@@ -111,11 +113,56 @@ class FrontController extends Controller
         return $this->redirectToRoute('front_resa_panier');
     }
 
+    /**
+     * @Route("/resa/panier/validate", name="front_resa_panier_validate")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function validationAction(Request $request)
+    {
+        //Get Doctrine
+        $em = $this->getDoctrine()->getManager();
+
+        //Récupération de l'utilisateur
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        //On récupère la variable SESSION
+        $session = $request->getSession();
+
+        //On définit la SESSION 'panier'
+        if (!$session->has('panier')) $session->set('panier', array());
+        $panier = $session->get('panier');
+
+        //Insert chaque réservation dans la BDD
+        foreach ($panier as $event) {
+            //Création de l'objet Participer pour l'insertion en BDD
+            $participer = new Participer();
+            $participer->setIdPersonne($user);
+            $Event = $em->getRepository('AppBundle:Event')->find($event["idEvent"]);
+            $participer->setIdEvent($Event);
+            $participer->setNumPlace($event["seat"]);
+            $em->persist($participer);
+            $em->flush();
+        }
+
+        //Supprime la session 'panier'
+        $session->remove('panier');
+
+        // Flash message
+        $this->addFlash('validate_panier', 'Merci d\'avoir éffectué votre réservation sur TickeNet.');
+
+        return $this->redirectToRoute('front_homepage');
+    }
+
+    //Affiche le nombre d'articles dans le panier
     public function menuAction(Request $request)
     {
         $session = $request->getSession();
 
-        if(!$session->has('panier')) {
+        if (!$session->has('panier')) {
             $articles = 0;
         } else {
             $articles = count($session->get('panier'));
@@ -124,6 +171,7 @@ class FrontController extends Controller
         return $this->render('topnav.html.twig', ['articles' => $articles]);
     }
 
+    //Créé un formulaire personnalisé
     private function createCustomForm($id, $method, $route)
     {
         return $this->createFormBuilder()
@@ -132,6 +180,7 @@ class FrontController extends Controller
             ->getForm();
     }
 
+    //Génère en SESSION le contenu du panier
     private function generatePanier($request, $reservation)
     {
         //On récupère la variable SESSION
@@ -156,6 +205,7 @@ class FrontController extends Controller
 
     }
 
+    //Construit un tableau avec tous les idEvent de la réservation(panier)
     private function getIdEventPanier($panier)
     {
         $idEvent = [];

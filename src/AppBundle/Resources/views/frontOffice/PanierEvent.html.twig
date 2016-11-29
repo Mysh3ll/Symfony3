@@ -104,15 +104,17 @@
                     <td>  </td>
                     <td>
                         <a href="{{ path('front_homepage') }}">
-                            <button type="button" class="btn btn-default">
+                            <button type="button" class="btn btn-default pull-right">
                                 <span class="glyphicon glyphicon-shopping-cart"></span> Continuer à acheter
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-success">
-                            Payer <span class="glyphicon glyphicon-play"></span>
-                        </button>
+                        <a href="{{ path('front_resa_panier_validate') }}">
+                            <button type="button" class="btn btn-success pull-right">
+                                Payer <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </a>
                     </td>
                 </tr>
                 </tbody>

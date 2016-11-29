@@ -2,11 +2,15 @@
 
 {% block content %}
 
-<!-- Page Content -->
-<div class="container">
+    <!-- Page Content -->
+    <div class="container">
 
     <hr>
     <hr>
+
+    {% for flashMessage in app.session.flashBag.get('validate_panier') %}
+        <div class="alert alert-success">{{ flashMessage }}</div>
+    {% endfor %}
 
     {% for key in Events|keys %}
         <div class="row">
