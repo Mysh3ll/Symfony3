@@ -54,7 +54,11 @@
                             {% for Event in Events %}
                                 <tr data-id="{{ Event.idEvent }}">
                                     <td>{{ Event.titreEvent }}</td>
-                                    <td>{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</td>
+                                    {% if "now"|date('Ymd') > Event.dateEvent|date('Ymd') %}
+                                        <td><span class="label label-danger">{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</span></td>
+                                    {% else %}
+                                        <td><span class="label label-success">{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</span></td>
+                                    {% endif %}
                                     <td>{{ Event.idType.libelleType }}</td>
                                     <td>{{ Event.idSalle.nomSalle }}</td>
                                     {#<td>{{ Event.idSalle.nbPlaces }}</td>#}

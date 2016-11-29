@@ -189,7 +189,7 @@ span.seatCharts-legendDescription {
 }
 
 #selected-seats {
-    max-height: 240px;
+    max-height: 165px;
     overflow-y: scroll;
     overflow-x: none;
     /*width: 170px;*/
