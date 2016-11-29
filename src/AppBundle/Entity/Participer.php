@@ -22,6 +22,13 @@ class Participer
     private $numPlace;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="html_id", type="string", length=10)
+     */
+    private $html_id;
+
+    /**
      * @var \AppBundle\Entity\User
      *
      * @ORM\Id
@@ -45,8 +52,6 @@ class Participer
      */
     private $idEvent;
 
-
-
     /**
      * Set numPlace
      *
@@ -69,6 +74,30 @@ class Participer
     public function getNumPlace()
     {
         return $this->numPlace;
+    }
+
+    /**
+     * Set html_id
+     *
+     * @param string $html_id
+     *
+     * @return Participer
+     */
+    public function setHtml_id($html_id)
+    {
+        $this->html_id = $html_id;
+
+        return $this;
+    }
+
+    /**
+     * Get html_id
+     *
+     * @return string
+     */
+    public function gethtml_id()
+    {
+        return $this->html_id;
     }
 
     /**

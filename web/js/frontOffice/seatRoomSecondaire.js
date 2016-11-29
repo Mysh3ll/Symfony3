@@ -67,8 +67,9 @@ $(document).ready(function () {
                     var id = $('#idEvent').val();
                     var seat = this.settings.label;
                     var price = this.data().price;
+                    var html_id = this.settings.id;
                     //push the "item" to the panier.data
-                    panier.data.push({"idEvent": id, "seat": seat, "price": price});
+                    panier.data.push({"idEvent": id, "seat": seat, "price": price, "html_id": html_id});
 
                     // console.log(JSON.stringify(panier));
 
@@ -113,8 +114,28 @@ $(document).ready(function () {
         sc.get($(this).parents('li:first').data('seatId')).click();
     });
 
-    //let's pretend some seats have already been booked
-    sc.get(['1_2', '4_1', '7_1', '7_2']).status('unavailable');
+    //Get idEvent pour la requête Ajax
+    var id = $('#idEvent').val();
+    //array of seats booked
+    var seatsBooked = [];
+    $.ajax({
+        url: Routing.generate('front_resa_booked_seat', {id: id}),
+        type: "POST",
+        async: false,
+        dataType: "json",
+        success: function (data) {
+            //Get html_id des places réservées
+            for (var i = 0; i < data.html_id.length; i++) {
+                seatsBooked[i] = data.html_id[i];
+            }
+        },
+        error: function () {
+            alert('Error');
+        }
+    });
+
+    // let's pretend some seats have already been booked
+    sc.get(seatsBooked).status('unavailable');
 
     //Add to the panier
     $('.btn-addPanier').click(function () {

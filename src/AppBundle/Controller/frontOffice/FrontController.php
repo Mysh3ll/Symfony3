@@ -5,6 +5,7 @@ namespace AppBundle\Controller\frontOffice;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Participer;
 use FOS\UserBundle\Model\UserInterface;
@@ -144,6 +145,7 @@ class FrontController extends Controller
             $Event = $em->getRepository('AppBundle:Event')->find($event["idEvent"]);
             $participer->setIdEvent($Event);
             $participer->setNumPlace($event["seat"]);
+            $participer->setHtml_id($event["html_id"]);
             $em->persist($participer);
             $em->flush();
         }
@@ -155,6 +157,35 @@ class FrontController extends Controller
         $this->addFlash('validate_panier', 'Merci d\'avoir éffectué votre réservation sur TickeNet.');
 
         return $this->redirectToRoute('front_homepage');
+    }
+
+    /**
+     * @Route("/resa/{id}/bookedSeat", name="front_resa_booked_seat")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getBookedSeat(Request $request, Event $Event)
+    {
+        // Si c'est une requête Ajax (vue /resa/{id})
+        if ($request->isXmlHttpRequest()) {
+
+            // Récupération de l'idEvent de l'événement affiché
+            $idEvent = $Event->getIdEvent();
+
+            // Get Doctrine
+            $em = $this->getDoctrine()->getManager();
+
+            // Récupération de l'objet Participer selon l'idEvent
+            $seatsBooked = $em->getRepository('AppBundle:Participer')->findBy(array('idEvent' => $idEvent), array('html_id' => 'desc'));
+            $seat = [];
+            // Construction d'un tableau contenant uniquement les html_id (places réservées)
+            foreach ($seatsBooked as $value) {
+                $seat[] = $value->gethtml_id();
+            }
+
+            // Return d'une réponse Ajax
+            return new JsonResponse(array('html_id' => $seat));
+        }
     }
 
     //Affiche le nombre d'articles dans le panier
