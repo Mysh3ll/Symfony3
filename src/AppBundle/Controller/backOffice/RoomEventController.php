@@ -4,9 +4,11 @@ namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Salle;
 use AppBundle\Form\SalleType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoomEventController extends Controller
@@ -104,8 +106,10 @@ class RoomEventController extends Controller
 
     /**
      * @Route("/admin/room/delete/{id}", name="admin_room_delete", requirements={"id" = "\d+"})
-     * @param $roomEvent
+     * @param Request $request
+     * @param Salle $roomEvent
      * @return Response
+     * @Method({"POST","DELETE"})
      */
     public function deleteAction(Request $request, Salle $roomEvent)
     {
@@ -113,13 +117,23 @@ class RoomEventController extends Controller
         // On enregistre la salle en BDD
         $em = $this->getDoctrine()->getManager();
 
-        // On supprime la salle dans la bdd
-        $em->remove($roomEvent);
-        $em->flush();
+        // Si c'est une requête Ajax (vue admin_typeEvent_list)
+        if ($request->isXmlHttpRequest()) {
+            // On supprime l'événement dans la bdd
+            $em->remove($roomEvent);
+            $em->flush();
 
-        // Flash message
-        $this->addFlash('success', 'Salle supprimée avec succès.');
+            // Return d'une réponse Ajax
+            return new JsonResponse(array('delete' => 'success', 'message' => 'Salle supprimée avec succès.'));
+        }
 
-        return $this->redirectToRoute('admin_room_list');
+//        // On supprime la salle dans la bdd
+//        $em->remove($roomEvent);
+//        $em->flush();
+//
+//        // Flash message
+//        $this->addFlash('success', 'Salle supprimée avec succès.');
+
+//        return $this->redirectToRoute('admin_room_list');
     }
 }

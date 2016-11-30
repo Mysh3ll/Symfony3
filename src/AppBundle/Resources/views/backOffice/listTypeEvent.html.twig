@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    {# Progress bar #}
+	{{ include('backOffice/progressbar.html.twig') }}
+
     <!-- Page Content -->
     <div class="container">
 
@@ -11,13 +14,15 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    {# INPUT CREATE #}
+                    <a href="{{ path('admin_category_create') }}"><button type="button" class="btn btn-success pull-right">Ajouter</button></a>
+
                     <h3>Liste des catégories</h3>
                 </div>
                 <div class="panel-body">
 
-                    {% for flashMessage in app.session.flashBag.get('success') %}
-                        <div class="alert alert-success">{{ flashMessage }}</div>
-                    {% endfor %}
+                    {# Success Message #}
+	                {{ include('backOffice/message.html.twig') }}
 
                     <table class="table table-striped">
                         <thead>
@@ -28,12 +33,11 @@
                         </thead>
                         <tbody>
                         {% for typeEvent in typeEvents %}
-                            <tr>
+                            <tr data-id="{{ typeEvent.idType }}">
                                 <td>{{ typeEvent.libelleType }}</td>
                                 <td>
-                                    <a href="{{ path('admin_category_edit', {'id':typeEvent.idType}) }}" class="btn
-                                    btn-default">Modifier</a>
-                                    <a href="{{ path('admin_category_delete', {'id':typeEvent.idType}) }}" class="btn btn-danger">Supprimer</a>
+                                    <a href="{{ path('admin_category_edit', {'id':typeEvent.idType}) }}" class="btn btn-primary glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Modifier"></a>
+                                    <a href="{{ path('admin_category_delete', {'id':typeEvent.idType}) }}" class="btn btn-danger btn-delete glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Supprimer"></a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -46,4 +50,12 @@
         </div>
     </div>
     <!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+<!-- FOSJsRoutingBunble -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="{{ asset('js/bootbox.min.js') }}"></script>
+{# SCRIPT PERSO#}
+<script src="{{ asset('js/backOffice/deleteTypeEvent.js') }}"></script>
 {% endblock %}

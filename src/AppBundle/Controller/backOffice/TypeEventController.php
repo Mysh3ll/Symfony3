@@ -4,9 +4,11 @@ namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Typeevent;
 use AppBundle\Form\TypeeventType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class TypeEventController extends Controller
@@ -104,8 +106,10 @@ class TypeEventController extends Controller
 
     /**
      * @Route("/admin/category/delete/{id}", name="admin_category_delete", requirements={"id" = "\d+"})
-     * @param $typeEvent
+     * @param Request $request
+     * @param Typeevent $typeEvent
      * @return Response
+     * @Method({"POST","DELETE"})
      */
     public function deleteAction(Request $request, Typeevent $typeEvent)
     {
@@ -113,13 +117,23 @@ class TypeEventController extends Controller
         // On enregistre la catégorie en BDD
         $em = $this->getDoctrine()->getManager();
 
-        // On supprime la catégorie dans la bdd
-        $em->remove($typeEvent);
-        $em->flush();
+        // Si c'est une requête Ajax (vue admin_typeEvent_list)
+        if ($request->isXmlHttpRequest()) {
+            // On supprime l'événement dans la bdd
+            $em->remove($typeEvent);
+            $em->flush();
 
-        // Flash message
-        $this->addFlash('success', 'Catégorie supprimée avec succès.');
+            // Return d'une réponse Ajax
+            return new JsonResponse(array('delete' => 'success', 'message' => 'Catégorie supprimée avec succès.'));
+        }
 
-        return $this->redirectToRoute('admin_category_list');
+//        // On supprime la catégorie dans la bdd
+//        $em->remove($typeEvent);
+//        $em->flush();
+//
+//        // Flash message
+//        $this->addFlash('success', 'Catégorie supprimée avec succès.');
+//
+//        return $this->redirectToRoute('admin_category_list');
     }
 }
