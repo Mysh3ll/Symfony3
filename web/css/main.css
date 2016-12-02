@@ -405,3 +405,36 @@ span.itemPrice {
 .navbar-nav > li > a > .badge {
     vertical-align: top;
 }
+
+/*    --------------------------------------------------
+	:: Search Settings
+	-------------------------------------------------- */
+
+#matchList li:hover {
+    cursor: pointer;
+}
+
+#matchList li>strong {
+    color: #1fa67b;
+}
+
+.search-button {
+    margin-top: 10px;
+}
+
+.search-bar {
+    padding-top: 10px;
+    border: 1px dashed #1fa67b;
+    border-radius: 5px;
+}
+
+.search-separation {
+    background: #1fa67b;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 15px 0px 0px 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    color: #ffffff;
+}

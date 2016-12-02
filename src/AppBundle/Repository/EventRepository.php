@@ -38,11 +38,35 @@ class EventRepository extends EntityRepository
 
     public function findArray($array)
     {
-        $qb = $this->createQueryBuilder('e')
+        return $this->createQueryBuilder('e')
             ->select('e')
             ->where('e.idEvent IN (:array)')
-            ->setParameter('array', $array);
+            ->setParameter('array', $array)
+            ->getQuery()
+            ->getResult();
+    }
 
-        return $qb->getQuery()->getResult();
+    public function findByTitreEvent($titre)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e.titreEvent')
+            ->where('e.titreEvent LIKE :data')
+            ->setParameter('data', '%'.$titre.'%')
+            ->orderBy('e.titreEvent')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByDatePicker($dateDebut, $dateFin)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e')
+            ->where('e.dateEvent BETWEEN :dateDebut AND :dateFin')
+            ->setParameter('dateDebut', $dateDebut)
+            ->setParameter('dateFin', $dateFin)
+            ->orderBy('e.dateEvent', 'ASC')
+            ->orderBy('e.idType', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

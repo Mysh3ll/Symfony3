@@ -16,7 +16,7 @@ class SalleType extends AbstractType
     {
         $builder->add('nomSalle')
                 ->add('nbPlaces', IntegerType::class, array('attr' => array('min' => 0,
-                                                                        'max' => 500)));
+                                                                        'max' => 1000)));
     }
 
     /**

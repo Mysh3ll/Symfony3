@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+    {% if Event is defined %}
+        <div class="row">
+            <div class="col-sm-12">
+
+                <!-- Catégorie -->
+                <h3>{{ Event.idType.libelleType }}</h3>
+
+                <!-- Card Projects -->
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-image">
+                            <img class="img-responsive"
+                                 src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="{{ Event.titreEvent }}">
+                            {#<span class="card-title">{{ Event.titreEvent }}</span>#}
+                        </div>
+
+                        <div class="card-content">
+                            <p>{{ Event.titreEvent|slice(0,13) }}</p>
+                        </div>
+
+                        <div class="card-action">
+                            <a href="{{ path('front_view_event', {'id':Event.idEvent}) }}">Détails</a>
+                            <a href="{{ path('front_resa_event', {'id':Event.idEvent}) }}">Réserver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+    {% elseif Events is defined and Events|length > 0 %}
+    <div class="row">
+        {% for Event in Events %}
+
+            <div class="col-sm-4">
+                <!-- Catégorie -->
+                <h3>{{ Event.idType.libelleType }}</h3>
+
+                    <!-- Card Projects -->
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-image">
+                                <img class="img-responsive"
+                                     src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="{{ Event.titreEvent }}">
+                                {#<span class="card-title">{{ Event.titreEvent }}</span>#}
+                            </div>
+
+                            <div class="card-content">
+                                <p>{{ Event.titreEvent|slice(0,13) }}</p>
+                            </div>
+
+                            <div class="card-action">
+                                <a href="{{ path('front_view_event', {'id':Event.idEvent}) }}">Détails</a>
+                                <a href="{{ path('front_resa_event', {'id':Event.idEvent}) }}">Réserver</a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% elseif Events is defined and Events|length == 0 %}
+        <div class="row">
+            <div class="col-sm-12">
+                Aucun résultat trouvés !
+            </div>
+        </div>
+    {% endif %}
+    <!-- /.row -->
+
+{% endblock %}

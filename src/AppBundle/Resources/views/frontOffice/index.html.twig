@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <!-- DatePicker CSS -->
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+{% endblock %}
+
 {% block content %}
 
     <!-- Page Content -->
@@ -12,6 +17,78 @@
         <div class="alert alert-success">{{ flashMessage }}</div>
     {% endfor %}
 
+    <div class="row">
+        <div class="col-sm-12 search-bar">
+            <div class="col-sm-4">
+                <div class="col-sm-10">
+                <!-- Search Form -->
+                {{ form_start(form) }}
+                {# INPUT EVENT NAME #}
+                {% set class = '' %}
+                {% if not form.search.vars.valid %}
+                    {% set class = 'has-error' %}
+                {% endif %}
+                <div class="form-group {{ class }}">
+                    {{ form_label(form.search, 'Recherche par titre', {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.search, {'attr':{'class':'form-control searchField'}}) }}
+                    {% if not form.search.vars.valid %}
+                        {% for error in form.search.vars.errors %}
+                            <span class="help-block">{{ error.search }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div id="match"></div>
+                </div>
+                <div class="col-sm-1 search-separation">
+                    <strong>OU</strong>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                {# INPUT START DATE #}
+                {% set class = '' %}
+                {% if not form.dateDebut.vars.valid %}
+                    {% set class = 'has-error' %}
+                {% endif %}
+                <div class="form-group {{ class }}">
+                    {{ form_label(form.dateDebut, 'Selection de la date de début', {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.dateDebut, {'attr':{'class':'form-control start-datepicker-search' }}) }}
+                    {{ form_errors(form.dateDebut, {'attr':{'class':'hidden'}}) }}
+                </div>
+            </div>
+            <div class="col-sm-3">
+                {# INPUT END DATE #}
+                {% set class = '' %}
+                {% if not form.dateFin.vars.valid %}
+                    {% set class = 'has-error' %}
+                {% endif %}
+                <div class="form-group {{ class }}">
+                    {{ form_label(form.dateFin, 'Selection de la date de fin', {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.dateFin, {'attr':{'class':'form-control end-datepicker-search' }}) }}
+                    {{ form_errors(form.dateFin, {'attr':{'class':'hidden'}}) }}
+                </div>
+            </div>
+            <div class="col-sm-2 search-button">
+                {# INPUT TOKEN CSRF#}
+                <div class="form-group">
+                    {{ form_row(form._token) }}
+                </div>
+
+                {# INPUT SUBMIT#}
+                <button type="submit" id="search_create_submit" class="btn btn-custom">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                {#<input type="submit" id="search_create_submit" class="btn btn-primary" value="Rechercher">#}
+
+                {# FORM END#}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <hr>
+
+    <h2>Les 5 prochains événements à ne pas rater !</h2>
     {% for key in Events|keys %}
         <div class="row">
             <div class="col-sm-12">
@@ -47,4 +124,15 @@
     {% endfor %}
     <!-- /.row -->
 
+{% endblock %}
+{% block javascripts %}
+<!-- FOSJsRoutingBunble -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<!-- Autocomplete Search -->
+<script src="{{ asset('js/frontOffice/autocomplete-events.js') }}"></script>
+<!-- DatePicker JS -->
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<!-- DatePicker Search -->
+<script src="{{ asset('js/frontOffice/searchDatePicker.js') }}"></script>
 {% endblock %}

@@ -2,31 +2,71 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\SearchEventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Event;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="front_homepage")
+     * @param Request $request
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
+        //Trouve tous les events par idEvent
         $idType = $em->getRepository('AppBundle:Event')
             ->findByIdType();
 
         $Events = [];
 
+        //Pour chaque idEvent on trouve les 5 plus proches events par catégories
         foreach ($idType as $key => $value) {
             $Events[] = $em->getRepository('AppBundle:Event')->findByIdTypeOderByDate($value["idType"]);
-
         }
 
-        return $this->render('@App/frontOffice/index.html.twig', ['Events' => $Events]);
+        // On récupère le formulaire
+        $form = $this->createForm(SearchEventType::class);
+
+        // Requête envoyée par le formulaire
+        $form->handleRequest($request);
+
+        // Si le formulaire a été soumi et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupère le contenu du formulaire posté
+            $data = $request->get('search_event');
+            // Si recherche par titre
+            if (!empty($data["search"])) {
+                // Trouve l'event par le titre
+                $Event = $em->getRepository('AppBundle:Event')->findOneBy(array("titreEvent" => $data));
+
+                return $this->render('@App/frontOffice/searchEvent.html.twig', ['Event' => $Event]);
+
+            }
+            // Si recherche par date
+            elseif (!empty($data["dateDebut"]) && !empty($data["dateFin"])) {
+                // Conversion de la date dd/mm/yyyy => yyyy-mm-dd
+                $dateDebut = $this->convertDate($data["dateDebut"]);
+                // Conversion de la date dd/mm/yyyy => yyyy-mm-dd
+                $dateFin = $this->convertDate($data["dateFin"]);
+                // Trouve les events entre deux dates (debut et fin)
+                $Event = $em->getRepository('AppBundle:Event')->findByDatePicker($dateDebut, $dateFin);
+
+                return $this->render('@App/frontOffice/searchEvent.html.twig', ['Events' => $Event, 'dateDebut' => $dateDebut, 'dateFin' => $dateFin]);
+            }
+        }
+
+        // On génère le html du formulaire crée
+        $formview = $form->createView();
+
+        // On rend la vue
+        return $this->render('@App/frontOffice/index.html.twig', ['Events' => $Events, 'form' => $formview]);
     }
 
     /**
@@ -48,6 +88,43 @@ class DefaultController extends Controller
     {
         // On rend la vue
         return $this->render('@App/frontOffice/seatEvent.html.twig', []);
+    }
+
+    /**
+     * @Route("/search", name="front_search")
+     * @param Request $request
+     * @return Response
+     */
+    public function searchAction(Request $request)
+    {
+        // Si c'est une requête Ajax
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->get('input');
+
+            $em = $this->getDoctrine()->getManager();
+
+            $results = $em->getRepository('AppBundle:Event')->findByTitreEvent($data);
+
+            $eventList = '<ul id="matchList" class="list-group">';
+            foreach ($results as $result) {
+                $matchStringBold = preg_replace('/(' . $data . ')/i', '<strong>$1</strong>', $result['titreEvent']); // Replace text field input by bold one
+                $eventList .= '<li class="list-group-item" id="' . $result['titreEvent'] . '">' . $matchStringBold . '</li>'; // Create the matching list - we put maching name in the ID too
+            }
+            $eventList .= '</ul>';
+
+//        $response = new JsonResponse();
+//        $response->setData(array('eventList' => $eventList));
+
+            return new JsonResponse(array('eventList' => $eventList));
+        }
+    }
+
+    private function convertDate($date)
+    {
+        $tempDate = explode('/', $date);
+        $convertedDate = $tempDate[2] . '-' . $tempDate[1] . '-' . $tempDate[0];
+
+        return $convertedDate;
     }
 
 }

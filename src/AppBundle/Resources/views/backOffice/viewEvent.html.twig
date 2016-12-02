@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- CSS SEAT CHART -->
+    <link rel="stylesheet" href="{{ asset('css/back.seat-charts.css') }}">
+{% endblock %}
 {% block content %}
     <!-- Page Content -->
     <div class="container">
@@ -73,12 +77,43 @@
                     <p>
                         {{ include('@App/backOffice/forms/form.html.twig', { form: delete_form, message: 'Cette opération est irréversible, veuillez confirmer votre choix.'}) }}
                     </p>
+                    {# INPUT HIDDEN ID EVENT #}
+                    <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
                 </div>
             </div>
         </div>
     </div>
     <!-- /.row -->
+
+    <div class="row">
+        <div class="col-sm-12">
+            {# placeholder elements for the seat map #}
+            {# Salle Principal #}
+            {% if Event.idSalle.nomSalle == "Principale" %}
+                <div id="seat-map-principal">
+                    <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                </div>
+            {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+            {# Salle Secondaire #}
+                <div id="seat-map-secondaire">
+                    <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}
 {% block javascripts %}
+<!-- FOSJsRoutingBunble -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<!-- JS BOOTBOX -->
 <script src="{{ asset('js/bootbox.min.js') }}"></script>
+<!-- JS SEAT CHART -->
+<script src="{{ asset('js/backOffice/jquery.seat-charts.min.js') }}"></script>
+{% if Event.idSalle.nomSalle == "Principale" %}
+    <script src="{{ asset('js/backOffice/seatRoomPrincipal.js') }}"></script>
+{% elseif Event.idSalle.nomSalle == "Secondaire" %}
+    <script src="{{ asset('js/backOffice/seatRoomSecondaire.js') }}"></script>
+{% endif %}
 {% endblock %}
