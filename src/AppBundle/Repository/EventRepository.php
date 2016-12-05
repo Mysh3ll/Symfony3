@@ -48,10 +48,14 @@ class EventRepository extends EntityRepository
 
     public function findByTitreEvent($titre)
     {
+        $date = new \DateTime();
+
         return $this->createQueryBuilder('e')
             ->select('e.titreEvent')
             ->where('e.titreEvent LIKE :data')
             ->setParameter('data', '%'.$titre.'%')
+            ->andWhere('e.dateEvent >= :date')
+            ->setParameter('date', $date)
             ->orderBy('e.titreEvent')
             ->getQuery()
             ->getResult();

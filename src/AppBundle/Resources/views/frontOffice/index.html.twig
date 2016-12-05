@@ -52,7 +52,12 @@
                 <div class="form-group {{ class }}">
                     {{ form_label(form.dateDebut, 'Selection de la date de début', {'label_attr': {'class': 'control-label'}}) }}
                     {{ form_widget(form.dateDebut, {'attr':{'class':'form-control start-datepicker-search' }}) }}
-                    {{ form_errors(form.dateDebut, {'attr':{'class':'hidden'}}) }}
+                    {#{{ form_errors(form.dateDebut, {'attr':{'class':'hidden'}}) }}#}
+                    {% if not form.dateDebut.vars.valid %}
+                        {% for error in form.dateDebut.vars.errors %}
+                            <span class="help-block">{{ error.message }}</span>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-3">
@@ -64,7 +69,12 @@
                 <div class="form-group {{ class }}">
                     {{ form_label(form.dateFin, 'Selection de la date de fin', {'label_attr': {'class': 'control-label'}}) }}
                     {{ form_widget(form.dateFin, {'attr':{'class':'form-control end-datepicker-search' }}) }}
-                    {{ form_errors(form.dateFin, {'attr':{'class':'hidden'}}) }}
+                    {#{{ form_errors(form.dateFin, {'attr':{'class':'hidden'}}) }}#}
+                    {% if not form.dateFin.vars.valid %}
+                        {% for error in form.dateFin.vars.errors %}
+                            <span class="help-block">{{ error.message }}</span>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-2 search-button">

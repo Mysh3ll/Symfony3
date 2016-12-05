@@ -12,6 +12,7 @@ $(document).ready(function () {
         dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         weekHeader: 'Sem.',
         dateFormat: 'dd/mm/yy',
+        minDate: 0,
         onSelect: function (dateText, inst) {
             // Copy the selected date to the form input
             // $('#appbundle_event_dateDebut').val(dateText);
@@ -30,6 +31,7 @@ $(document).ready(function () {
         dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
         weekHeader: 'Sem.',
         dateFormat: 'dd/mm/yy',
+        minDate: 0,
         onSelect: function (dateText, inst) {
             // Copy the selected date to the form input
             // $('#appbundle_event_dateFin').val(dateText);

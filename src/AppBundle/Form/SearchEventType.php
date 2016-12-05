@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class SearchEventType extends AbstractType
 {
@@ -19,16 +20,18 @@ class SearchEventType extends AbstractType
                 ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text',
                 'html5'  => false,
-                'format'         => 'dd-MM-yyyy',
+                'format'         => 'dd/MM/yyyy',
                 'model_timezone' => 'Europe/Paris',
                 'required' => false,
+                'constraints' => array(new GreaterThanOrEqual("today")),
                 ])
                 ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
                 'html5'  => false,
-                'format'         => 'dd-MM-yyyy',
+                'format'         => 'dd/MM/yyyy',
                 'model_timezone' => 'Europe/Paris',
                 'required' => false,
+                'constraints' => array(new GreaterThanOrEqual("today")),
                 ]);
     }
 
