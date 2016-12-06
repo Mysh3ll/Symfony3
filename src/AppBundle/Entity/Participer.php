@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Participer
  *
  * @ORM\Table(name="participer", indexes={@ORM\Index(name="FK_Participer_id", columns={"id"}), @ORM\Index(name="IDX_EDBE16F82C6A49BA", columns={"idEvent"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ParticiperRepository")
  */
 class Participer
 {

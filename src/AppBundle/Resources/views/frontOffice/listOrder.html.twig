@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+    <hr>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <h2>Mes commandes</h2>
+            <table class="table table-hover">
+                {% for flashMessage in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success">{{ flashMessage }}</div>
+                {% endfor %}
+                <thead>
+                <tr>
+                    <th>Evénements</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {# ORDERS #}
+                {% for order in orders %}
+                    <tr>
+                        <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <a class="thumbnail pull-left" href="#">
+                                    <img class="img-responsive"
+                                         src="{{ vich_uploader_asset(order.idEvent, 'imageFile', 'AppBundle\\Entity\\Event') }}"
+                                         alt="aucune affiche"/>
+                                </a>
+                                <div class="media-body">
+
+                                    <h4 class="media-heading"><a href="#">
+
+                                            {{ order.idEvent.titreEvent }}
+                                        </a></h4>
+                                    <h5 class="media-heading"> le {{ order.idEvent.dateEvent|date("d/m/Y", "Europe/Paris") }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-1 col-md-1">
+                            <a href="#">
+                                <button type="button" class="btn btn-custom">
+                                    <span class="glyphicon glyphicon-pencil"></span> Modifier
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+    <!-- /.row -->
+{% endblock %}
