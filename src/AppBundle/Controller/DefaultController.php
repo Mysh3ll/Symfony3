@@ -30,6 +30,8 @@ class DefaultController extends Controller
         foreach ($idType as $key => $value) {
             $Events[] = $em->getRepository('AppBundle:Event')->findByIdTypeOderByDate($value["idType"]);
         }
+        //Remove empty elements from an array
+        $Events = array_filter( $Events );
 
         // On récupère le formulaire
         $form = $this->createForm(SearchEventType::class);

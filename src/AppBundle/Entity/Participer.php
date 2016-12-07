@@ -29,6 +29,13 @@ class Participer
     private $html_id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="price", type="string", length=10)
+     */
+    private $price;
+
+    /**
      * @var \AppBundle\Entity\User
      *
      * @ORM\Id
@@ -98,6 +105,30 @@ class Participer
     public function gethtml_id()
     {
         return $this->html_id;
+    }
+
+    /**
+     * Set price
+     *
+     * @param string $price
+     *
+     * @return Participer
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 
     /**

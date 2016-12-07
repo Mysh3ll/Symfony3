@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <!-- CSS SEAT CHART -->
+    <link rel="stylesheet" href="{{ asset('css/front.seat-charts.css') }}">
+{% endblock %}
+
+{% set totalTTC = 0 %}
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <hr>
+    <h2>Réservation pour {{ Event.titreEvent }} prévu le {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="container well">
+                <div class="col-sm-12">
+
+                    {# placeholder elements for the seat map #}
+                    {% if Event.idSalle.nomSalle == "Principale" %}
+                        {# Salle Principal #}
+                        <div id="seat-map-principal">
+                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                        </div>
+
+                    {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+                        {# Salle Secondaire #}
+                        <div id="seat-map-secondaire">
+                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                        </div>
+
+                    {% endif %}
+
+                    {# placeholder elements for the booking details #}
+                    <div class="col-sm-12 booking-details">
+                        <div class="col-sm-5">
+                            <h2>Détails de la réservation</h2>
+                            <h3> Places sélectionnées (<span id="counter">0</span>):</h3>
+                            <ul id="selected-seats">
+                            </ul>
+                            Total: <b><span id="total">0</span> €</b>
+
+                            {# INPUT HIDDEN ID EVENT #}
+                            <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
+                            {# INPUT HIDDEN ORDER TOTAL € #}
+                            {% for resa in order %}
+                                {% set totalTTC = totalTTC + resa.price %}
+                            {% endfor %}
+                            <input type="hidden" name="totalOrder" id="totalOrder" value="{{ totalTTC }}">
+
+                            {# FORM MODIFY ORDER #}
+                            <p>
+                                {{ include('@App/frontOffice/forms/formEditOrder.html.twig', { form: add_form, message: 'Vous êtes sur le point de modifier les places déjà réservées, veuillez confirmer votre choix.'}) }}
+                            </p>
+                        </div>
+                        <div class="col-sm-3" id="legend"></div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    {% endblock %}
+    {% block javascripts %}
+        <!-- FOSJsRoutingBunble -->
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        <!-- JS BOOTBOX -->
+        <script src="{{ asset('js/bootbox.min.js') }}"></script>
+        <!-- JS SEAT CHART -->
+        <script src="{{ asset('js/frontOffice/jquery.seat-charts.min.js') }}"></script>
+        {% if Event.idSalle.nomSalle == "Principale" %}
+            <script src="{{ asset('js/frontOffice/editOrderRoomPrincipal.js') }}"></script>
+        {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+            <script src="{{ asset('js/frontOffice/editOrderRoomSecondaire.js') }}"></script>
+        {% endif %}
+    {% endblock %}

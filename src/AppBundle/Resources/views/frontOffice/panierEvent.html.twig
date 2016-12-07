@@ -110,11 +110,13 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{ path('front_resa_panier_validate') }}">
-                            <button type="button" class="btn btn-success pull-right">
-                                Payer <span class="glyphicon glyphicon-play"></span>
-                            </button>
-                        </a>
+                        {% if panier|length != 0 %}
+                            <a href="{{ path('front_resa_panier_validate') }}">
+                                <button type="button" class="btn btn-success pull-right">
+                                    Payer <span class="glyphicon glyphicon-play"></span>
+                                </button>
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
                 </tbody>

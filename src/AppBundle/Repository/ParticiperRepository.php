@@ -34,4 +34,16 @@ class ParticiperRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function deleteEventByUser($idEvent, $idPersonne)
+    {
+        return $this->createQueryBuilder('p')
+            ->delete('AppBundle:Participer', 'p')
+            ->where('p.idEvent = :idEvent')
+            ->setParameter('idEvent', $idEvent)
+            ->andWhere('p.idPersonne = :idPersonne')
+            ->setParameter('idPersonne', $idPersonne)
+            ->getQuery()
+            ->execute();
+    }
 }

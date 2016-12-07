@@ -414,7 +414,7 @@ span.itemPrice {
     cursor: pointer;
 }
 
-#matchList li>strong {
+#matchList li > strong {
     color: #1fa67b;
 }
 
@@ -437,4 +437,20 @@ span.itemPrice {
     padding-top: 10px;
     padding-left: 10px;
     color: #ffffff;
+}
+
+/*    --------------------------------------------------
+	:: Order Details Settings
+	-------------------------------------------------- */
+
+.table > tbody > tr > .no-line {
+    border-top: none;
+}
+
+.table > thead > tr > .no-line {
+    border-bottom: none;
+}
+
+.table > tbody > tr > .thick-line {
+    border-top: 2px solid;
 }

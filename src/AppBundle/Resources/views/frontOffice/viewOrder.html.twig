@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% set totalHT = 0 %}
+{% set totalTVA = 0 %}
+{% set totalTTC = 0 %}
+{% set tva = 19.6 %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+        <hr>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Détails de la réservation</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <td><strong>Evénements</strong></td>
+                                    <td class="text-left"><strong>Date</strong></td>
+                                    <td class="text-left"><strong>N° place</strong></td>
+                                    <td class="text-center"><strong>Prix</strong></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for resa in order %}
+                                    <tr>
+                                        <td>{{ resa.idEvent.titreEvent }}</td>
+                                        <td class="text-left">{{ resa.idEvent.dateEvent|date("d/m/Y", "Europe/Paris") }}</td>
+                                        <td class="text-left">{{ resa.numPlace }}</td>
+                                        <td class="text-center">{{ resa.price }} €</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line text-right"><h5>Total HT</h5></td>
+                                    {% for resa in order %}
+                                        {% set totalHT = totalHT + resa.price|montantHT(tva) %}
+                                    {% endfor %}
+                                    <td class="thick-line text-center"><h5><strong>{{ totalHT }} €</strong></h5></td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right"><h5>Total TVA</h5></td>
+                                    {% for resa in order %}
+                                        {% set totalTTC = totalTTC + resa.price %}
+                                        {% set totalTVA = totalTTC - totalHT %}
+                                    {% endfor %}
+                                    <td class="no-line text-center"><h5><strong>{{ totalTVA }} €</strong></h5></td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-right"><h3>Total TTC</h3></td>
+                                    <td class="no-line text-center"><h3><strong>{{ totalTTC }} €</strong></h3></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {# INPUT CANCEL #}
+                                        <a href="{{ path('front_order_list') }}" class="text-decoration-none">
+                                            <button type="button" class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                                Retour
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+{% endblock %}

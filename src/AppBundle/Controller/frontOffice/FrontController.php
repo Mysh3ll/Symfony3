@@ -37,7 +37,7 @@ class FrontController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //Tableau ave les détails de la réservation
+            //Tableau avec les détails de la réservation
             $reservation = array();
             //On récupère le contenu de la reservation
             $content = $request->get('panier');
@@ -56,7 +56,7 @@ class FrontController extends Controller
 
         }
 
-        return $this->render('@App/frontOffice/PanierEvent.html.twig');
+        return $this->render('@App/frontOffice/panierEvent.html.twig');
     }
 
     /**
@@ -75,9 +75,9 @@ class FrontController extends Controller
         $em = $this->getDoctrine()->getManager();
         $Events = $em->getRepository('AppBundle:Event')->findArray(array_keys($idEventPanier)); //Query qui récupère les Events en fonction de l'idEvent pour l'affichage dans la vue panier
 
-        return $this->render('@App/frontOffice/PanierEvent.html.twig', ['Events' => $Events,
+        return $this->render('@App/frontOffice/panierEvent.html.twig', ['Events' => $Events,
                                                                         'panier' => $session->get('panier')]);
-//        return $this->render('@App/frontOffice/PanierEvent.html.twig', ['panier' => $session->get('panier')]);
+//        return $this->render('@App/frontOffice/panierEvent.html.twig', ['panier' => $session->get('panier')]);
     }
 
     /**
@@ -146,6 +146,7 @@ class FrontController extends Controller
             $participer->setIdEvent($Event);
             $participer->setNumPlace($event["seat"]);
             $participer->setHtml_id($event["html_id"]);
+            $participer->setPrice($event["price"]);
             $em->persist($participer);
             $em->flush();
         }

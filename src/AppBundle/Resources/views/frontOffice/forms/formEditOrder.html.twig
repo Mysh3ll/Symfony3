@@ -1,0 +1,60 @@
+{{ form_start(form, {'attr': {'id': id|default('form')}}) }}
+
+{{ form_widget(form) }}
+
+    {# INPUT HIDDEN ORDER #}
+<input type="hidden" name="order" id="order" value="">
+
+{# INPUT SUBMIT PANIER #}
+<p>
+    <button type="button" value="Modifier" class="btn btn-lg btn-block btn-custom btn-editOrder" onclick="confirmAdd()">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        Modifier
+    </button>
+</p>
+
+{# INPUT CANCEL PANIER #}
+<p><a href="{{ path('front_order_list') }}" class="text-decoration-none">
+        <button type="button" value="Annuler" class="btn btn-lg btn-block btn-danger">
+            <span class="glyphicon glyphicon-ban-circle"></span>
+            Annuler
+        </button>
+    </a>
+</p>
+
+{{ form_end(form) }}
+
+<script>
+    var message = '{{ message }}';
+
+    function confirmAdd() {
+        bootbox.confirm({
+            title: '<h2>Confirmation !</h2>',
+            message: '<p>' + message + '</p>',
+            buttons: {
+                confirm: {
+                    label: 'Confirmer',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Annuler',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result == true) {
+                    //Si le montant de la commande ne correspond pas au montant de la nouvelle réservation
+                    if ($('#totalOrder').val() != parseInt($('#total').text())) {
+                        //Hide all modal
+                        bootbox.hideAll();
+                        //Show alert message
+                        bootbox.alert("Vous devez valider un panier égal à : " + $('#totalOrder').val() + " €.");
+                    } else {
+                        //Submit form
+                        document.form.submit();
+                    }
+                }
+            }
+        });
+    }
+</script>
