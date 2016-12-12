@@ -9,18 +9,18 @@ $(document).ready(function () {
         $total = $('#total'),
         sc = $('#seat-map-secondaire').seatCharts({
             map: [
-                '________aaaaaaaaaaaaaaaaaa_______',
-                '________aaaaaaaaaaaaaaaaaa_______',
-                '________aaaaaaaaaaaaaaaaaa_______',
-                '_____bbbbbbbbbbb__bbbbbbbbbbb____',
-                '_____bbbbbbbbbbb__bbbbbbbbbbb____',
-                '_____bbbbbbbbbbb__bbbbbbbbbbb____',
-                '_____bbbbbbbbbbb__bbbbbbbbbbb____',
-                '_ccc____cccccccc__cccccccc____ccc',
-                '_cccc___cccccccc__cccccccc___cccc',
-                '_ccccc__cccccccc__cccccccc__ccccc',
-                '_cccccc_cccccccc__cccccccc_cccccc',
-                '_ccccccccccccccc__ccccccccccccccc',
+                '_______aaaaaaaaaaaaaaaaaa_______',
+                '_______aaaaaaaaaaaaaaaaaa_______',
+                '_______aaaaaaaaaaaaaaaaaa_______',
+                '____bbbbbbbbbbb__bbbbbbbbbbb____',
+                '____bbbbbbbbbbb__bbbbbbbbbbb____',
+                '____bbbbbbbbbbb__bbbbbbbbbbb____',
+                '____bbbbbbbbbbb__bbbbbbbbbbb____',
+                'ccc____cccccccc__cccccccc____ccc',
+                'cccc___cccccccc__cccccccc___cccc',
+                'ccccc__cccccccc__cccccccc__ccccc',
+                'cccccc_cccccccc__cccccccc_cccccc',
+                'ccccccccccccccc__ccccccccccccccc',
             ],
             seats: {
                 a: {
@@ -58,7 +58,7 @@ $(document).ready(function () {
             click: function () {
                 if (this.status() == 'available') {
                     //let's create a new <li> which we'll add to the cart items
-                    $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> <a href="#" class="cancel-cart-item">[annuler]</a></li>')
+                    $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> </li>')
                         .attr('id', 'cart-item-' + this.settings.id)
                         .data('seatId', this.settings.id)
                         .appendTo($cart);
@@ -109,11 +109,10 @@ $(document).ready(function () {
         });
 
     //this will handle "[cancel]" link clicks
-    $('#selected-seats').on('click', '.cancel-cart-item', function () {
-        //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-        sc.get($(this).parents('li:first').data('seatId')).click();
-    });
-
+    // $('#selected-seats').on('click', '.cancel-cart-item', function () {
+    //     //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+    //     sc.get($(this).parents('li:first').data('seatId')).click();
+    // });
     //Get idEvent pour la requête Ajax
     var id = $('#idEvent').val();
     //array of seats booked

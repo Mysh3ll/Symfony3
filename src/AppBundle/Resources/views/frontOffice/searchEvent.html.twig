@@ -7,6 +7,11 @@
 
     <hr>
     <hr>
+    <h2>Résultat de votre recherche</h2>
+    <hr>
+    <hr>
+
+    {# DISPLAY AJAX SEARCH RESULT#}
     {% if Event is defined %}
         <div class="row">
             <div class="col-sm-12">
@@ -36,6 +41,8 @@
             </div>
         </div>
         <hr>
+
+    {# DISPLAY DATE SEARCH RESULT#}
     {% elseif Events is defined and Events|length > 0 %}
     <div class="row">
         {% for Event in Events %}
@@ -74,6 +81,14 @@
             </div>
         </div>
     {% endif %}
+
+    {# INPUT CANCEL #}
+    <a href="{{ path('front_homepage') }}" class="text-decoration-none">
+        <button type="button" class="btn btn-danger">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Retour
+        </button>
+    </a>
     <!-- /.row -->
 
 {% endblock %}

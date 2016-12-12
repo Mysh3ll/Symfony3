@@ -26,3 +26,9 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    #Snappy PDF Generation
+    snappy.pdf.ticket:
+        class: AppBundle\Controller\frontOffice\user\PdfController
+        arguments:
+            container: "@service_container"

@@ -75,7 +75,7 @@ $(document).ready(function () {
             click: function () {
                 if (this.status() == 'available') {
                     //let's create a new <li> which we'll add to the cart items
-                    $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> <a href="#" class="cancel-cart-item">[annuler]</a></li>')
+                    $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> </li>')
                         .attr('id', 'cart-item-' + this.settings.id)
                         .data('seatId', this.settings.id)
                         .appendTo($cart);
@@ -123,10 +123,10 @@ $(document).ready(function () {
         });
 
     //this will handle "[cancel]" link clicks
-    $('#selected-seats').on('click', '.cancel-cart-item', function () {
-        //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-        sc.get($(this).parents('li:first').data('seatId')).click();
-    });
+    // $('#selected-seats').on('click', '.cancel-cart-item', function () {
+    //     //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+    //     sc.get($(this).parents('li:first').data('seatId')).click();
+    // });
 
     //Get idEvent pour la requête Ajax
     var id = $('#idEvent').val();

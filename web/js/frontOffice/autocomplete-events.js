@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $(".searchField").on('keyup', function () { // everytime keyup event
         var input = $(this).val(); // We take the input value
-        if (input.length >= 1) { // Minimum characters = 2 (you can change)
+        if (input.length >= 2) { // Minimum characters = 2 (you can change)
             // $('#match').html('<img src="' + window.loader + '" />'); // Loader icon apprears in the <div id="match"></div>
             var data = {input: input}; // We pass input argument in Ajax
             $.ajax({
@@ -18,6 +18,7 @@ $(document).ready(function () {
                     $('#matchList li').on('click', function () { // When click on an element in the list
                         $('.searchField').val($(this).text()); // Update the field with the new element
                         $('#match').text(''); // Clear the <div id="match"></div>
+                        $('#ajaxForm').submit(); // Post the autocompletion ajax form
                     });
                 },
                 error: function () { // if error

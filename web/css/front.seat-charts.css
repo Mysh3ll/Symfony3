@@ -75,6 +75,8 @@ ul.seatCharts-legendList {
 li.seatCharts-legendItem {
     margin-top: 10px;
     line-height: 2;
+    width: 33%;
+    display: inline-block;
 }
 
 /*    --------------------------------------------------
@@ -94,10 +96,10 @@ li.seatCharts-legendItem {
 .booking-details {
     float: left;
     text-align: left;
-    margin-left: 35px;
+    /*margin-left: 35px;*/
     /*font-size: 12px;*/
     position: relative;
-    height: 401px;
+    height: 300px;
 }
 
 .booking-details h2 {
@@ -189,8 +191,176 @@ span.seatCharts-legendDescription {
 }
 
 #selected-seats {
-    max-height: 165px;
+    /*max-height: 165px;*/
+    max-height: 125px;
+    min-height: 125px;
     overflow-y: scroll;
     overflow-x: none;
     /*width: 170px;*/
+}
+
+/*    --------------------------------------------------
+	:: Right Slide Bar Settings
+	-------------------------------------------------- */
+
+#rightSLideBar .panel {
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0 26px 26px 0;
+    box-shadow: none;
+    color: #fff;
+    height: 350px;
+    margin-bottom: 20px;
+    position: relative;
+    width: auto;
+}
+
+#rightSLideBar .panel a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 300;
+}
+
+#rightSLideBar .panel a:hover {
+    text-decoration: none;
+}
+
+.panel-rightbody i {
+    font-size: 40px;
+}
+
+#rightSLideBar .panel-default > .panel-leftheading {
+    background: #D64A58;
+}
+
+.panel-leftheading {
+    float: left;
+    height: 100%;
+    padding: 10px 15px;
+    position: absolute;
+    width: 42px;
+    border-radius: 0 15px 15px 0;
+}
+
+.panel-lefttitle {
+    position: absolute;
+    -webkit-transform: rotate(270deg);
+    -webkit-transform-origin: left top;
+    -moz-transform: rotate(270deg);
+    -moz-transform-origin: left top;
+    -ms-transform: rotate(270deg);
+    -ms-transform-origin: left top;
+    -o-transform: rotate(270deg);
+    -o-transform-origin: left top;
+    transform: rotate(270deg);
+    transform-origin: left top;
+}
+
+.panel-rightbody {
+    background: #d64a58 none repeat scroll 0 0;
+    display: none;
+    float: left;
+    height: 100%;
+    margin-left: 42px;
+    padding: 15px;
+    width: 746px;
+    border-radius: 0 25px 25px 0;
+}
+
+.panel-rightbody > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.panel-rightbody img {
+    width: 100px;
+}
+
+#rightSLideBar {
+    right: 40px;
+    position: fixed;
+    top: 100px;
+}
+
+#rightSLideBar .panel-lefttitle {
+    bottom: 50px;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: -12px;
+    white-space: normal;
+    width: 250px;
+}
+
+#rightSLideBar .panel-lefttitle span.glyphicon {
+    display: block;
+    float: left;
+    font-size: 25px;
+    padding-right: 11px;
+    padding-top: 5px;
+}
+
+#rightSLideBar .panel-leftheading {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 15px;
+    right: -47px;
+    border-radius: 15px 0 0 15px;
+    width: 49px;
+}
+
+#rightSLideBar .panel-rightbody {
+    width: 505px;
+    background: #1bb4a4;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #000;
+    border-right: none;
+}
+
+#rightSLideBar .panel-rightbody > div {
+    vertical-align: top;
+}
+
+/*#rightSLideBar .panel {*/
+    /*height: 300px;*/
+/*}*/
+
+#rightSLideBar .panel-rightbody h4 {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left
+}
+
+#rightSLideBar .panel-rightbody #legend {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    /*max-width: 264px;*/
+    text-align: left;
+}
+
+#rightSLideBar:hover .panel-rightbody {
+    display: table;
+}
+
+#rightSLideBar:hover .panel-leftheading {
+    background: #1BB4A4;
+}
+
+/*#botcell {*/
+    /*bottom: 17px;*/
+    /*left: 74px;*/
+    /*position: absolute;*/
+/*}*/
+
+#rightSLideBar:hover .panel-leftheading {
+    border-radius: 1px 1px 1px 1px;
+    opacity: 1;
+}
+
+#rightSLideBar:hover .panel-leftheading {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
 }

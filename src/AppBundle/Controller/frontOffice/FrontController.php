@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Participer;
 use FOS\UserBundle\Model\UserInterface;
+use Swift_Attachment;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Filesystem\Filesystem;
 
 class FrontController extends Controller
 {
@@ -137,8 +141,15 @@ class FrontController extends Controller
         if (!$session->has('panier')) $session->set('panier', array());
         $panier = $session->get('panier');
 
+        //Efface le dossier du user contenant les tickets au format pdf
+        $iterator = $this->getAllPdfFiles($user);
+        foreach ($iterator as $file) {
+            unlink($file->getRealPath());
+        }
+
         //Insert chaque réservation dans la BDD
         foreach ($panier as $event) {
+
             //Création de l'objet Participer pour l'insertion en BDD
             $participer = new Participer();
             $participer->setIdPersonne($user);
@@ -149,7 +160,20 @@ class FrontController extends Controller
             $participer->setPrice($event["price"]);
             $em->persist($participer);
             $em->flush();
+
+            //Génération des fichiers pdf contenant les tickets commandés
+            $this->get('snappy.pdf.ticket')->generatePdfTicketAction($Event->getTitreEvent(), $Event->getDateEvent(), $event["seat"], $event["html_id"], $event["price"], $Event->getPathImage(), $user->getUsername());
+
         }
+
+        //Variable contenant tout les idEvent de la réservation
+        $idEventPanier = $this->getIdEventPanier($session->get('panier'));
+
+        $em = $this->getDoctrine()->getManager();
+        $Events = $em->getRepository('AppBundle:Event')->findArray(array_keys($idEventPanier)); //Query qui récupère les Events en fonction de l'idEvent pour l'affichage dans la vue panier
+
+        //Envoie du mail de confirmation
+        $this->sendConfirmationMail($user, $Events, $session->get('panier'));
 
         //Supprime la session 'panier'
         $session->remove('panier');
@@ -248,5 +272,78 @@ class FrontController extends Controller
 
         //Retourne un tableau avec seulement les idEvent
         return $idEvent;
+    }
+
+    private function sendConfirmationMail($user, $Events, $panier)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Confirmation réservation')
+            ->setFrom('noreply@tickenet.fr')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    '@App/frontOffice/email/confirmOrder.html.twig',
+                    array('Events' => $Events, 'panier' => $panier, 'name' => $user->getUsername())
+                ),
+                'text/html'
+            );
+
+        //Recherche de tout les tickets au format pdf du user en cours
+        $iterator = $this->getAllPdfFiles($user);
+
+        //Création de la pièce jointe pour tout les ticket trouvés
+        foreach ($iterator as $file) {
+            //Création des pièces jointes pour l'envoie du mail
+            $message->attach(Swift_Attachment::fromPath($file->getRealPath()));
+        }
+
+        //Envoie du mail
+        $this->get('mailer')->send($message);
+
+    }
+
+    //Retourne tous les fichiers pdf dans le répertoire pdf du user connecté
+    private function getAllPdfFiles($user)
+    {
+        $fs = new Filesystem();
+        $pdfPath = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
+
+        //Si le répertoire du user n'existe pas on le crée
+        if (!$fs->exists($pdfPath)) {
+            // create the directory
+            $fs->mkdir($pdfPath, 0755);
+            // change the owner of the video directory recursively
+            $fs->chown($pdfPath, 'www-data', true);
+        }
+
+        //Recherche de tout les tickets au format pdf du user en cours
+        $finder = new Finder();
+        $iterator = $finder
+            ->files()
+            ->name('*.pdf')
+            ->depth(0)
+            ->in($pdfPath);
+
+        return $iterator;
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function testAction()
+    {
+        //Génération des fichiers pdf contenant les tickets commandés
+        return $this->render(
+            '@App/frontOffice/pdf/pdfOrder.html.twig', [
+            'event' => "REVOLUTION LEAGUE - CENTR",
+            'date'  => "2017-03-30",
+            'seat'  => "128",
+            'row'   => "1_128",
+            'price' => "100",
+            'image' => "582f235404b88.gif",
+        ]);
+
+//            $this->get('snappy.pdf.ticket')->generatePdfTicketAction("REVOLUTION LEAGUE - CENTR", "2017-03-30", "128", "1_128", "100", "582f235404b88.gif", "Mysh3ll");
     }
 }

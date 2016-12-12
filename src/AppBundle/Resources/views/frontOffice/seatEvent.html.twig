@@ -4,45 +4,78 @@
     <link rel="stylesheet" href="{{ asset('css/front.seat-charts.css') }}">
 {% endblock %}
 {% block content %}
-<!-- Page Content -->
-<div class="container">
+    <!-- Page Content -->
+    <div class="container">
 
-    <hr>
-    <h2>Réservation pour {{ Event.titreEvent }} prévu le {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</h2>
-    <hr>
+        <hr>
+        <h2>Réservation pour {{ Event.titreEvent }} prévu le {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</h2>
+        <hr>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="container well">
-                <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="container well">
+                    <div class="col-sm-12">
 
-                    {# placeholder elements for the seat map #}
-                    {% if Event.idSalle.nomSalle == "Principale" %}
-                        {# Salle Principal #}
-                        <div id="seat-map-principal">
-                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
-                        </div>
+                        {# placeholder elements for the seat map #}
+                        {% if Event.idSalle.nomSalle == "Principale" %}
+                            {# Salle Principal #}
+                            <div id="seat-map-principal">
+                                <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                            </div>
 
-                    {% elseif Event.idSalle.nomSalle == "Secondaire" %}
-                        {# Salle Secondaire #}
-                        <div id="seat-map-secondaire">
-                            <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
-                        </div>
+                        {% elseif Event.idSalle.nomSalle == "Secondaire" %}
+                            {# Salle Secondaire #}
+                            <div id="seat-map-secondaire">
+                                <div class="col-sm-12 front-indicator"><h2>Scène</h2></div>
+                            </div>
 
-                    {% endif %}
+                        {% endif %}
 
-                    {# placeholder elements for the booking details #}
+                        {# placeholder elements for the booking details #}
+                        {#<div class="col-sm-12 booking-details">#}
+                            {#<div class="col-sm-5">#}
+                                {#<h2>Détails de la réservation</h2>#}
+                                {#<h3> Places sélectionnées (<span id="counter">0</span>):</h3>#}
+                                {#<ul id="selected-seats">#}
+                                {#</ul>#}
+                                {#Total: <b><span id="total">0</span> €</b>#}
+                                {#<button class="checkout-button">Panier &raquo;</button>#}
+
+                                {# INPUT CART #}
+                                {#<a href="#" class="text-decoration-none"><button type="button" class="btn btn-custom checkout-button btn-addPanier">Panier &raquo;</button></a>#}
+                                {# INPUT HIDDEN ID EVENT #}
+                                {#<input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">#}
+
+                                {# FORM ADD PANIER #}
+                                {#<p>#}
+                                    {#{{ include('@App/frontOffice/forms/form.html.twig', { form: add_form, message: 'Vous êtes sur le point d\'ajouter des places dans votre panier, veuillez confirmer votre choix.'}) }}#}
+                                {#</p>#}
+                            {#</div>#}
+                            {#<div class="col-sm-3" id="legend"></div>#}
+                        {#</div>#}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Right Slide Bar -->
+        <div id="rightSLideBar" class="hidden-xs hidden-sm">
+            <div class="panel panel-default">
+                <div class="panel-leftheading">
+                    <h3 class="panel-lefttitle"><span class="glyphicon glyphicon-shopping-cart"></span> Accéder ici<br> à votre Panier</h3>
+                </div>
+                <div class="panel-rightbody">
+                {# placeholder elements for the booking details #}
                     <div class="col-sm-12 booking-details">
-                        <div class="col-sm-5">
-                            <h2>Détails de la réservation</h2>
-                            <h3> Places sélectionnées (<span id="counter">0</span>):</h3>
+                        <div class="col-sm-12">
+                            <h4> Places sélectionnées (<span id="counter">0</span>):</h4>
                             <ul id="selected-seats">
                             </ul>
                             Total: <b><span id="total">0</span> €</b>
-                            {#<button class="checkout-button">Panier &raquo;</button>#}
 
-                            {# INPUT CART #}
-                            {#<a href="#" class="text-decoration-none"><button type="button" class="btn btn-custom checkout-button btn-addPanier">Panier &raquo;</button></a>#}
                             {# INPUT HIDDEN ID EVENT #}
                             <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
 
@@ -51,16 +84,18 @@
                                 {{ include('@App/frontOffice/forms/form.html.twig', { form: add_form, message: 'Vous êtes sur le point d\'ajouter des places dans votre panier, veuillez confirmer votre choix.'}) }}
                             </p>
                         </div>
-                        <div class="col-sm-3" id="legend"></div>
+                        <div class="row">
+                            <div class="col-sm-12" id="legend"></div>
+                        </div>
                     </div>
-
-
+                </div>
+                <div class="clearfix">
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /.row -->
-    {% endblock %}
+        <!-- /.Right Slide Bar -->
+
+{% endblock %}
     {% block javascripts %}
         <!-- FOSJsRoutingBunble -->
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

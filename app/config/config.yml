@@ -123,3 +123,19 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+# Knp Snappy Configuration
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltopdf
+        options:
+            no-outline: true
+            page-size: LETTER
+            # Recommended to set UTF-8 as default encoding :)
+            encoding: UTF-8
+    image:
+        enabled:    true
+        binary:     /usr/local/bin/wkhtmltoimage
+        options:    []
+    temporary_folder: %kernel.cache_dir%/snappy

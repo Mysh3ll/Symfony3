@@ -2,7 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\SearchEventType;
+use AppBundle\Form\AjaxSearchEventType;
+use AppBundle\Form\DatePickerSearchEventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Event;
@@ -31,18 +32,24 @@ class DefaultController extends Controller
             $Events[] = $em->getRepository('AppBundle:Event')->findByIdTypeOderByDate($value["idType"]);
         }
         //Remove empty elements from an array
-        $Events = array_filter( $Events );
+        $Events = array_filter($Events);
 
-        // On récupère le formulaire
-        $form = $this->createForm(SearchEventType::class);
+        // On récupère le formulaire de recherche autocomplétion
+        $ajaxform = $this->createForm(AjaxSearchEventType::class);
 
         // Requête envoyée par le formulaire
-        $form->handleRequest($request);
+        $ajaxform->handleRequest($request);
 
-        // Si le formulaire a été soumi et valide
-        if ($form->isSubmitted() && $form->isValid()) {
+        // On récupère le formulaire de recherche par date
+        $dateform = $this->createForm(DatePickerSearchEventType::class);
+
+        // Requête envoyée par le formulaire
+        $dateform->handleRequest($request);
+
+        // Si le formulaire ajax a été soumi et valide
+        if ($ajaxform->isSubmitted() && $ajaxform->isValid()) {
             // Récupère le contenu du formulaire posté
-            $data = $request->get('search_event');
+            $data = $request->get('ajax_search_event');
             // Si recherche par titre
             if (!empty($data["search"])) {
                 // Trouve l'event par le titre
@@ -51,8 +58,14 @@ class DefaultController extends Controller
                 return $this->render('@App/frontOffice/searchEvent.html.twig', ['Event' => $Event]);
 
             }
+        }
+
+        // Si le formulaire par date a été soumi et valide
+        if ($dateform->isSubmitted() && $dateform->isValid()) {
+            // Récupère le contenu du formulaire posté
+            $data = $request->get('date_picker_search_event');
             // Si recherche par date
-            elseif (!empty($data["dateDebut"]) && !empty($data["dateFin"])) {
+            if (!empty($data["dateDebut"]) && !empty($data["dateFin"])) {
                 // Conversion de la date dd/mm/yyyy => yyyy-mm-dd
                 $dateDebut = $this->convertDate($data["dateDebut"]);
                 // Conversion de la date dd/mm/yyyy => yyyy-mm-dd
@@ -64,11 +77,14 @@ class DefaultController extends Controller
             }
         }
 
-        // On génère le html du formulaire crée
-        $formview = $form->createView();
+        // On génère le html du formulaire autocomplétion ajax crée
+        $ajaxFormview = $ajaxform->createView();
+
+        // On génère le html du formulaire par date crée
+        $dateFormview = $dateform->createView();
 
         // On rend la vue
-        return $this->render('@App/frontOffice/index.html.twig', ['Events' => $Events, 'form' => $formview]);
+        return $this->render('@App/frontOffice/index.html.twig', ['Events' => $Events, 'ajaxForm' => $ajaxFormview, 'dateForm' => $dateFormview]);
     }
 
     /**

@@ -34,29 +34,29 @@
                     {% endif %}
 
                     {# placeholder elements for the booking details #}
-                    <div class="col-sm-12 booking-details">
-                        <div class="col-sm-5">
-                            <h2>Détails de la réservation</h2>
-                            <h3> Places sélectionnées (<span id="counter">0</span>):</h3>
-                            <ul id="selected-seats">
-                            </ul>
-                            Total: <b><span id="total">0</span> €</b>
+                    {#<div class="col-sm-12 booking-details">#}
+                        {#<div class="col-sm-5">#}
+                            {#<h2>Détails de la réservation</h2>#}
+                            {#<h3> Places sélectionnées (<span id="counter">0</span>):</h3>#}
+                            {#<ul id="selected-seats">#}
+                            {#</ul>#}
+                            {#Total: <b><span id="total">0</span> €</b>#}
 
                             {# INPUT HIDDEN ID EVENT #}
-                            <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
+                            {#<input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">#}
                             {# INPUT HIDDEN ORDER TOTAL € #}
-                            {% for resa in order %}
-                                {% set totalTTC = totalTTC + resa.price %}
-                            {% endfor %}
-                            <input type="hidden" name="totalOrder" id="totalOrder" value="{{ totalTTC }}">
+                            {#{% for resa in order %}#}
+                                {#{% set totalTTC = totalTTC + resa.price %}#}
+                            {#{% endfor %}#}
+                            {#<input type="hidden" name="totalOrder" id="totalOrder" value="{{ totalTTC }}">#}
 
                             {# FORM MODIFY ORDER #}
-                            <p>
-                                {{ include('@App/frontOffice/forms/formEditOrder.html.twig', { form: add_form, message: 'Vous êtes sur le point de modifier les places déjà réservées, veuillez confirmer votre choix.'}) }}
-                            </p>
-                        </div>
-                        <div class="col-sm-3" id="legend"></div>
-                    </div>
+                            {#<p>#}
+                                {#{{ include('@App/frontOffice/forms/formEditOrder.html.twig', { form: add_form, message: 'Vous êtes sur le point de modifier les places déjà réservées, veuillez confirmer votre choix.'}) }}#}
+                            {#</p>#}
+                        {#</div>#}
+                        {#<div class="col-sm-3" id="legend"></div>#}
+                    {#</div>#}
 
 
                 </div>
@@ -64,6 +64,48 @@
         </div>
     </div>
     <!-- /.row -->
+
+    <!-- Right Slide Bar -->
+    <div id="rightSLideBar" class="hidden-xs hidden-sm">
+        <div class="panel panel-default">
+            <div class="panel-leftheading">
+                <h3 class="panel-lefttitle"><span class="glyphicon glyphicon-shopping-cart"></span> Accéder ici<br> à votre Panier</h3>
+            </div>
+            <div class="panel-rightbody">
+            {# placeholder elements for the booking details #}
+                <div class="col-sm-12 booking-details">
+                    <div class="col-sm-12">
+                        <h4> Places sélectionnées (<span id="counter">0</span>):</h4>
+                        <ul id="selected-seats">
+                        </ul>
+                        Total: <b><span id="total">0</span> €</b>
+
+                        {# INPUT HIDDEN ID EVENT #}
+                        <input type="hidden" name="idEvent" id="idEvent" value="{{ Event.idEvent }}">
+
+                        {# INPUT HIDDEN ORDER TOTAL € #}
+                        {% for resa in order %}
+                            {% set totalTTC = totalTTC + resa.price %}
+                        {% endfor %}
+                        <input type="hidden" name="totalOrder" id="totalOrder" value="{{ totalTTC }}">
+                        / Avoir: <b><span id="avoir">{{ totalTTC }}</span> €</b>
+
+                        {# FORM MODIFY ORDER #}
+                        <p>
+                            {{ include('@App/frontOffice/forms/formEditOrder.html.twig', { form: add_form, message: 'Vous êtes sur le point de modifier les places déjà réservées, veuillez confirmer votre choix.'}) }}
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" id="legend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </div>
+    <!-- /.Right Slide Bar -->
+
     {% endblock %}
     {% block javascripts %}
         <!-- FOSJsRoutingBunble -->

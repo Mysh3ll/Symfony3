@@ -10,93 +10,115 @@
     <!-- Page Content -->
     <div class="container">
 
-    <hr>
-    <hr>
+        <hr>
+        <hr>
 
-    {% for flashMessage in app.session.flashBag.get('validate_panier') %}
-        <div class="alert alert-success">{{ flashMessage }}</div>
-    {% endfor %}
+        {% for flashMessage in app.session.flashBag.get('validate_panier') %}
+            <div class="alert alert-success">{{ flashMessage }}</div>
+        {% endfor %}
 
-    <div class="row">
-        <div class="col-sm-12 search-bar">
-            <div class="col-sm-4">
-                <div class="col-sm-10">
-                <!-- Search Form -->
-                {{ form_start(form) }}
-                {# INPUT EVENT NAME #}
-                {% set class = '' %}
-                {% if not form.search.vars.valid %}
-                    {% set class = 'has-error' %}
-                {% endif %}
-                <div class="form-group {{ class }}">
-                    {{ form_label(form.search, 'Recherche par titre', {'label_attr': {'class': 'control-label'}}) }}
-                    {{ form_widget(form.search, {'attr':{'class':'form-control searchField'}}) }}
-                    {% if not form.search.vars.valid %}
-                        {% for error in form.search.vars.errors %}
-                            <span class="help-block">{{ error.search }}</span>
-                        {% endfor %}
+        <!-- Ajax autocompletion Search -->
+        <div class="row">
+            <div class="col-sm-12 search-bar">
+                <div class="col-sm-11">
+                    <!-- Search Form -->
+                    {{ form_start(ajaxForm, {'attr': {'id': 'ajaxForm'}}) }}
+                    {# INPUT EVENT NAME #}
+                    {% set class = '' %}
+                    {% if not ajaxForm.search.vars.valid %}
+                        {% set class = 'has-error' %}
                     {% endif %}
+                    <div class="form-group {{ class }}">
+                        {{ form_label(ajaxForm.search, 'Recherche par titre', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(ajaxForm.search, {'attr':{'class':'form-control searchField'}}) }}
+                        {% if not ajaxForm.search.vars.valid %}
+                            {% for error in ajaxForm.search.vars.errors %}
+                                <span class="help-block">{{ error.search }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div id="match"></div>
                 </div>
-                <div id="match"></div>
-                </div>
-                <div class="col-sm-1 search-separation">
-                    <strong>OU</strong>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                {# INPUT START DATE #}
-                {% set class = '' %}
-                {% if not form.dateDebut.vars.valid %}
-                    {% set class = 'has-error' %}
-                {% endif %}
-                <div class="form-group {{ class }}">
-                    {{ form_label(form.dateDebut, 'Selection de la date de début', {'label_attr': {'class': 'control-label'}}) }}
-                    {{ form_widget(form.dateDebut, {'attr':{'class':'form-control start-datepicker-search' }}) }}
-                    {#{{ form_errors(form.dateDebut, {'attr':{'class':'hidden'}}) }}#}
-                    {% if not form.dateDebut.vars.valid %}
-                        {% for error in form.dateDebut.vars.errors %}
-                            <span class="help-block">{{ error.message }}</span>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-sm-3">
-                {# INPUT END DATE #}
-                {% set class = '' %}
-                {% if not form.dateFin.vars.valid %}
-                    {% set class = 'has-error' %}
-                {% endif %}
-                <div class="form-group {{ class }}">
-                    {{ form_label(form.dateFin, 'Selection de la date de fin', {'label_attr': {'class': 'control-label'}}) }}
-                    {{ form_widget(form.dateFin, {'attr':{'class':'form-control end-datepicker-search' }}) }}
-                    {#{{ form_errors(form.dateFin, {'attr':{'class':'hidden'}}) }}#}
-                    {% if not form.dateFin.vars.valid %}
-                        {% for error in form.dateFin.vars.errors %}
-                            <span class="help-block">{{ error.message }}</span>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-sm-2 search-button">
-                {# INPUT TOKEN CSRF#}
-                <div class="form-group">
-                    {{ form_row(form._token) }}
-                </div>
+                <div class="col-sm-1 search-button">
+                    {# INPUT TOKEN CSRF#}
+                    <div class="form-group">
+                        {{ form_row(ajaxForm._token) }}
+                    </div>
 
-                {# INPUT SUBMIT#}
-                <button type="submit" id="search_create_submit" class="btn btn-custom">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-                {#<input type="submit" id="search_create_submit" class="btn btn-primary" value="Rechercher">#}
+                    {# INPUT SUBMIT#}
+                    <button type="submit" id="search_create_submit" class="btn btn-custom">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
 
-                {# FORM END#}
-                {{ form_end(form) }}
+                    {# FORM END#}
+                    {{ form_end(ajaxForm) }}
+                </div>
             </div>
         </div>
-    </div>
 
-    <hr>
-    <hr>
+        <hr>
+        <hr>
+        <!-- DatePicker Search -->
+        <div class="row">
+            <div class="col-sm-12 search-bar">
+                <div class="col-sm-11">
+                    <!-- Search Form -->
+                    {{ form_start(dateForm) }}
+                    <div class="col-sm-6">
+                        {# INPUT START DATE #}
+                        {% set class = '' %}
+                        {% if not dateForm.dateDebut.vars.valid %}
+                            {% set class = 'has-error' %}
+                        {% endif %}
+                        <div class="form-group {{ class }}">
+                            {{ form_label(dateForm.dateDebut, 'Selection de la date de début', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(dateForm.dateDebut, {'attr':{'class':'form-control start-datepicker-search' }}) }}
+                            {#{{ form_errors(form.dateDebut, {'attr':{'class':'hidden'}}) }}#}
+                            {% if not dateForm.dateDebut.vars.valid %}
+                                {% for error in dateForm.dateDebut.vars.errors %}
+                                    <span class="help-block">{{ error.message }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        {# INPUT END DATE #}
+                        {% set class = '' %}
+                        {% if not dateForm.dateFin.vars.valid %}
+                            {% set class = 'has-error' %}
+                        {% endif %}
+                        <div class="form-group {{ class }}">
+                            {{ form_label(dateForm.dateFin, 'Selection de la date de fin', {'label_attr': {'class': 'control-label'}}) }}
+                            {{ form_widget(dateForm.dateFin, {'attr':{'class':'form-control end-datepicker-search' }}) }}
+                            {#{{ form_errors(form.dateFin, {'attr':{'class':'hidden'}}) }}#}
+                            {% if not dateForm.dateFin.vars.valid %}
+                                {% for error in dateForm.dateFin.vars.errors %}
+                                    <span class="help-block">{{ error.message }}</span>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 search-button">
+                        {# INPUT TOKEN CSRF#}
+                        <div class="form-group">
+                            {{ form_row(dateForm._token) }}
+                        </div>
+
+                        {# INPUT SUBMIT#}
+                        <button type="submit" id="search_create_submit" class="btn btn-custom">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        {#<input type="submit" id="search_create_submit" class="btn btn-primary" value="Rechercher">#}
+
+                        {# FORM END#}
+                        {{ form_end(dateForm) }}
+                    </div>
+            </div>
+        </div>
+
+        <hr>
+        <hr>
 
     <h2>Les 5 prochains événements à ne pas rater !</h2>
     {% for key in Events|keys %}
@@ -136,13 +158,13 @@
 
 {% endblock %}
 {% block javascripts %}
-<!-- FOSJsRoutingBunble -->
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-<!-- Autocomplete Search -->
-<script src="{{ asset('js/frontOffice/autocomplete-events.js') }}"></script>
-<!-- DatePicker JS -->
-<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-<!-- DatePicker Search -->
-<script src="{{ asset('js/frontOffice/searchDatePicker.js') }}"></script>
+    <!-- FOSJsRoutingBunble -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <!-- Autocomplete Search -->
+    <script src="{{ asset('js/frontOffice/autocomplete-events.js') }}"></script>
+    <!-- DatePicker JS -->
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+    <!-- DatePicker Search -->
+    <script src="{{ asset('js/frontOffice/searchDatePicker.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
+{% set totalHT = 0 %}
+{% set totalTVA = 0 %}
+{% set totalTTC = 0 %}
+{% set tva = 19.6 %}
+<!-- Page Content -->
+<div class="container">
+    <h3>Confirmation de votre réservation</h3>
+
+    <hr>
+    <hr>
+
+    Bonjour {{ name }}, voici le détails de votre commande :
+    <br/>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-10 col-md-offset-1">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Evenement</th>
+                    <th>Place</th>
+                    <th>Prix</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                {# CONTENT PANIER #}
+                {% for resa in panier|keys %}
+                    <tr>
+                        {% for Event in Events %}
+                            {% if Event.idEvent == panier[resa].idEvent %}
+                            <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <div class="media-body">
+
+                                        <h4 class="media-heading">
+
+                                            {{ Event.titreEvent }}
+                            {% endif %}
+                        {% endfor %}
+                                    </h4>
+                                    <h5 class="media-heading"> le
+                                        {% for Event in Events %}
+                                            {% if Event.idEvent == panier[resa].idEvent %}
+                                                {{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </h5>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-1 col-md-1">
+                            <strong>N° {{ panier[resa].seat }}</strong>
+                        </td>
+                        <td style="text-align: right" class="col-sm-1 col-md-1"><strong>{{ panier[resa].price }} €</strong></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>  </td>
+                    <td><h5>Total HT</h5></td>
+                    {% for resa in panier|keys %}
+                        {% set totalHT = totalHT + panier[resa].price|montantHT(tva) %}
+                    {% endfor %}
+                    <td class="text-right"><h5><strong>{{ totalHT }} €</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td><h5>Total TVA</h5></td>
+                    {% for resa in panier|keys %}
+                        {% set totalTTC = totalTTC + panier[resa].price %}
+                        {% set totalTVA = totalTTC - totalHT %}
+                    {% endfor %}
+                    <td class="text-right"><h5><strong>{{ totalTVA }} €</strong></h5></td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td><h3>Total TTC</h3></td>
+                    <td class="text-right"><h3><strong>{{ totalTTC }} €</strong></h3></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- /.row -->

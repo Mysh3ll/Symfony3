@@ -7,6 +7,8 @@ $(document).ready(function () {
     var $cart = $('#selected-seats'),
         $counter = $('#counter'),
         $total = $('#total'),
+        $avoir = $('#avoir'),
+        $totalOrder = $('#totalOrder').val(),
         sc = $('#seat-map-principal').seatCharts({
             map: [
                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -74,35 +76,52 @@ $(document).ready(function () {
             },
             click: function () {
                 if (this.status() == 'available') {
-                    //let's create a new <li> which we'll add to the cart items
-                    $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> <a href="#" class="cancel-cart-item">[annuler]</a></li>')
-                        .attr('id', 'cart-item-' + this.settings.id)
-                        .data('seatId', this.settings.id)
-                        .appendTo($cart);
+                    //contrôle du montant de l'avoir avant insertion dans le panier
+                    $totalOrder -= this.data().price;
+                    if ($totalOrder >= 0) {
+                        //let's create a new <li> which we'll add to the cart items
+                        $('<li>' + this.data().category + ' Place n° ' + this.settings.label + ': <b>' + this.data().price + ' €</b> </li>')
+                            .attr('id', 'cart-item-' + this.settings.id)
+                            .data('seatId', this.settings.id)
+                            .appendTo($cart);
 
-                    //get the idEvent + n° of seat + price
-                    var id = $('#idEvent').val();
-                    var seat = this.settings.label;
-                    var price = this.data().price;
-                    var html_id = this.settings.id;
-                    //push the "item" to the panier.data
-                    panier.data.push({"idEvent": id, "seat": seat, "price": price, "html_id": html_id});
+                        //get the idEvent + n° of seat + price
+                        var id = $('#idEvent').val();
+                        var seat = this.settings.label;
+                        var price = this.data().price;
+                        var html_id = this.settings.id;
+                        //push the "item" to the panier.data
+                        panier.data.push({"idEvent": id, "seat": seat, "price": price, "html_id": html_id});
 
-                    /*
-                     * Lets up<a href="http://www.jqueryscript.net/time-clock/">date</a> the counter and total
-                     *
-                     * .find function will not find the current seat, because it will change its stauts only after return
-                     * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
-                     */
-                    $counter.text(sc.find('selected').length + 1);
-                    $total.text(recalculateTotal(sc) + this.data().price);
+                        /*
+                         * Lets up<a href="http://www.jqueryscript.net/time-clock/">date</a> the counter and total
+                         *
+                         * .find function will not find the current seat, because it will change its stauts only after return
+                         * 'selected'. This is why we have to add 1 to the length and the current seat price to the total.
+                         */
+                        $counter.text(sc.find('selected').length + 1);
+                        $total.text(recalculateTotal(sc) + this.data().price);
+                        //and avoir
+                        $avoir.text($totalOrder);
 
-                    return 'selected';
+                        return 'selected';
+                    } else {
+                        //remet la bonne valeur de l'avoir car montant dépassé lors de la sélection de la place
+                        $totalOrder += this.data().price;
+                        //Show alert message
+                        bootbox.alert("Vous ne pouvez pas commander plus que : " + $('#totalOrder').val() + " €.");
+                        //seat has been vacated
+                        return 'available';
+                    }
+
                 } else if (this.status() == 'selected') {
                     //update the counter
                     $counter.text(sc.find('selected').length - 1);
                     //and total
                     $total.text(recalculateTotal(sc) - this.data().price);
+                    //and avoir
+                    $totalOrder += this.data().price;
+                    $avoir.text($totalOrder);
 
                     //remove the item from our cart
                     $('#cart-item-' + this.settings.id).remove();
@@ -123,10 +142,10 @@ $(document).ready(function () {
         });
 
     //this will handle "[cancel]" link clicks
-    $('#selected-seats').on('click', '.cancel-cart-item', function () {
-        //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-        sc.get($(this).parents('li:first').data('seatId')).click();
-    });
+    // $('#selected-seats').on('click', '.cancel-cart-item', function () {
+    //     //let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
+    //     sc.get($(this).parents('li:first').data('seatId')).click();
+    // });
 
     //Get idEvent pour la requête Ajax
     var id = $('#idEvent').val();

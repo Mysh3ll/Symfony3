@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             // KnpPaginatorBundle -> gestion de la pagination des pages
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            // KnpSnappyBundle -> génère un fichier pdf/img
+            new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
