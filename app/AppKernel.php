@@ -26,6 +26,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             // KnpSnappyBundle -> génère un fichier pdf/img
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            // QRcodeBundle -> génère un qrcode/barcode
+            new Skies\QRcodeBundle\SkiesQRcodeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

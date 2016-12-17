@@ -22,6 +22,7 @@
                 <thead>
                 <tr>
                     <th>Evénements</th>
+                    {#<th>Qr-code</th>#}
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -30,7 +31,7 @@
                 {# ORDERS #}
                 {% for order in orders %}
                     <tr data-id="{{ order.idEvent.idEvent }}">
-                        <td class="col-sm-8 col-md-6">
+                        <td class="col-sm-7 col-md-5">
                             <div class="media">
                                 <a class="thumbnail pull-left" href="#">
                                     <img class="img-responsive"
@@ -48,7 +49,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="col-sm-1 col-md-1">
+                        {#<td class="cols-sm-1 col-md-3">#}
+                            {#{{ barcode({code: app.request.server.get("SERVER_ADDR"), type: 'qrcode', format: 'svg', width: 5, height: 5, color: 'vert'}) }}#}
+                        {#</td>#}
+                        <td class="col-sm-2 col-md-2">
                             <a href="{{ path('front_order_view', {'idEvent':order.idEvent.idEvent}) }}" class="btn btn-custom glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Détails"></a>
                             {% if "now"|date('Ymd')  > order.idEvent.dateEvent|date('Ymd') %}
                                <a href="{{ path('front_order_edit', {'idEvent':order.idEvent.idEvent}) }}" class="btn btn-warning glyphicon glyphicon-pencil btn-edit-order disabled" data-toggle="tooltip" data-placement="top" title="Evénement déjà passée !"></a>

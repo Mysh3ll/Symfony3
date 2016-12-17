@@ -14,40 +14,40 @@
     }
 
     /*.title-ticket {*/
-        /*margin-left: 450px;*/
-        /*margin-top: -300px;*/
-        /*font-size: 50px;*/
+    /*margin-left: 450px;*/
+    /*margin-top: -300px;*/
+    /*font-size: 50px;*/
     /*}*/
 
     /*.date-ticket {*/
-        /*margin-left: 50px;*/
-        /*margin-top: -350px;*/
-        /*font-size: 20px;*/
+    /*margin-left: 50px;*/
+    /*margin-top: -350px;*/
+    /*font-size: 20px;*/
     /*}*/
 
     /*.row-ticket {*/
-        /*margin-left: 150px;*/
-        /*margin-top: 340px;*/
+    /*margin-left: 150px;*/
+    /*margin-top: 340px;*/
     /*}*/
 
     /*.seat-ticket {*/
-        /*margin-left: 235px;*/
-        /*margin-top: -35px;*/
+    /*margin-left: 235px;*/
+    /*margin-top: -35px;*/
     /*}*/
 
     /*.price-ticket {*/
-        /*margin-left: 800px;*/
-        /*margin-top: -400px;*/
-        /*font-size: 60px;*/
+    /*margin-left: 800px;*/
+    /*margin-top: -400px;*/
+    /*font-size: 60px;*/
     /*}*/
 
     /*.image-ticket {*/
-        /*margin-left: 90px;*/
-        /*margin-top: -70px;*/
+    /*margin-left: 90px;*/
+    /*margin-top: -70px;*/
     /*}*/
 
     /*.image-ticket img {*/
-        /*width: 200px;*/
+    /*width: 200px;*/
     /*}*/
 
     .mockup-ticket {
@@ -111,6 +111,23 @@
         width: 200px;
     }
 
+    .qrcode {
+        left: 1050px;
+        top: -130px;
+        position: absolute;
+    }
+
+    .barcode {
+        transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        -moz-transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        position: absolute;
+        left: 920px;
+        top: 200px;
+    }
+
 
 </style>
 
@@ -130,35 +147,44 @@
             {#<img src="{{ asset('images/event-ticket.png') }}" alt="ticket">#}
 
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <h1 class="title-ticket">{{ event }}</h1>
-                </div>
+            <div class="col-sm-12">
+                <h1 class="title-ticket">{{ event }}</h1>
+            </div>
             {#</div>#}
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <p class="date-ticket">{{ date|date("d/m/Y", "Europe/Paris") }}</p>
-                </div>
+            <div class="col-sm-12">
+                <p class="date-ticket">{{ date|date("d/m/Y", "Europe/Paris") }}</p>
+            </div>
             {#</div>#}
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <p class="row-ticket">{{ row|slice(0,1) }}</p>
-                </div>
+            <div class="col-sm-12">
+                <p class="row-ticket">{{ row|slice(0,1) }}</p>
+            </div>
             {#</div>#}
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <p class="seat-ticket">{{ seat }}</p>
-                </div>
+            <div class="col-sm-12">
+                <p class="seat-ticket">{{ seat }}</p>
+            </div>
             {#</div>#}
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <p class="price-ticket">{{ price }} €</p>
-                </div>
+            <div class="col-sm-12">
+                <p class="price-ticket">{{ price }} €</p>
+            </div>
             {#</div>#}
             {#<div class="row">#}
-                <div class="col-sm-12">
-                    <p class="image-ticket"><img src="http://localhost/{{ relative_path(asset('uploads/event/images/' ~ image)) }}" alt="event"></p>
-                    {#<p class="image-ticket"><img src="{{ asset('uploads/event/images/' ~ image) }}" alt="event"></p>#}
-                </div>
+            <div class="col-sm-12">
+                <p class="image-ticket"><img src="http://localhost/{{ relative_path(asset('uploads/event/images/' ~ image)) }}" alt="event"></p>
+                {#<p class="image-ticket"><img src="{{ asset('uploads/event/images/' ~ image) }}" alt="event"></p>#}
+            </div>
+            <div class="col-sm-12">
+                {#<p class="qrcode">{{ barcode({code: event, type: 'qrcode', format: 'svg', width: 3, height: 3, color: 'black'}) }}</p>#}
+                {#<p class="qrcode">{{ barcode({code: app.request.server.get("SERVER_ADDR") ~ '/TPResa_Symfony3-Git/web/app_dev.php/ticket/validate/' ~ codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>#}
+                <p class="qrcode">{{ barcode({code: app.request.server.get("SERVER_NAME") ~ '/TPResa_Symfony3-Git/web/app_dev.php/ticket/validate/' ~ codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>
+            </div>
+            <div class="col-sm-12 barcode">
+                {#{{ barcode({code: date|date("d/m/Y", "Europe/Paris") ~ row, type: 'c128', format: 'html', width: 1, color: 'black'}) }}#}
+                {{ barcode({code: codeUnique, type: 'c128', format: 'html', width: 1, color: 'black'}) }}
+            </div>
             {#</div>#}
         </div>
     </div>

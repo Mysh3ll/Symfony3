@@ -40,10 +40,11 @@ class PdfController extends Controller
      * @param $row
      * @param $price
      * @param $image
+     * @param $codeUnique
      * @param $user
      * @return Response
      */
-    public function generatePdfTicketAction($titre, $date, $seat, $row, $price, $image, $user)
+    public function generatePdfTicketAction($titre, $date, $seat, $row, $price, $image, $codeUnique, $user)
     {
 //        $snappy = $this->get('knp_snappy.pdf');
 //
@@ -83,6 +84,7 @@ class PdfController extends Controller
                         'row'   => $row,
                         'price' => $price,
                         'image' => $image,
+                        'codeUnique' => $codeUnique,
                     )
                 ),
                 $pdfFolder . time() . '.pdf',

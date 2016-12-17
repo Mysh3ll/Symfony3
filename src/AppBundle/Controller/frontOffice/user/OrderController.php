@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Event;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class OrderController extends Controller
 {
@@ -173,20 +175,27 @@ class OrderController extends Controller
     //Insert the new edited order
     private function insertOrder($order, $user)
     {
+        //Get the tokenGenerator de FOSUser to generate the codeUnique for the ticket
+        $tokenGenerator = $this->get('fos_user.util.token_generator');
         //Get Doctrine
         $em = $this->getDoctrine()->getManager();
         //Insert chaque réservation dans la BDD
-            foreach ($order as $event) {
-                //Création de l'objet Participer pour l'insertion en BDD
-                $participer = new Participer();
-                $participer->setIdPersonne($user);
-                $Event = $em->getRepository('AppBundle:Event')->find($event["idEvent"]);
-                $participer->setIdEvent($Event);
-                $participer->setNumPlace($event["seat"]);
-                $participer->setHtml_id($event["html_id"]);
-                $participer->setPrice($event["price"]);
-                $em->persist($participer);
-                $em->flush();
-            }
+        foreach ($order as $event) {
+            //Création du codeUnique
+            $codeUnique = substr($tokenGenerator->generateToken(), 0, 24);
+
+            //Création de l'objet Participer pour l'insertion en BDD
+            $participer = new Participer();
+            $participer->setIdPersonne($user);
+            $Event = $em->getRepository('AppBundle:Event')->find($event["idEvent"]);
+            $participer->setIdEvent($Event);
+            $participer->setNumPlace($event["seat"]);
+            $participer->setHtml_id($event["html_id"]);
+            $participer->setPrice($event["price"]);
+            $participer->setCodeUnique($codeUnique);
+            $participer->setEnabled(false);
+            $em->persist($participer);
+            $em->flush();
+        }
     }
 }

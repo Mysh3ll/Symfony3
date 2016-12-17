@@ -284,12 +284,12 @@ span.seatCharts-legendDescription {
 }
 
 #rightSLideBar .panel-lefttitle {
-    bottom: 50px;
-    font-size: 15px;
+    bottom: 0px;
+    font-size: 20px;
     font-weight: 300;
-    margin-left: -12px;
+    /*margin-left: -12px;*/
     white-space: normal;
-    width: 250px;
+    width: 270px;
 }
 
 #rightSLideBar .panel-lefttitle span.glyphicon {
@@ -297,7 +297,8 @@ span.seatCharts-legendDescription {
     float: left;
     font-size: 25px;
     padding-right: 11px;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
+    margin-top: -2px;
 }
 
 #rightSLideBar .panel-leftheading {

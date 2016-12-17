@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr>
+        <hr>
+
+        {% for flashMessage in app.session.flashBag.get('validate_ticket') %}
+            <div class="alert alert-info">{{ flashMessage }}</div>
+        {% endfor %}
+
+        {% if validation == 'success' %}
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="glyphicon glyphicon-ok-circle" style="font-size: 200px; color: green"></span>
+            </div>
+        </div>
+        {% elseif validation == 'fail' %}
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="glyphicon glyphicon-remove-circle" style="font-size: 200px; color: red"></span>
+            </div>
+        </div>
+        {% elseif validation == 'unknown' %}
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="glyphicon glyphicon-warning-sign" style="font-size: 200px; color: cornflowerblue"></span>
+            </div>
+        </div>
+        {% endif %}
+        <hr>
+    <!-- /.row -->
+
+{% endblock %}

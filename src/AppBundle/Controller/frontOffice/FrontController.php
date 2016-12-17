@@ -141,14 +141,19 @@ class FrontController extends Controller
         if (!$session->has('panier')) $session->set('panier', array());
         $panier = $session->get('panier');
 
-        //Efface le dossier du user contenant les tickets au format pdf
+        //Efface le contenu du dossier du user contenant les tickets au format pdf
         $iterator = $this->getAllPdfFiles($user);
         foreach ($iterator as $file) {
             unlink($file->getRealPath());
         }
 
+        //Get the tokenGenerator de FOSUser to generate the codeUnique for the ticket
+        $tokenGenerator = $this->get('fos_user.util.token_generator');
+
         //Insert chaque réservation dans la BDD
         foreach ($panier as $event) {
+            //Création du codeUnique
+            $codeUnique = substr($tokenGenerator->generateToken(),0,24);
 
             //Création de l'objet Participer pour l'insertion en BDD
             $participer = new Participer();
@@ -158,11 +163,13 @@ class FrontController extends Controller
             $participer->setNumPlace($event["seat"]);
             $participer->setHtml_id($event["html_id"]);
             $participer->setPrice($event["price"]);
+            $participer->setCodeUnique($codeUnique);
+            $participer->setEnabled(false);
             $em->persist($participer);
             $em->flush();
 
             //Génération des fichiers pdf contenant les tickets commandés
-            $this->get('snappy.pdf.ticket')->generatePdfTicketAction($Event->getTitreEvent(), $Event->getDateEvent(), $event["seat"], $event["html_id"], $event["price"], $Event->getPathImage(), $user->getUsername());
+            $this->get('snappy.pdf.ticket')->generatePdfTicketAction($Event->getTitreEvent(), $Event->getDateEvent(), $event["seat"], $event["html_id"], $event["price"], $Event->getPathImage(), $codeUnique, $user->getUsername());
 
         }
 
