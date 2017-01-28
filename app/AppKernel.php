@@ -28,6 +28,11 @@ class AppKernel extends Kernel
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             // QRcodeBundle -> génère un qrcode/barcode
             new Skies\QRcodeBundle\SkiesQRcodeBundle(),
+            // Mon RestApiBundle
+            new RestApiBundle\RestApiBundle(),
+            // Gère les API avec FOSRestBundle
+            new FOS\RestBundle\FOSRestBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

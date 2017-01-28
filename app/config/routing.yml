@@ -9,3 +9,11 @@ FOSUserPages:
     resource: "@AppBundle/Resources/config/routing/routingFOSUserBundle.yml"
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+rest_api:
+    resource: "@RestApiBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /
+users:
+    type:     rest
+    resource: RestApiBundle\Controller\UserController
+    prefix: /api
