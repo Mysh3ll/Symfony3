@@ -58,15 +58,8 @@
                 <div class="col-md-3">
                     <h3>Actions :</h3>
                     <p>
-                        {# INPUT EDIT #}
-                        <a href="{{ path('admin_event_edit', {'id':Event.idEvent}) }}" class="btn btn-primary btn-lg btn-block">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Modifier
-                        </a>
-                    </p>
-                    <p>
                         {# INPUT CANCEL #}
-                        <a href="{{ path('admin_event_list') }}" class="text-decoration-none">
+                        <a href="{{ path('admin_event_delete_list') }}" class="text-decoration-none">
                             <button type="button" class="btn btn-danger btn-lg btn-block">
                                 <span class="glyphicon glyphicon-ban-circle"></span>
                                 Retour

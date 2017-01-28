@@ -14,6 +14,9 @@ class TicketController extends Controller
      */
     public function validateAction($codeUnique)
     {
+        // The second parameter is used to specify on what object the role is tested.
+        $this->denyAccessUnlessGranted('ROLE_GUICHER', null, 'Unable to access this page!');
+
         //Get Doctrine Manager
         $em = $this->getDoctrine()->getManager();
         //Find the ticket by the codeUnique
@@ -23,6 +26,7 @@ class TicketController extends Controller
         if ($ticket == null) {
             // Flash message
             $this->addFlash('validate_ticket', 'Le ticket n\'existe pas !');
+
             return $this->render('@App/frontOffice/ticket/ticket.html.twig', array('validation' => 'unknown'));
         }
 

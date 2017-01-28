@@ -10,6 +10,12 @@
 {% for flashMessage in app.session.flashBag.get('success') %}
     <div class="alert alert-success alert-dismissable fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        {{ flashMessage }}
+        {{ flashMessage|raw }}
+    </div>
+{% endfor %}
+{% for flashMessage in app.session.flashBag.get('fail') %}
+    <div class="alert alert-danger alert-dismissable fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        {{ flashMessage|raw }}
     </div>
 {% endfor %}

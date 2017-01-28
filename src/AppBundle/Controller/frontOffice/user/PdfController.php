@@ -87,7 +87,8 @@ class PdfController extends Controller
                         'codeUnique' => $codeUnique,
                     )
                 ),
-                $pdfFolder . time() . '.pdf',
+//                $pdfFolder . time() . '.pdf',
+                $pdfFolder . 'MyTiKet ' . $row . '.pdf',
                 array('lowquality'  => false,
                       'encoding'    => 'utf-8',
                       'images'      => true,

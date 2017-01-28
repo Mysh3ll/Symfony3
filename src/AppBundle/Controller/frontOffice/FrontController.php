@@ -186,7 +186,7 @@ class FrontController extends Controller
         $session->remove('panier');
 
         // Flash message
-        $this->addFlash('validate_panier', 'Merci d\'avoir éffectué votre réservation sur TickeNet.');
+        $this->addFlash('validate_panier', "Merci d'avoir éffectué votre réservation sur MyTiKet.\n Veuillez vérifier votre boîte mail.");
 
         return $this->redirectToRoute('front_homepage');
     }

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {# Progress bar #}
+	{{ include('backOffice/progressbar.html.twig') }}
+
+    <!-- Page Content -->
+    <div class="container">
+
+    <hr>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+
+                    <h3>Liste des événements réservés</h3>
+                    Nombre total d'événements : <span id="total">{{ Events.getTotalItemCount }}</span>
+                </div>
+                <div class="panel-body">
+
+                    {# Success Message #}
+	                {{ include('backOffice/message.html.twig') }}
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>{{ knp_pagination_sortable(Events, 'Nom', 'e.titreEvent') }}</th>
+                                <th>{{ knp_pagination_sortable(Events, 'Date', 'e.dateEvent') }}</th>
+                                <th>{{ knp_pagination_sortable(Events, 'Catégorie', 't.idType') }}</th>
+                                <th>{{ knp_pagination_sortable(Events, 'Salle', 's.idSalle') }}</th>
+                                {#<th>Nombres de places disponibles</th>#}
+                                <th>Affiche</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for Event in Events %}
+                                <tr data-id="{{ Event.idEvent }}">
+                                    <td>{{ Event.titreEvent }}</td>
+                                    {% if "now"|date('Ymd') >= Event.dateEvent|date('Ymd') %}
+                                        <td><span class="label label-danger">{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</span></td>
+                                    {% else %}
+                                        <td><span class="label label-success">{{ Event.dateEvent|date("d/m/Y", "Europe/Paris") }}</span></td>
+                                    {% endif %}
+                                    <td>{{ Event.idType.libelleType }}</td>
+                                    <td>{{ Event.idSalle.nomSalle }}</td>
+                                    {#<td>{{ Event.idSalle.nbPlaces }}</td>#}
+                                    {#<td><img src="{{ asset('uploads/event/images/' ~ Event.pathImage) }}" alt=""></td>#}
+                                    <td>
+                                        <img class="img-responsive affiche" src="{{ vich_uploader_asset(Event, 'imageFile') }}" alt="aucune affiche"/>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('admin_event_delete_view', {'id':Event.idEvent}) }}" class="btn btn-info glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Voir"></a>
+                                        {#<a href="{{ path('admin_event_edit', {'id':Event.idEvent}) }}" class="btn btn-primary glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Modifier"></a>#}
+                                        <a href="{{ path('admin_event_delete_booked', {'id':Event.idEvent}) }}" class="btn btn-danger btn-delete glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Supprimer"></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {# display navigation #}
+                        <div class="navigation text-right">
+                            {{ knp_pagination_render(Events) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    {# FORM DELETE #}
+    {#{{ include('@App/backOffice/forms/form.html.twig', { form: delete_form_ajax, message: 'Cette opération est irréversible, veuillez confirmer votre choix.', id: 'form-delete', with_submit: false}) }}#}
+    
+{% endblock %}
+{% block javascripts %}
+<!-- FOSJsRoutingBunble -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="{{ asset('js/bootbox.min.js') }}"></script>
+{# SCRIPT PERSO#}
+<script src="{{ asset('js/backOffice/deleteBookedEvent.js') }}"></script>
+{% endblock %}

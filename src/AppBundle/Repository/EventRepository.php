@@ -53,7 +53,7 @@ class EventRepository extends EntityRepository
         return $this->createQueryBuilder('e')
             ->select('e.titreEvent')
             ->where('e.titreEvent LIKE :data')
-            ->setParameter('data', '%'.$titre.'%')
+            ->setParameter('data', '%' . $titre . '%')
             ->andWhere('e.dateEvent >= :date')
             ->setParameter('date', $date)
             ->orderBy('e.titreEvent')
@@ -72,5 +72,44 @@ class EventRepository extends EntityRepository
             ->orderBy('e.idType', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllOrderByDate()
+    {
+        return $this->createQueryBuilder('e')
+            ->leftjoin('e.idType', 't')
+            ->leftjoin('e.idSalle', 's')
+            ->where('t.idType = e.idType')
+            ->andWhere('s.idSalle = e.idSalle')
+            ->orderBy('e.dateEvent')
+            ->getQuery();
+    }
+
+    public function findAllBookedEvent()
+    {
+        return $this->createQueryBuilder('e')
+            ->leftjoin('e.idType', 't')
+            ->leftjoin('e.idSalle', 's')
+            ->from('AppBundle:Participer', 'p')
+            ->where('t.idType = e.idType')
+            ->andWhere('s.idSalle = e.idSalle')
+            ->andWhere('e.idEvent = p.idEvent')
+            ->orderBy('e.dateEvent')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllBookedEventForPagination($events)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e')
+            ->leftjoin('e.idType', 't')
+            ->leftjoin('e.idSalle', 's')
+            ->where('t.idType = e.idType')
+            ->andWhere('s.idSalle = e.idSalle')
+            ->andWhere('e.idEvent IN (:array)')
+            ->setParameter('array', $events)
+            ->orderBy('e.dateEvent')
+            ->getQuery();
     }
 }

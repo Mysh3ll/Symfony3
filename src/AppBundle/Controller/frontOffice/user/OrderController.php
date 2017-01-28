@@ -10,6 +10,7 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Swift_Attachment;
 
 class OrderController extends Controller
 {
@@ -92,8 +93,23 @@ class OrderController extends Controller
             //Delete the previous order
             $this->deletePreviousOrder($Event->getIdEvent(), $user->getId());
 
+            //Efface le contenu du dossier du user contenant les tickets au format pdf
+            $iterator = $this->getAllPdfFiles($user);
+            foreach ($iterator as $file) {
+                unlink($file->getRealPath());
+            }
+
             //Insert the new edited order
             $this->insertOrder($order, $user);
+
+            //Variable contenant tout les idEvent de la réservation
+            $idEventPanier = $this->getIdEventPanier($order);
+
+            $em = $this->getDoctrine()->getManager();
+            $Events = $em->getRepository('AppBundle:Event')->findArray(array_keys($idEventPanier)); //Query qui récupère les Events en fonction de l'idEvent pour l'affichage dans la vue panier
+
+            //Envoie du mail de confirmation
+            $this->sendConfirmationMail($user, $Events, $order);
 
             // Flash message
             $this->addFlash('success', 'Réservation modifiée avec succès.');
@@ -196,6 +212,76 @@ class OrderController extends Controller
             $participer->setEnabled(false);
             $em->persist($participer);
             $em->flush();
+
+            //Génération des fichiers pdf contenant les tickets commandés
+            $this->get('snappy.pdf.ticket')->generatePdfTicketAction($Event->getTitreEvent(), $Event->getDateEvent(), $event["seat"], $event["html_id"], $event["price"], $Event->getPathImage(), $codeUnique, $user->getUsername());
         }
+    }
+
+    //Retourne tous les fichiers pdf dans le répertoire pdf du user connecté
+    private function getAllPdfFiles($user)
+    {
+        $fs = new Filesystem();
+        $pdfPath = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
+
+        //Si le répertoire du user n'existe pas on le crée
+        if (!$fs->exists($pdfPath)) {
+            // create the directory
+            $fs->mkdir($pdfPath, 0755);
+            // change the owner of the video directory recursively
+            $fs->chown($pdfPath, 'www-data', true);
+        }
+
+        //Recherche de tout les tickets au format pdf du user en cours
+        $finder = new Finder();
+        $iterator = $finder
+            ->files()
+            ->name('*.pdf')
+            ->depth(0)
+            ->in($pdfPath);
+
+        return $iterator;
+    }
+
+    //Construit un tableau avec tous les idEvent de la réservation(panier)
+    private function getIdEventPanier($oder)
+    {
+        $idEvent = [];
+        //Pour chaque réservation on récupère son idEvent
+        foreach ($oder as $event) {
+            $idEvent[$event['idEvent']] = $event['idEvent'];
+        }
+
+        //Retourne un tableau avec seulement les idEvent
+        return $idEvent;
+    }
+
+    private function sendConfirmationMail($user, $Events, $panier)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Confirmation de modification')
+            ->setFrom('noreply@ticketnet.fr')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    '@App/frontOffice/email/confirmOrder.html.twig',
+                    array('Events' => $Events, 'panier' => $panier, 'name' => $user->getUsername())
+                ),
+                'text/html'
+            );
+
+        //Recherche de tout les tickets au format pdf du user en cours
+        $iterator = $this->getAllPdfFiles($user);
+
+        //Création de la pièce jointe pour tout les ticket trouvés
+        foreach ($iterator as $file) {
+            //Création des pièces jointes pour l'envoie du mail
+            $message->attach(Swift_Attachment::fromPath($file->getRealPath()));
+        }
+
+        //Envoie du mail
+        $this->get('mailer')->send($message);
+
     }
 }

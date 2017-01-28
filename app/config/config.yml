@@ -110,7 +110,7 @@ vich_uploader:
 
 # FOSJsRoutingBundle Configuration
 fos_js_routing:
-    routes_to_expose: [ admin_event_date_booked, admin_event_date_booked_year, admin_event_delete, front_resa_panier_add, front_resa_booked_seat, admin_category_delete, admin_room_delete, front_search ]
+    routes_to_expose: [ admin_event_date_booked, admin_event_date_booked_year, admin_event_delete, admin_event_delete_booked, front_resa_panier_add, front_resa_booked_seat, admin_category_delete, admin_room_delete, front_search ]
 
 # Knp Paginator Configuration
 knp_paginator:

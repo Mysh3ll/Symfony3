@@ -36,7 +36,7 @@ $(document).ready(function () {
                     $('#delete-progress').removeClass('hidden');
 
                     $.ajax({
-                        url: Routing.generate('admin_event_delete', {id: id}),
+                        url: Routing.generate('admin_event_delete_booked', {id: id}),
                         type: "POST",
                         async: false,
                         dataType: "json",
@@ -60,11 +60,6 @@ $(document).ready(function () {
                                     // Laisse le total actuel sans modification
                                     $('#total').text(data.countEvents);
                                 }
-                            } else if (data.delete == 'fail') {
-                                //Show alert message
-                                bootbox.alert("Impossible de supprimer cet événement, car il y a des réservations.<br/> Veuillez utiliser le menu <strong>\"Annulation des inscriptions\"</strong>.");
-                                // Laisse le total actuel sans modification
-                                $('#total').text(data.countEvents);
                             }
                         },
                         error: function () {

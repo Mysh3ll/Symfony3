@@ -46,4 +46,39 @@ class ParticiperRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    public function deleteEvent($idEvent)
+    {
+        return $this->createQueryBuilder('p')
+            ->delete('AppBundle:Participer', 'p')
+            ->where('p.idEvent = :idEvent')
+            ->setParameter('idEvent', $idEvent)
+            ->getQuery()
+            ->execute();
+    }
+
+    public function findMailUserByIdEvent($idEvent)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('u.username', 'u.email')
+            ->distinct(true)
+            ->leftJoin('p.idPersonne', 'u')
+            ->where('u.id = p.idPersonne')
+            ->andWhere('p.idEvent = :idEvent')
+            ->setParameter('idEvent', $idEvent)
+            ->orderBy('p.idPersonne', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllBookedEventById($idEvent)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->distinct(true)
+            ->where('p.idEvent = :idEvent')
+            ->setParameter('idEvent', $idEvent)
+            ->getQuery()
+            ->getResult();
+    }
 }

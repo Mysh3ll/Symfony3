@@ -45,6 +45,11 @@
                             <li><a href="{{ path('admin_room_create') }}">Ajouter</a></li>
                         </ul>
                     </li>
+
+                    {# LINK TO DELETE BOOKED EVENT#}
+                    <li>
+                        <a href="{{ path('admin_event_delete_list') }}">Annulation des inscriptions</a>
+                    </li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
