@@ -17,3 +17,7 @@ users:
     type:     rest
     resource: RestApiBundle\Controller\UserController
     prefix: /api
+profile:
+    type:     rest
+    resource: RestApiBundle\Controller\ProfileController
+    prefix: /api

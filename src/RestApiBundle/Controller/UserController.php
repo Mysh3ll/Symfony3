@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use AppBundle\Entity\User;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class UserController extends Controller
 {
@@ -73,9 +74,8 @@ class UserController extends Controller
         }
 
         $token = $this->getToken($user);
-        $response = new Response($this->serialize(['token' => $token]), Response::HTTP_OK);
 
-        return $response;
+        return new JsonResponse(['token' => $token], Response::HTTP_OK);
     }
 
     /**
