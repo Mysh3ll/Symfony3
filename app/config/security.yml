@@ -39,21 +39,29 @@ security:
                 secret:   '%secret%'
                 lifetime: 604800 # 1 week in seconds
 
-        login:
-            pattern:  ^/api/users/login
-            stateless: true
-            anonymous: true
-            form_login:
-                check_path:               /api/users/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-                require_previous_session: false
+#        login:
+#            pattern:  ^/api/users/login
+#            stateless: true
+#            anonymous: true
+#            form_login:
+#                check_path:               /api/users/login_check
+#                success_handler:          lexik_jwt_authentication.handler.authentication_success
+#                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+#                require_previous_session: false
 
+#        api:
+#            pattern:   ^/api
+#            stateless: true
+#            guard:
+#                authenticators:
+#                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        # Custom authentication firewall for all request thats starts from /api
         api:
-            pattern:   ^/api
-            stateless: true
+            pattern: ^/api/(?!login)
             guard:
                 authenticators:
+#                    - app.jwt_token_authenticator
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
@@ -63,6 +71,11 @@ security:
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/resa, role: ROLE_USER }
         - { path: ^/ticket, role: ROLE_GUICHER }
+#        - { path: ^/api/users/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+#        - { path: /api/token-authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api, roles: ROLE_USER }
 
     # Redirect on denied access 403
     access_denied_url: /

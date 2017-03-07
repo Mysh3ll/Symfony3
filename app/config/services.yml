@@ -32,3 +32,15 @@ services:
         class: AppBundle\Controller\frontOffice\user\PdfController
         arguments:
             container: "@service_container"
+
+    # Force à détecter le Header Authorization pou Apache
+    fix_authentication_header_listener:
+        class: RestApiBundle\EventListener\AuthenticationHeaderListener
+        tags:
+        - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 255 }
+
+    # Guard authentication
+#    app.jwt_token_authenticator:
+#        class: RestApiBundle\Security\JwtAuthenticator
+##        arguments: ['@doctrine.orm.entity_manager', '@lexik_jwt_authentication.encoder']
+#        autowire: true

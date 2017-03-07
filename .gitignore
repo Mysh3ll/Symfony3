@@ -1,4 +1,5 @@
 /app/config/parameters.yml
+/app/var/*
 /build/
 /phpunit.xml
 /var/*
@@ -18,3 +19,4 @@
 .DS_Store
 /web/uploads/user/images/
 /web/uploads/event/images/
+/web/pdf/*

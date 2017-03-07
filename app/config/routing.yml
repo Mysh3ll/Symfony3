@@ -17,7 +17,11 @@ users:
     type:     rest
     resource: RestApiBundle\Controller\UserController
     prefix: /api
-profile:
+ticket:
     type:     rest
-    resource: RestApiBundle\Controller\ProfileController
+    resource: RestApiBundle\Controller\TicketController
     prefix: /api
+#profile:
+#    type:     annotation
+#    resource: RestApiBundle\Controller\ProfileController
+#    prefix: /api

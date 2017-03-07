@@ -179,7 +179,8 @@
             <div class="col-sm-12">
                 {#<p class="qrcode">{{ barcode({code: event, type: 'qrcode', format: 'svg', width: 3, height: 3, color: 'black'}) }}</p>#}
                 {#<p class="qrcode">{{ barcode({code: app.request.server.get("SERVER_ADDR") ~ '/TPResa_Symfony3-Git/web/app_dev.php/ticket/validate/' ~ codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>#}
-                <p class="qrcode">{{ barcode({code: app.request.server.get("SERVER_NAME") ~ '/TPResa_Symfony3-Git/web/app_dev.php/ticket/validate/' ~ codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>
+                {#<p class="qrcode">{{ barcode({code: app.request.server.get("SERVER_NAME") ~ '/TPResa_Symfony3-Git/web/app_dev.php/ticket/validate/' ~ codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>#}
+                <p class="qrcode">{{ barcode({code: codeUnique, type: 'qrcode', format: 'svg', width: 2, height: 2, color: 'black'}) }}</p>
             </div>
             <div class="col-sm-12 barcode">
                 {#{{ barcode({code: date|date("d/m/Y", "Europe/Paris") ~ row, type: 'c128', format: 'html', width: 1, color: 'black'}) }}#}
