@@ -34,7 +34,9 @@
         "knplabs/knp-paginator-bundle": "^2.5",
         "knplabs/knp-snappy-bundle": "^1.4",
         "symfony/finder": "^3.2",
-        "yellowskies/QR-code-bundle": "^1.2"
+        "yellowskies/QR-code-bundle": "^1.2",
+        "friendsofsymfony/rest-bundle": "^2.1",
+        "lexik/jwt-authentication-bundle": "^2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
