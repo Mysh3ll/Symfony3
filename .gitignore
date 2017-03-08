@@ -1,7 +1,5 @@
 /app/config/parameters.yml
 /app/var/*
-/build/
-/phpunit.xml
 /var/*
 !/var/cache
 /var/cache/*
@@ -15,7 +13,6 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-.idea
 /web/uploads/user/images/
 /web/uploads/event/images/
 /web/pdf/*
