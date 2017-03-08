@@ -126,14 +126,5 @@ class TypeEventController extends Controller
             // Return d'une réponse Ajax
             return new JsonResponse(array('delete' => 'success', 'message' => 'Catégorie supprimée avec succès.'));
         }
-
-//        // On supprime la catégorie dans la bdd
-//        $em->remove($typeEvent);
-//        $em->flush();
-//
-//        // Flash message
-//        $this->addFlash('success', 'Catégorie supprimée avec succès.');
-//
-//        return $this->redirectToRoute('admin_category_list');
     }
 }

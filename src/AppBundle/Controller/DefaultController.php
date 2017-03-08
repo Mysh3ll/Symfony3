@@ -130,9 +130,6 @@ class DefaultController extends Controller
             }
             $eventList .= '</ul>';
 
-//        $response = new JsonResponse();
-//        $response->setData(array('eventList' => $eventList));
-
             return new JsonResponse(array('eventList' => $eventList));
         }
     }

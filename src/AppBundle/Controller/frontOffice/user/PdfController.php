@@ -46,31 +46,6 @@ class PdfController extends Controller
      */
     public function generatePdfTicketAction($titre, $date, $seat, $row, $price, $image, $codeUnique, $user)
     {
-//        $snappy = $this->get('knp_snappy.pdf');
-//
-//        $html = $this->renderView('@App/frontOffice/pdf/pdfOrder.html.twig', array(
-//            'event' => 'TITRE',
-//            'date'  => '2016-02-12',
-//            'seat'  => '112',
-//            'row'   => '1',
-//            'price' => '100',
-//        ));
-//
-//        $filename = 'ticket';
-//
-//        return new Response(
-//            $snappy->getOutputFromHtml($html, array('lowquality'  => false,
-//                                                    'encoding'    => 'utf-8',
-//                                                    'images'      => true,
-//                                                    'orientation' => 'landscape'
-//            )),
-//            200,
-//            array(
-//                'Content-Type'        => 'application/pdf',
-////                'Content-Disposition'   => 'attachment; filename="'.$filename.'.pdf"'
-//                'Content-Disposition' => 'inline; filename="' . $filename . '.pdf"'
-//            )
-//        );
 
         $pdfFolder = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user . '/';
 
@@ -87,7 +62,6 @@ class PdfController extends Controller
                         'codeUnique' => $codeUnique,
                     )
                 ),
-//                $pdfFolder . time() . '.pdf',
                 $pdfFolder . 'MyTiKet ' . $row . '.pdf',
                 array('lowquality'  => false,
                       'encoding'    => 'utf-8',

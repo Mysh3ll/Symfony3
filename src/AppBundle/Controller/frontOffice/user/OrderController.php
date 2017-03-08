@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Swift_Attachment;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OrderController extends Controller
 {
@@ -53,7 +54,7 @@ class OrderController extends Controller
      * @param $idEvent
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editOrder(Event $idEvent)
+    public function editOrderAction(Event $idEvent)
     {
         // Get Order détails
         $order = $this->getOrderDetails($idEvent);
@@ -72,7 +73,7 @@ class OrderController extends Controller
      * @param Event $Event
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function validateEditOrder(Request $request, Event $Event)
+    public function validateEditOrderAction(Request $request, Event $Event)
     {
         //Récupération de l'utilisateur
         $user = $this->getUser();

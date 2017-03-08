@@ -20,10 +20,10 @@ class TicketController extends Controller
         //Get Doctrine Manager
         $em = $this->getDoctrine()->getManager();
         //Find the ticket by the codeUnique
-        $ticket = $Events = $em->getRepository('AppBundle:Participer')->findOneBy(array('codeUnique' => $codeUnique));
+        $ticket = $em->getRepository('AppBundle:Participer')->findOneBy(array('codeUnique' => $codeUnique));
 
         //Le ticket n'existe pas !!!
-        if ($ticket == null) {
+        if ($ticket === null) {
             // Flash message
             $this->addFlash('validate_ticket', 'Le ticket n\'existe pas !');
 
@@ -31,7 +31,7 @@ class TicketController extends Controller
         }
 
         //Check if the ticket is enabled or not
-        if ($ticket->getEnabled() == false) {
+        if ($ticket->getEnabled() === false) {
             // Flash message
             $this->addFlash('validate_ticket', 'La personne peut assister à l\'événement.');
             //Activation du ticket
@@ -46,7 +46,5 @@ class TicketController extends Controller
 
             return $this->render('@App/frontOffice/ticket/ticket.html.twig', array('validation' => 'fail'));
         }
-
-//        return $this->render('@App/frontOffice/ticket/ticket.html.twig', array('validation' => 'success'));
     }
 }

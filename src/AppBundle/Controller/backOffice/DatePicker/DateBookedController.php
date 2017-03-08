@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\backOffice\DatePicker;
 
-use AppBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

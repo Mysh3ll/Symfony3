@@ -5,7 +5,6 @@ namespace RestApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use AppBundle\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 
 class TicketController extends Controller
@@ -29,14 +28,14 @@ class TicketController extends Controller
             $ticket = $em->getRepository('AppBundle:Participer')->findOneBy(array('codeUnique' => $request->get('codeUnique')));
 
             //Le ticket n'existe pas !!!
-            if ($ticket == null) {
+            if ($ticket === null) {
 
                 return ['success' => 0,
                         'message' => "Le ticket n'existe pas !"];
             }
 
             //Check if the ticket is enabled or not
-            if ($ticket->getEnabled() == false) {
+            if ($ticket->getEnabled() === false) {
                 //Activation du ticket
                 $ticket->setEnabled(true);
                 $em->persist($ticket);

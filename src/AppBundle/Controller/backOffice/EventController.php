@@ -11,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-//use Symfony\Component\HttpFoundation\Response;
-
 class EventController extends Controller
 {
     /**
@@ -22,21 +20,6 @@ class EventController extends Controller
      */
     public function indexAction(Request $request)
     {
-//        $Events = $this->getDoctrine()
-//            ->getRepository(Event::class)
-////            ->findAll();
-//            ->findBy(array(), array('dateEvent' => 'asc')); // Order by ASC
-
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $dql = "SELECT e
-//                FROM AppBundle:Event e
-//                JOIN AppBundle:Typeevent t
-//                  WITH t.idType = e.idType
-//                JOIN AppBundle:Salle s
-//                  WITH s.idSalle = e.idSalle
-//                ORDER BY e.dateEvent";
-//        $query = $em->createQuery($dql);
 
         // Requête avec createQueryBuilder
         $em = $this->getDoctrine();
@@ -53,9 +36,6 @@ class EventController extends Controller
             $request->query->getInt('limit', 5)
         );
 
-//        $deleteFormAjax = $this->createCustomForm(':EVENT_ID', 'DELETE', 'admin_event_delete');
-
-//        return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result, 'delete_form_ajax' => $deleteFormAjax->createView()]);
         return $this->render('@App/backOffice/listEvent.html.twig', ['Events' => $result]);
     }
 
@@ -119,7 +99,6 @@ class EventController extends Controller
             // On enregistre l'événement en BDD
             $em = $this->getDoctrine()->getManager();
 
-//          $em->persist($Event); // inutile car l'objet provient déjà de la bdd
             $em->flush();
 
             // Flash message
@@ -142,8 +121,6 @@ class EventController extends Controller
      */
     public function viewAction(Request $request, Event $Event)
     {
-//        return new Response('id: ' . $Event->getIdEvent() . ' titre: ' . $Event->getTitreEvent());
-//        $deleteForm = $this->createDeleteForm($Event);
         $deleteForm = $this->createCustomForm($Event->getIdEvent(), 'DELETE', 'admin_event_delete');
 
         // On rend la vue
@@ -158,23 +135,9 @@ class EventController extends Controller
      */
     public function deleteAction(Request $request, Event $Event)
     {
-
-//        // On enregistre l'événement en BDD
-//        $em = $this->getDoctrine()->getManager();
-//
-//        // On supprime l'événement dans la bdd
-//        $em->remove($Event);
-//        $em->flush();
-//
-//        // Flash message
-//        $this->addFlash('success', 'Événement supprimé avec succès.');
-//
-//        return $this->redirectToRoute('admin_event_list');
-
         // On enregistre l'événement en BDD
         $em = $this->getDoctrine()->getManager();
 
-//        $form = $this->createDeleteForm($Event);
         // On récupère tout les événements de l'Entity Event
         $allEvents = $em->getRepository('AppBundle:Event')->findAll();
         // Compte le nombre d'événements

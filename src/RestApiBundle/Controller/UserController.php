@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use AppBundle\Entity\User;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 
 class UserController extends Controller
@@ -25,14 +24,12 @@ class UserController extends Controller
             ->getRepository('AppBundle:User')
             ->findOneBy(['username' => $request->get('username')]);
         if (!$user) {
-//            throw $this->createNotFoundException();
             return ['message' => 'Utilisateur non trouvé.',
                     'success' => 0];
         }
         $isValid = $this->get('security.password_encoder')
             ->isPasswordValid($user, $request->get('password'));
         if (!$isValid) {
-//            throw new BadCredentialsException();
             return ['message' => 'Mauvais mot de passe !',
                     'success' => 0];
         }

@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Event;
-use AppBundle\Form\EventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -69,7 +68,6 @@ class DeleteEventController extends Controller
         // On enregistre l'événement en BDD
         $em = $this->getDoctrine()->getManager();
 
-//        $form = $this->createDeleteForm($Event);
         // On récupère tout les événements de l'Entity Event
         $allEvents = $em->getRepository('AppBundle:Event')->findAllBookedEvent();
         // Compte le nombre d'événements

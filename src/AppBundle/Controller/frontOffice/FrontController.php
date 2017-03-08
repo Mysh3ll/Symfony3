@@ -13,6 +13,7 @@ use Swift_Attachment;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class FrontController extends Controller
 {
@@ -81,7 +82,6 @@ class FrontController extends Controller
 
         return $this->render('@App/frontOffice/panierEvent.html.twig', ['Events' => $Events,
                                                                         'panier' => $session->get('panier')]);
-//        return $this->render('@App/frontOffice/panierEvent.html.twig', ['panier' => $session->get('panier')]);
     }
 
     /**
@@ -99,7 +99,7 @@ class FrontController extends Controller
         //Pour chaque réservation on contrôle l'idEvent et le n° de la place
         foreach ($panier as $event) {
             //Si la clé "idEvent" et "seat" existent dans le tableau 'panier'
-            if (array_key_exists("idEvent", $event) AND array_key_exists("seat", $event)) {
+            if (array_key_exists("idEvent", $event) && array_key_exists("seat", $event)) {
                 //Si les valeurs correspondent à la place que l'on veut supprimer
                 if ($event["idEvent"] == $Event->getIdEvent() && $event["seat"] == $seat) {
                     //Position de l'élément dans le tableau $panier
@@ -196,7 +196,7 @@ class FrontController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getBookedSeat(Request $request, Event $Event)
+    public function getBookedSeatAction(Request $request, Event $Event)
     {
         // Si c'est une requête Ajax (vue /resa/{id})
         if ($request->isXmlHttpRequest()) {
@@ -255,7 +255,7 @@ class FrontController extends Controller
         //Compte le nombre de résa déjà en SESSION
         $numberResa = count($panier);
         //Ajoute les nouvelles réservations à la SESSION 'panier'
-        if ($numberResa != null) {
+        if ($numberResa !== null) {
             foreach ($reservation['data'] as $resa) {
                 array_push($panier, $resa);
             }
@@ -333,24 +333,5 @@ class FrontController extends Controller
             ->in($pdfPath);
 
         return $iterator;
-    }
-
-    /**
-     * @Route("/test", name="test")
-     */
-    public function testAction()
-    {
-        //Génération des fichiers pdf contenant les tickets commandés
-        return $this->render(
-            '@App/frontOffice/pdf/pdfOrder.html.twig', [
-            'event' => "REVOLUTION LEAGUE - CENTR",
-            'date'  => "2017-03-30",
-            'seat'  => "128",
-            'row'   => "1_128",
-            'price' => "100",
-            'image' => "582f235404b88.gif",
-        ]);
-
-//            $this->get('snappy.pdf.ticket')->generatePdfTicketAction("REVOLUTION LEAGUE - CENTR", "2017-03-30", "128", "1_128", "100", "582f235404b88.gif", "Mysh3ll");
     }
 }

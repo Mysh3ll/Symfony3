@@ -1,5 +1,6 @@
 {
     "name": "root/testsymfony3fosbundleuser",
+    "description": "Site de réservation en ligne",
     "license": "proprietary",
     "type": "project",
     "autoload": {

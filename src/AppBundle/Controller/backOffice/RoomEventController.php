@@ -126,14 +126,5 @@ class RoomEventController extends Controller
             // Return d'une réponse Ajax
             return new JsonResponse(array('delete' => 'success', 'message' => 'Salle supprimée avec succès.'));
         }
-
-//        // On supprime la salle dans la bdd
-//        $em->remove($roomEvent);
-//        $em->flush();
-//
-//        // Flash message
-//        $this->addFlash('success', 'Salle supprimée avec succès.');
-
-//        return $this->redirectToRoute('admin_room_list');
     }
 }
