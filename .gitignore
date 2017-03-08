@@ -20,3 +20,7 @@
 /web/uploads/user/images/
 /web/uploads/event/images/
 /web/pdf/*
+/web/config.php
+database.png
+mytiket.mwb
+reservationSymfony3.sql
