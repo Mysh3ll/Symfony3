@@ -77,9 +77,6 @@ class OrderController extends Controller
     {
         //Récupération de l'utilisateur
         $user = $this->getUser();
-        if (!is_object($user) || !$user instanceof UserInterface) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
 
         // Création du formulaire personnalisé
         $form = $this->createCustomForm($Event->getIdEvent(), 'POST', 'front_order_edit_validate');
@@ -106,8 +103,7 @@ class OrderController extends Controller
             //Variable contenant tout les idEvent de la réservation
             $idEventPanier = $this->getIdEventPanier($order);
 
-            $em = $this->getDoctrine()->getManager();
-            $Events = $em->getRepository('AppBundle:Event')->findArray(array_keys($idEventPanier)); //Query qui récupère les Events en fonction de l'idEvent pour l'affichage dans la vue panier
+            $Events = $this->getDoctrine()->getManager()->getRepository('AppBundle:Event')->findArray(array_keys($idEventPanier)); //Query qui récupère les Events en fonction de l'idEvent pour l'affichage dans la vue panier
 
             //Envoie du mail de confirmation
             $this->sendConfirmationMail($user, $Events, $order);
@@ -223,7 +219,7 @@ class OrderController extends Controller
     private function getAllPdfFiles($user)
     {
         $fs = new Filesystem();
-        $pdfPath = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
+        $pdfPath = '/var/www/html/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
 
         //Si le répertoire du user n'existe pas on le crée
         if (!$fs->exists($pdfPath)) {

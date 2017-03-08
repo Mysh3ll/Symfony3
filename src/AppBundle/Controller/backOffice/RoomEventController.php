@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Salle;
-use AppBundle\Form\SalleType;
+use AppBundle\Form\Type\SalleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

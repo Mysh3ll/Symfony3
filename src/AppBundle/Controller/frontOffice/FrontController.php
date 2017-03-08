@@ -314,7 +314,7 @@ class FrontController extends Controller
     private function getAllPdfFiles($user)
     {
         $fs = new Filesystem();
-        $pdfPath = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
+        $pdfPath = '/var/www/html/TPResa_Symfony3-Git/web/pdf/' . $user->getUsername() . '/';
 
         //Si le répertoire du user n'existe pas on le crée
         if (!$fs->exists($pdfPath)) {

@@ -4,7 +4,7 @@ namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Event;
 use AppBundle\Entity\Participer;
-use AppBundle\Form\EventType;
+use AppBundle\Form\Type\EventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -147,41 +147,41 @@ class EventController extends Controller
         // Récupère la request du formulaire
         $form->handleRequest($request);
 
+        //Savoir de quelle origine est la requête du formulaire post ou ajax
         if ($form->isSubmitted() && $form->isValid()) {
+            $requete = "post";
+        } elseif ($request->isXmlHttpRequest()) {
+            $requete = "ajax";
+        }
+
+        if ($requete != null) {
             // On récupère tous les participants (s'il y en a)
             $events = $em->getRepository(Participer::class)
                 ->findAllBookedEventById($Event);
             if (count($events) > 0) {
-                // Flash message
-                $this->addFlash('fail', "Impossible de supprimer cet événement, car il y a des réservations.<br/> Veuillez utiliser le menu <strong>\"Annulation des inscriptions\"</strong>.");
+                if ($requete = "post") {
+                    // Flash message
+                    $this->addFlash('fail', "Impossible de supprimer cet événement, car il y a des réservations.<br/> Veuillez utiliser le menu <strong>\"Annulation des inscriptions\"</strong>.");
+                } elseif ($requete = "ajax") {
+                    // Return d'une réponse Ajax
+                    return new JsonResponse(array('delete' => 'fail', 'countEvents' => $countEvents));
+                }
+
             } else {
                 // On supprime l'événement dans la bdd
                 $em->remove($Event);
                 $em->flush();
-                // Flash message
-                $this->addFlash('success', 'Événement supprimé avec succès.');
+                if ($requete = "post") {
+                    // Flash message
+                    $this->addFlash('success', 'Événement supprimé avec succès.');
+                } elseif ($requete = "ajax") {
+                    // Return d'une réponse Ajax
+                    return new JsonResponse(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.'));
+                }
+
             }
 
             return $this->redirectToRoute('admin_event_list');
-        }
-
-        // Si c'est une requête Ajax (vue admin_event_list)
-        if ($request->isXmlHttpRequest()) {
-            // On récupère tous les participants (s'il y en a)
-            $events = $em->getRepository(Participer::class)
-                ->findAllBookedEventById($Event);
-            if (count($events) > 0) {
-                // Return d'une réponse Ajax
-                return new JsonResponse(array('delete' => 'fail', 'countEvents' => $countEvents));
-            } else {
-                // On supprime l'événement dans la bdd
-                $em->remove($Event);
-                $em->flush();
-
-                // Return d'une réponse Ajax
-                return new JsonResponse(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.'));
-            }
-
         }
     }
 

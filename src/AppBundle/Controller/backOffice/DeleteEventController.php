@@ -77,26 +77,14 @@ class DeleteEventController extends Controller
         // Récupère la request du formulaire
         $form->handleRequest($request);
 
+        //Savoir de quelle origine est la requête du formulaire post ou ajax
         if ($form->isSubmitted() && $form->isValid()) {
-            // On récupère tous les participants
-            $users = $em->getRepository('AppBundle:Participer')->findMailUserByIdEvent($Event);
-            // On envoie un mail à tous les participants
-            foreach ($users as $user) {
-                $this->sendDeleteMail($user["email"], $user["username"], $Event->getTitreEvent());
-            }
-            // On supprime l'événement dans la bdd
-            $em->getRepository('AppBundle:Participer')->deleteEvent($Event);
-            $em->remove($Event);
-            $em->flush();
-
-            // Flash message
-            $this->addFlash('success', 'Événement supprimé avec succès.');
-
-            return $this->redirectToRoute('admin_event_delete_list');
+            $requete = "post";
+        } elseif ($request->isXmlHttpRequest()) {
+            $requete = "ajax";
         }
 
-        // Si c'est une requête Ajax (vue admin_event_list)
-        if ($request->isXmlHttpRequest()) {
+        if ($requete != null) {
             // On récupère tous les participants
             $users = $em->getRepository('AppBundle:Participer')->findMailUserByIdEvent($Event);
             // On envoie un mail à tous les participants
@@ -108,8 +96,16 @@ class DeleteEventController extends Controller
             $em->remove($Event);
             $em->flush();
 
-            // Return d'une réponse Ajax
-            return new JsonResponse(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.'));
+            if ($requete = "post") {
+                // Flash message
+                $this->addFlash('success', 'Événement supprimé avec succès.');
+
+                return $this->redirectToRoute('admin_event_delete_list');
+            } elseif ($requete = "ajax") {
+                // Return d'une réponse Ajax
+                return new JsonResponse(array('delete' => 'success', 'countEvents' => $countEvents, 'message' => 'Événement supprimé avec succès.'));
+            }
+
         }
     }
 

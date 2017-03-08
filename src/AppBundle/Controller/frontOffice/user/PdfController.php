@@ -47,7 +47,7 @@ class PdfController extends Controller
     public function generatePdfTicketAction($titre, $date, $seat, $row, $price, $image, $codeUnique, $user)
     {
 
-        $pdfFolder = $_SERVER['DOCUMENT_ROOT'] . '/TPResa_Symfony3-Git/web/pdf/' . $user . '/';
+        $pdfFolder = '/var/www/html/TPResa_Symfony3-Git/web/pdf/' . $user . '/';
 
         return new Response(
             $this->get('knp_snappy.pdf')->generateFromHtml(

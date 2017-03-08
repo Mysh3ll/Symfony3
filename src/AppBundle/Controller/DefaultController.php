@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\AjaxSearchEventType;
-use AppBundle\Form\DatePickerSearchEventType;
+use AppBundle\Form\Type\AjaxSearchEventType;
+use AppBundle\Form\Type\DatePickerSearchEventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Event;

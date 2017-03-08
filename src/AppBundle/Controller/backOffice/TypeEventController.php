@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\backOffice;
 
 use AppBundle\Entity\Typeevent;
-use AppBundle\Form\TypeeventType;
+use AppBundle\Form\Type\TypeeventType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

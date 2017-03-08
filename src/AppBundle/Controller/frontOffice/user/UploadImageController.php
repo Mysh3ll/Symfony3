@@ -5,7 +5,7 @@ namespace AppBundle\Controller\frontOffice\user;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\UploadFileUserType;
+use AppBundle\Form\Type\UploadFileUserType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\UserBundle\Model\UserInterface;
 
