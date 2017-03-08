@@ -21,7 +21,3 @@ ticket:
     type:     rest
     resource: RestApiBundle\Controller\TicketController
     prefix: /api
-#profile:
-#    type:     annotation
-#    resource: RestApiBundle\Controller\ProfileController
-#    prefix: /api
