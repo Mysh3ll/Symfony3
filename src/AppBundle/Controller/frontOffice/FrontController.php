@@ -166,7 +166,7 @@ class FrontController extends Controller
             $participer->setCodeUnique($codeUnique);
             $participer->setEnabled(false);
             $em->persist($participer);
-            $em->flush();
+            $em->flush($participer);
 
             //Génération des fichiers pdf contenant les tickets commandés
             $this->get('snappy.pdf.ticket')->generatePdfTicketAction($Event->getTitreEvent(), $Event->getDateEvent(), $event["seat"], $event["html_id"], $event["price"], $Event->getPathImage(), $codeUnique, $user->getUsername());

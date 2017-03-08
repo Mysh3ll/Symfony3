@@ -84,7 +84,7 @@ class DeleteEventController extends Controller
             $requete = "ajax";
         }
 
-        if ($requete != null) {
+        if ($requete !== null) {
             // On récupère tous les participants
             $users = $em->getRepository('AppBundle:Participer')->findMailUserByIdEvent($Event);
             // On envoie un mail à tous les participants

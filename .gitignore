@@ -16,7 +16,6 @@
 /vendor/
 /web/bundles/
 .idea
-.DS_Store
 /web/uploads/user/images/
 /web/uploads/event/images/
 /web/pdf/*

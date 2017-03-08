@@ -154,7 +154,7 @@ class EventController extends Controller
             $requete = "ajax";
         }
 
-        if ($requete != null) {
+        if ($requete !== null) {
             // On récupère tous les participants (s'il y en a)
             $events = $em->getRepository(Participer::class)
                 ->findAllBookedEventById($Event);
